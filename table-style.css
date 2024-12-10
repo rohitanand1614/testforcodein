@@ -1,0 +1,25 @@
+.expandable-table {
+    border: 1px solid #ccc;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.expandable-table th,
+.expandable-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+}
+
+.expandable-table th {
+    background-color: #f2f2f2;
+    cursor: pointer;
+}
+
+.expandable-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.expandable-table tr:hover {
+    background-color: #f1f1f1;
+}

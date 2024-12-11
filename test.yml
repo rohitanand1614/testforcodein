@@ -1,0 +1,50 @@
+
+# Wait Until 6 AM Script
+Write-Host "Starting wait_until_6am job..."
+
+# Infinite loop to check current time
+while ($true) {
+    $currentTime = Get-Date -Format "HH:mm"
+    if ($currentTime -eq "06:00") {
+        Write-Host "It's 6 AM! Proceeding to execute pipeline..."
+        break
+    } else {
+        Write-Host "Current time: $currentTime. Waiting until 6 AM..."
+        Start-Sleep -Seconds 60  # Sleep for 60 seconds
+    }
+}
+
+# Simulate the execution pipeline
+Write-Host "Pipeline execution started at $(Get-Date)"
+
+
+
+#below is the complete yml content 
+
+stages:
+  - wait
+  - execute
+
+wait_until_6am:
+  stage: wait
+  script:
+    - |
+      powershell -Command "
+      while (\$true) {
+          \$currentTime = Get-Date -Format 'HH:mm';
+          if (\$currentTime -eq '06:00') {
+              Write-Host 'It''s 6 AM! Proceeding to execute pipeline...';
+              break;
+          } else {
+              Write-Host 'Current time: ' + \$currentTime + '. Waiting until 6 AM...';
+              Start-Sleep -Seconds 60;
+          }
+      }"
+  rules:
+    - when: manual  # Optional, to run this job manually
+
+execute_pipeline:
+  stage: execute
+  script:
+    - powershell -Command "Write-Host 'Pipeline execution started at ' + (Get-Date)"
+  needs: ["wait_until_6am"]

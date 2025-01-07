@@ -1,0 +1,58 @@
+import os
+import glob
+import re
+import importlib
+import inspect
+
+def call_reg_component(self, selenium, comp_data, base_url, component):
+    # Collect params to pass into test functions
+    params = {
+        'selenium': selenium,
+        'comp_data': comp_data,
+        'base_url': base_url,
+        'node_url': False
+    }
+
+    # Figure out if it's a phone
+    is_phone = (
+        selenium.execute_script('return navigator.maxTouchPoints') >= 1
+        or selenium.capabilities['platformName'].lower() == "ios"
+    )
+
+    # Where we start searching
+    base_path = os.path.abspath('.')
+
+    # Decide which subfolder to look in
+    if 'win' in base_url:
+        subfolder = 'prod_smoke'
+    elif is_phone:
+        subfolder = 'reg_mobile'
+    else:
+        # e.g. if 'cms' is in the component name
+        subfolder = 'cms/block_tests' if 'cms' in component else 'reg_tests'
+
+    # Build the glob pattern for the test file
+    pattern = os.path.join(base_path, subfolder, f"test_reg[{component}].py")
+    files = glob.glob(pattern)
+    if not files:
+        raise FileNotFoundError(f"No file found matching pattern: {pattern}")
+    
+    # Just take the first match, or handle multiple matches if you wish
+    test_file = files[0]
+    
+    # Convert file path to a Python module name
+    # e.g.  /path/to/reg_tests/test_reg[button].py -> reg_tests.test_reg[button]
+    rel_path = os.path.relpath(test_file, base_path)           # e.g. reg_tests/test_reg[button].py
+    module_name = os.path.splitext(rel_path)[0].replace(os.sep, '.')  # e.g. reg_tests.test_reg[button]
+
+    # Import the module
+    test_module = importlib.import_module(module_name)
+
+    # Optionally pull a “test name” out of the file name, if needed
+    # (just an example of how you might parse it)
+    match = re.search(r'test_reg\[(.+)\]', test_file)
+    test_name = match.group(1) if match else 'unknown_test'
+
+    # Finally, call each function in that module, passing in params
+    for name, func in inspect.getmembers(test_module, inspect.isfunction):
+        func(**params)

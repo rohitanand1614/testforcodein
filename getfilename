@@ -1,0 +1,30 @@
+# Specify the folder path to search
+$folderPath = "C:\Path\To\Your\Folder"
+
+# Lines to search for in the files
+$line1 = "line1"
+$line2 = "line2"
+
+# Get all files in the root folder
+$files = Get-ChildItem -Path $folderPath -File
+
+# Array to store files containing both lines
+$matchingFiles = @()
+
+# Loop through each file to check if it contains both lines
+foreach ($file in $files) {
+    $content = Get-Content $file.FullName -Raw
+    if ($content -match [regex]::Escape($line1) -and $content -match [regex]::Escape($line2)) {
+        $matchingFiles += $file.FullName
+    }
+}
+
+# Output the matching file names
+if ($matchingFiles.Count -gt 0) {
+    Write-Host "Files containing both '$line1' and '$line2' in the root folder:" -ForegroundColor Green
+    foreach ($file in $matchingFiles) {
+        Write-Host $file
+    }
+} else {
+    Write-Host "No files found containing both '$line1' and '$line2' in the root folder." -ForegroundColor Yellow
+}

@@ -1,0 +1,111 @@
+Here’s your teleprompter-ready script with clear, multi-line pointers and transition phrases for smoother delivery:
+
+
+---
+
+Hi everyone,
+Let me share with you the visual testing framework results for production validation.
+
+We will cover the following areas:
+
+The GitLab pipeline,
+
+How to trigger it,
+
+The time taken for execution,
+
+What is covered and what is not in automation,
+
+How to check the dashboard,
+
+Best practices, and
+
+How to leverage this report for our upcoming releases.
+
+
+Let’s get started.
+
+
+---
+
+1. First of all,
+Let me give you a brief overview of the GitLab pipeline setup and its operations.
+
+There are two key jobs:
+
+Baseline creation
+
+The triggered job for production release validation.
+
+
+The baseline creation job will:
+
+Be automatically triggered at 6 AM,
+
+Capture a snapshot on Applitools before the release.
+
+
+This scheduling is in progress and will be finalized in a day or two.
+
+On the day of the release, the validation script will be triggered based on this baseline snapshot.
+
+
+
+---
+
+2. Next, once the pipeline is triggered,
+Here’s what you need to do:
+
+Switch to the production smoke checklist and validate areas not covered in visual automation.
+
+These are functional areas requiring manual testing steps.
+
+
+While you’re doing this:
+
+The visual automation report will be generated and sent to you in about 20 minutes.
+
+
+
+---
+
+3. Once you receive the report,
+Here’s what to expect:
+
+The report will clearly indicate what has passed and what has failed.
+
+You can click directly to access the Applitools dashboard.
+
+
+In the dashboard:
+
+Filter to view failed cases only for a high-level check.
+
+Most failures are non-critical discrepancies, such as:
+
+Ads appearing inconsistently, or
+
+Minor visual variations that are expected.
+
+
+These can usually be ignored in subsequent releases.
+
+
+Additionally:
+
+The snapshot reference prior to release is a valuable tool for cross-validation of failed cases.
+
+
+
+---
+
+To wrap up,
+This framework ensures efficient and reliable validation while giving you the flexibility to focus on functional testing.
+
+Let’s discuss best practices and how to integrate these reports into our upcoming releases.
+
+
+---
+
+Would you like to adjust any section or add more details?
+

@@ -1,0 +1,62 @@
+stages:
+  - trigger
+  - evening
+
+schedule_evening_job:
+  stage: trigger
+  tags:
+    - windows  # Runs on Windows runner
+  script:
+    - powershell -Command |
+        # Calculate next 7:30 PM EST (Eastern Time)
+        $currentTime = Get-Date
+        $targetTimeToday = $currentTime.Date.AddHours(19).AddMinutes(30)
+        
+        # Check if today's 7:30 PM has already passed
+        if ($currentTime -lt $targetTimeToday) {
+          $nextTime = $targetTimeToday
+        } else {
+          $nextTime = $targetTimeToday.AddDays(1)
+        }
+
+        # Build cron expression for GitLab
+        $cronMinute = $nextTime.ToString("mm")  # Minute (30)
+        $cronHour = $nextTime.ToString("HH")    # Hour (19)
+        $cronDay = $nextTime.ToString("dd")     # Day (e.g., 05)
+        $cronMonth = $nextTime.ToString("MM")   # Month (e.g., 10)
+        $cronExpression = "$cronMinute $cronHour $cronDay $cronMonth *"
+
+        # Create the schedule via GitLab API
+        $response = curl.exe --request POST `
+          --header "PRIVATE-TOKEN: $env:API_TOKEN" `
+          --header "Content-Type: application/json" `
+          --data "{`"description`":`"One-time 7:30 PM Schedule`", `"cron`":`"$cronExpression`", `"cron_timezone`":`"America/New_York`", `"ref`":`"$env:CI_COMMIT_REF_NAME`", `"active`":`"true`"}" `
+          "$env:CI_API_V4_URL/projects/$env:CI_PROJECT_ID/pipeline_schedules"
+
+        # Save schedule ID for cleanup
+        $scheduleId = ($response | ConvertFrom-Json).id
+        curl.exe --request POST `
+          --header "PRIVATE-TOKEN: $env:API_TOKEN" `
+          --header "Content-Type: application/json" `
+          --data "{`"key`":`"SCHEDULE_ID`", `"value`":`"$scheduleId`"}" `
+          "$env:CI_API_V4_URL/projects/$env:CI_PROJECT_ID/pipeline_schedules/$scheduleId/variables"
+  rules:
+    - when: manual  # Must be triggered manually
+
+evening_job:
+  stage: evening
+  tags:
+    - windows  # Runs on Windows runner
+  script:
+    - powershell -Command |
+        # Your 7:30 PM tasks go here
+        Write-Host "Running at 7:30 PM EST"
+
+        # Clean up the schedule after execution
+        if ($env:SCHEDULE_ID) {
+          curl.exe --request DELETE `
+            --header "PRIVATE-TOKEN: $env:API_TOKEN" `
+            "$env:CI_API_V4_URL/projects/$env:CI_PROJECT_ID/pipeline_schedules/$env:SCHEDULE_ID"
+        }
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"  # Only run for scheduled pipelines

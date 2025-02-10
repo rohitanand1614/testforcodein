@@ -1,0 +1,30 @@
+"Hi everyone, let's begin with the list of accessibility testing tools and APIs we have explored so far. I will provide a quick overview of each and highlight the key points that led us to choose Axe-core as the most suitable tool for accessibility automation."
+
+"Firstly, starting with BrowserStack. BrowserStack offers a bulk run feature that allows us to input URLs and schedule tests on a daily or weekly basis. However, it has limitations in real-time browser interaction. For our application, if we need to test lengthy pages with lazy loading, BrowserStack is not the best fit for automating these pages to identify accessibility issues."
+
+"Now, let's discuss the Wave API. It faces the same challenges as BrowserStack. Additionally, its usage follows a pay-as-you-go pricing model. The JSON report does not provide detailed issue information; instead, it gives a count of each issue type and a link to the Wave extension dashboard, making it similar to manual validation using the Chrome extension."
+
+"Third, let's discuss Pa11y, which is popularly used as a CLI tool to run tests across provided URLs. While it offers an option to integrate with Puppeteer, it has some limitations in browser interactions. The primary reason for not selecting it as our preferred tool is its lack of support for WCAG 2.2 AA guidelines, as it is limited to WCAG 2.1. Here is the reference for the official documentation."
+
+"Now, let's discuss why we chose axe-core:  
+
+1. It fully supports WCAG 2.2 AA guidelines. Here is the reference to the documentation.  
+2. It provides a comprehensive report in a fully customizable format, including violations, violation types, fix suggestions, and locators.  
+3. It offers fully customizable tests, allowing us to control the WCAG guidelines and specify the components for accessibility testing. Currently, we have implemented full-page scanning, while scanning limited components is still in progress.  
+4. It supports various automation tools available in the market, such as Selenium and Playwright.  
+5. Lastly, it is future-proof and highly scalable, making it easy to integrate into our regression cycle and run tests across bulk URLs."
+
+
+"lastly , let's discuss the limitations of axe-core in accessibility automation.
+
+Keyboard Navigation & Focus Management: While axe-core detects missing keyboard attributes, it cannot fully validate keyboard navigation, tab order, or focus management. This requires manual testing to ensure a seamless keyboard experience.
+
+Screen Reader Compatibility: Axe-core does not evaluate how assistive technologies interpret content. While it can check for ARIA attributes, actual screen reader behavior must be tested manually using NVDA, JAWS, or VoiceOver.
+
+Dynamic Content & Contextual Issues: Certain accessibility issues arise dynamically, such as content that updates without user awareness, modal interactions, or live announcements. Axe-core does not track these, making manual review necessary.
+
+Color Contrast for Background Images: Axe-core effectively analyzes text contrast against solid backgrounds but struggles with complex backgrounds, such as text overlaying gradients, images, or patterns. These require human evaluation.
+
+Video & Audio Accessibility: Automated testing cannot determine if captions, transcripts, or audio descriptions are correctly implemented. Video and multimedia content must be reviewed separately.
+
+User-Specific Cognitive Load & Readability: Axe-core does not measure if content is clear and easy to understand for users with cognitive disabilities. Best practices for readability and simplicity must be applied manually.

@@ -1,0 +1,109 @@
+Here's a flexible, structured prompt that allows you to dynamically specify validation types (text presence, API-UI validation, or form validation) while maintaining consistency across test script generations.
+
+
+---
+
+Prompt for GitHub Copilot:
+
+Objective:
+Generate a pytest-based Selenium test automation script following the existing framework structure, with flexible validation steps based on the specified scenario.
+
+Framework Adherence:
+
+1. Maintain Consistency:
+
+Refer to the test script "test_reg_non_compliant[CO_*]_compliant].py" to ensure the script follows the same structure, fixtures, and markers.
+
+Use the same logging, assertions, and setup/teardown mechanisms.
+
+
+
+2. UI Interaction:
+
+Utilize the element structure from "ui_extract.txt" for DOM traversal and interaction.
+
+Select elements using XPath, CSS selectors, or class names for efficient and reliable identification.
+
+
+
+
+Validation Steps (Choose Based on Scenario):
+
+The test should perform one or more of the following validation types:
+
+1. Text Presence Validation (For scenarios where only text verification is required)
+
+Verify that specific text content is correctly displayed within the expected HTML tags.
+
+Use assertions to confirm the presence and correctness of the extracted text.
+
+
+2. API vs UI Validation (For scenarios requiring data comparison)
+
+Parse and validate the API response from "json_response.txt" against UI-rendered data.
+
+Use the API URL "<insert API URL>" to fetch live data for comparison.
+
+Ensure the UI reflects accurate data retrieved from the API.
+
+
+3. Form Validation (For scenarios involving input forms and user interactions)
+
+Validate field behaviors, including required fields, input restrictions, and error handling.
+
+Submit form data and verify the expected success/failure messages.
+
+Ensure backend validation errors are displayed correctly on the UI.
+
+
+4. Additional Custom Validations (Optional, can be specified per test case)
+
+Example: Sorting validation (verify if a table is correctly sorted based on a column).
+
+Example: Button enablement/disabling based on input conditions.
+
+Tester can specify any additional validations required.
+
+
+Reusability & Documentation:
+
+✅ Utilize methods from "commands.py" to avoid redundant code.
+✅ Add structured comments for clarity and easy modifications.
+
+
+---
+
+Expected Output:
+
+A pytest-based Selenium test script that:
+
+✅ Adheres to the framework structure.
+
+✅ Uses DOM interactions based on "ui_extract.txt."
+
+✅ Performs validation as per the chosen category (Text Presence, API-UI, Form Validation, or Custom).
+
+✅ Uses reusable utility functions from "commands.py."
+
+✅ Includes clear comments for maintainability.
+
+
+
+---
+
+Usage:
+
+When text validation is required, do not provide API details.
+
+When API-UI validation is needed, include "json_response.txt" and specify the API URL.
+
+When form validation is required, specify the fields and expected behaviors.
+
+For additional validations, specify them under "Custom Validations."
+
+
+
+---
+
+This makes the prompt adaptable to various testing needs while keeping a structured approach. Does this cover all your requirements?
+

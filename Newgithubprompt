@@ -107,3 +107,11 @@ For additional validations, specify them under "Custom Validations."
 
 This makes the prompt adaptable to various testing needs while keeping a structured approach. Does this cover all your requirements?
 
+
+UI Interaction:
+
+Use the parent element locator "<insert parent locator>" as the root for all interactions.
+
+Perform validation steps (Text Presence, API-UI, Form Validation, or Custom) within this parent element.
+
+Extract child elements using XPath, CSS selectors, or class names as needed.

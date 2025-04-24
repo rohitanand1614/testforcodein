@@ -1,0 +1,70 @@
+Here’s a polished and structured teleprompter-style script based on your flowchart and notes. You can use this during your office call to clearly communicate your expectations:
+
+
+---
+
+[Teleprompter Script: AI-Based Automation Test Implementation Flow]
+
+Hello everyone,
+
+Today, I’d like to walk you through the implementation flow I expect our team to adopt for automating test cases using AI. This will streamline our quality process and improve efficiency across releases.
+
+Let’s begin with the overall process.
+
+Step 1: Test Case Identification
+
+We start by identifying test cases that are already present in qTest and have been marked as ready for testing.
+
+
+Step 2: AI Test Case Generation
+
+Our AI-powered tool will extract the test steps from qTest and automatically generate corresponding automation test scripts based on those steps.
+
+
+Step 3: Merge Request Creation
+
+Once the automation test cases are generated, the tool will automatically create a merge request in GitLab with the newly written tests.
+
+
+Step 4: Manual Review
+
+A reviewer will assess the generated test cases, check the code coverage, and perform a health check.
+
+Based on this review, the MR will either be approved or rejected.
+
+
+Step 5: Rejection Handling
+
+If the test cases are rejected, the AI tool should apply the suggested changes, regenerate the test cases if required, and submit an updated merge request.
+
+
+Step 6: Approval and Merge
+
+Once the reviewer approves the MR, the test cases will be merged into the master branch.
+
+
+Step 7: Impacted Area Validation
+
+Our AI-based impacted area validation tool will now kick in.
+
+It will include the newly added test cases and also identify additional test cases that may be impacted due to recent changes in the development code base or active Jira tickets.
+
+
+Step 8: Test Suite Execution
+
+The tool will organize the relevant test cases and execute subsets of the automation suite across different test environments.
+
+This ensures comprehensive testing before code promotion.
+
+
+The key objective here is to automate, validate, and scale our test coverage with minimal manual intervention, while still allowing room for human review where necessary.
+
+Let’s aim to operationalize this flow in phases and regularly review progress to refine the pipeline.
+
+Thanks, and I’m happy to take questions or suggestions from here.
+
+
+---
+
+Let me know if you’d like this as a downloadable document or want to tweak the tone or content for a specific audience (e.g., leadership vs. dev team).
+

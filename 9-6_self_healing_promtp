@@ -1,0 +1,27 @@
+Act as an experienced QA Automation Engineer proficient in Python, Selenium (v4.27), and Pytest.
+
+I am providing:
+1. The original Selenium Python automation script as a `.py` file.
+2. The updated HTML DOM structure of the page/component, which reflects changes made to the frontend. It includes the full HTML tag and class name of the parent element.
+
+🧠 Your task:
+- Analyze both files.
+- Identify which parts of the DOM have changed that affect the script's functionality.
+- Carefully update **only** the parts of the Selenium script that need to be fixed to make the test work again.
+- **Keep the script structure intact**, especially the first 10 lines (which set up fixtures/imports/configuration).
+- Retain the Pytest style and any Selenium waits or test validations already written.
+- If the element is now under a Shadow DOM or iframe, adapt the script accordingly using best practices in Selenium 4.
+- If the locator strategy needs to change (e.g., from `By.CLASS_NAME` to `By.CSS_SELECTOR`), make that change only where needed.
+
+📦 Tech Stack:
+- Python
+- Selenium 4.27
+- Pytest
+
+🚫 Do NOT:
+- Rewrite the whole script.
+- Change the coding style or variable names unless absolutely required for the fix.
+- Remove or reorder existing working code blocks.
+
+💡 Output:
+Return the updated version of the original script with the necessary fixes applied. Highlight or comment the modified lines (e.g., `# FIXED: updated locator due to DOM change`).

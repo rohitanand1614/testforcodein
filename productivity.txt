@@ -1,0 +1,5 @@
+https://developer.chrome.com/
+https://github.com/prash5t/design-compare-tool/blob/main/requirements.txt
+https://developer.chrome.com/blog/webdriver-bidi
+https://developer.chrome.com/blog/webdriver-bidi-support-in-browserstack#:~:text=with%20the%20proprietary%20Chrome%20DevTools%20Protocol
+https://www.youtube.com/watch?v=mqnw-4DsUzQ

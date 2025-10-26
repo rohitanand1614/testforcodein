@@ -1,0 +1,926 @@
+SYSTEM INSTRUCTION:
+
+You are FastMCP-AutomationGPT — an MCP and Selenium automation expert that helps Users build an LLM-powered automation-script generator using FastMCP.
+
+You have three permanent knowledge sources:
+1. [GIT_CODE_FILE] → Users's MCP project (dummy-mcp-fast)
+2. [FASTMCP_README_FILE] → FastMCP official README.md
+3. [FASTMCP_DOCUMENTATION_FILE] → FastMCP developer documentation
+
+Your mission:
+- Help design and extend the MCP server into a self-healing automation script generator.
+- Explain, debug, and guide Users through FastMCP integrations, Inspector issues, and Copilot connections.
+- Generate code snippets for new tools, prompts, and workflow logic.
+- Keep all advice consistent with Users's current code implementation and project structure.
+
+Rules:
+- Always prioritize Users's codebase context.
+- Use FastMCP docs/README only as references for syntax or best practices.
+- Focus all reasoning on the automation-generation objective.
+- Assume PyCharm + Windows + stdio-based Copilot MCP setup.
+- Respond with structured, concise technical explanations.
+
+Your purpose:  
+To help Users evolve his dummy-mcp-fast project into a production-ready, LLM-driven automation script generator that can interpret natural language and validate web automation using FastMCP.
+
+
+
+
+Documentation
+
+
+
+The Complete FastMCP User Guide: From Concept to Production
+
+
+Part I: Foundations of FastMCP
+
+
+Chapter 1: Introduction to FastMCP and the Model Context Protocol (MCP)
+
+
+1.1 Defining the Model Context Protocol (MCP): The "USB-C for AI"
+
+The Model Context Protocol (MCP) serves as a standardized communication bridge connecting Large Language Models (LLMs) and other AI systems to external tools, data, and services.1 In an ecosystem where integrations are often bespoke and brittle, MCP introduces a universal standard, frequently described as the "USB-C port for AI".2 This analogy highlights its core purpose: to provide a uniform, reliable, and secure way for any compliant AI model to plug into any compliant tool or data source, eliminating the need for custom, one-off integration code for each new service.
+At its heart, MCP addresses the challenge of providing context and capabilities to LLMs. It defines a structured protocol through which a server can expose its functionality to an LLM client. This structure is built on a few key primitives 5:
+Tools: Actionable functions that an LLM can invoke to perform tasks or cause side effects, such as calling an API, running a calculation, or querying a database.
+Resources: Read-only data sources that provide context to the LLM, akin to performing a GET request in a traditional web architecture.
+Prompts: Reusable, parameterized templates that guide the LLM's interactions, ensuring consistency and structure in its responses.
+By standardizing how these components are defined, discovered, and executed, MCP creates a robust framework for building sophisticated AI applications where the model can seamlessly and securely interact with the outside world.2
+
+1.2 Why FastMCP? The Pythonic Path to Production
+
+While MCP provides the specification, fastmcp is the premier Python framework for implementing it. fastmcp is a high-level, "Pythonic" library designed to abstract away the low-level complexities of the protocol, allowing developers to focus on building powerful tools rather than wrestling with boilerplate code.1 Its design philosophy centers on developer experience, aiming to provide the fastest and simplest path from an idea to a production-ready MCP server.6
+The key advantages of using fastmcp are rooted in its simplicity and completeness 4:
+Accelerated Development: Its high-level, decorator-based API significantly reduces the amount of code required. Defining a new tool or resource is often as simple as decorating a standard Python function.6 This can reduce development time for a new server from over eight hours with the raw SDK to just one or two hours with fastmcp.8
+Minimal Boilerplate: The framework automatically handles complex details like server setup, protocol handling, content type management, schema generation from type hints, parameter validation, and error reporting.2 This allows developers to write clean, declarative code that is easy to read and maintain.
+Production-Ready Ecosystem: fastmcp is more than just a server library; it is a complete ecosystem that includes tools for enterprise authentication, deployment, testing, and a full-featured Command-Line Interface (CLI).4 This comprehensive toolkit supports the entire application lifecycle, from rapid prototyping to robust production deployments.5
+The framework's design reflects a deep understanding of the development process. By providing sensible defaults and automating common tasks, fastmcp not only speeds up development but also helps prevent common errors. This focus on a superior developer experience is a strategic choice, predicated on the idea that enabling developers to iterate quickly and build with confidence is the most effective way to foster a rich ecosystem of high-quality, AI-powered applications.
+
+Feature
+FastMCP
+Raw MCP SDK
+TypeScript MCP
+Setup Complexity
+Minimal (decorators)
+High (manual protocol)
+Medium (type definitions)
+Development Time
+1-2 hours
+8-12 hours
+4-6 hours
+Built-in Debugging
+✅ MCP Inspector
+❌ Manual testing
+✅ Basic tools
+Error Handling
+✅ Automatic wrapping
+❌ Manual implementation
+✅ TypeScript safety
+Documentation
+✅ Comprehensive
+❌ Limited examples
+✅ Good coverage
+Production Ready
+✅ Yes
+⚠️ Requires expertise
+✅ Yes
+Table adapted from data in.8
+
+
+
+
+
+
+
+
+1.3 The Evolution to FastMCP 2.0: From Server Creation to Ecosystem Orchestration
+
+The fastmcp library has undergone a significant evolution. The initial version, FastMCP 1.0, was so successful in simplifying server creation that its core SDK was incorporated directly into the official mcp Python SDK.3 This provided a baseline of functionality for the entire Python MCP community.
+However, the standalone fastmcp project continued to evolve. FastMCP 2.0 represents a major rewrite and a conceptual shift. If version 1.0 was about making it easy to create individual servers, version 2.0 is about making it easy to work with, combine, and orchestrate an entire ecosystem of servers.3 This shift is reflected in the powerful new architectural patterns introduced in the 2.x series, such as server composition, proxying, and automated generation from existing APIs.3
+This evolution reveals a broader vision for the framework. The features introduced in FastMCP 2.0 are not merely isolated additions; they form a cohesive toolkit for building complex, distributed systems for AI.
+Integration of Existing Systems: Features like FastMCP.from_openapi() and FastMCP.from_fastapi() are designed to bring existing, non-MCP web services into the ecosystem with minimal effort.9
+Composition of New Systems: Features like mount() and import_server() provide the patterns needed to combine multiple, specialized MCP micro-servers into a single, more powerful application gateway.3
+Unification of Disparate Systems: The as_proxy() feature allows developers to create a unified, consistent interface for a collection of backend servers, regardless of their location, owner, or transport protocol.3
+Together, these capabilities position fastmcp as a framework for implementing a microservice-style architecture in the age of LLMs. It provides the tools not just to build the services themselves, but to manage the connections, translations, and compositions between them, enabling the creation of sophisticated, multi-component AI applications.
+
+Chapter 2: Getting Started: Your First FastMCP Server
+
+
+2.1 Prerequisites and Environment Setup
+
+Before installing fastmcp, ensure the development environment meets the following prerequisites:
+Python 3.10+: The library requires a modern version of Python.11
+uv Package Manager: While pip can be used, uv is the recommended tool for managing Python packages and virtual environments within the fastmcp ecosystem. It is known for its high performance and is used extensively in the project's own tooling.7
+To set up a new project environment using uv, follow these steps:
+Install uv: If not already installed, uv can be installed with a single command.
+On macOS / Linux: $ curl -LsSf https://astral.sh/uv/install.sh | sh
+On Windows: $ powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+Create a Project Directory:
+$ mkdir my_fastmcp_project && cd my_fastmcp_project
+Create a Virtual Environment:
+$ uv venv
+This command will create a new virtual environment in a .venv directory.
+Activate the Virtual Environment:
+On macOS / Linux: $ source.venv/bin/activate
+On Windows: $.venv\Scripts\activate
+With the environment created and activated, the system is ready for the fastmcp installation.
+
+2.2 Installation and Verification
+
+Installing fastmcp within the activated uv environment is straightforward. The recommended method for a project is to add it as a dependency.11
+Install fastmcp:
+$ uv pip install fastmcp
+Alternatively, to add it as a managed project dependency (if using pyproject.toml):
+$ uv add fastmcp
+Verify the Installation:
+After the installation completes, verify that the fastmcp CLI is available and working correctly by running the version command 11:
+$ fastmcp version
+A successful installation will produce output similar to the following, confirming the versions of fastmcp, the underlying mcp protocol library, Python, and the operating system:
+FastMCP version: 2.11.3
+MCP version: 1.12.4
+Python version: 3.12.2
+Platform: macOS-15.3.1-arm64-arm-64bit
+FastMCP root path: ~/Developer/fastmcp
+
+
+
+2.3 Quickstart: Building a "Hello, World!" Server
+
+This section provides a step-by-step walkthrough to create, run, and interact with a basic fastmcp server. This process is synthesized from the official Quickstart guide and various tutorials.1
+Step 1: Create the Server File
+Create a new Python file named my_server.py. The first step is to import the FastMCP class and create an instance of it. This object will act as the container for all the server's components.13
+
+Python
+
+
+# my_server.py
+from fastmcp import FastMCP
+
+# Instantiate the server with a human-readable name
+mcp = FastMCP("My First MCP Server")
+
+
+Step 2: Add a Tool
+A server without tools is not very useful. A tool is a regular Python function that is exposed to the MCP client. To register a function as a tool, use the @mcp.tool decorator. fastmcp will automatically inspect the function's signature, type hints, and docstring to generate the necessary schema for the LLM.13
+Add the following greet tool to my_server.py:
+
+Python
+
+
+# my_server.py
+from fastmcp import FastMCP
+
+mcp = FastMCP("My First MCP Server")
+
+@mcp.tool
+def greet(name: str) -> str:
+    """Returns a personalized greeting."""
+    return f"Hello, {name}!"
+
+
+Step 3: Run the Server Locally
+To make the server executable, add a standard Python if __name__ == "__main__": block that calls the mcp.run() method. This method starts the server and begins listening for client connections.13 By default, mcp.run() uses the stdio transport, which is ideal for local development and integration with desktop clients that manage the server as a subprocess.2
+Complete my_server.py with the following code:
+
+Python
+
+
+# my_server.py
+from fastmcp import FastMCP
+
+mcp = FastMCP("My First MCP Server")
+
+@mcp.tool
+def greet(name: str) -> str:
+    """Returns a personalized greeting."""
+    return f"Hello, {name}!"
+
+if __name__ == "__main__":
+    mcp.run()
+
+
+The server can now be started by running the Python file directly:
+$ python my_server.py
+Alternatively, the fastmcp CLI provides a more flexible way to run the server, which is especially useful for changing transports without modifying the code. The following command runs the server using the http transport, making it accessible over the network on port 8000 13:
+$ fastmcp run my_server.py:mcp --transport http --port 8000
+Step 4: Call the Server with a Client
+With the server running (using the HTTP transport), it can be called from a fastmcp client. Client operations are asynchronous, so they must be run within an async function using asyncio.13
+Create a new file, my_client.py, with the following code:
+
+Python
+
+
+# my_client.py
+import asyncio
+from fastmcp import Client
+
+# Initialize the client with the server's URL
+client = Client("http://localhost:8000/mcp")
+
+async def call_greet_tool(name: str):
+    # The client must be used within an async context manager
+    async with client:
+        # Call the 'greet' tool with its arguments
+        result = await client.call_tool("greet", {"name": name})
+        print(result)
+
+# Run the async function
+asyncio.run(call_greet_tool("World"))
+
+
+Before running the client, ensure the server is running in a separate terminal. Then, execute the client script:
+$ python my_client.py
+The output in the client's terminal should be: Hello, World!
+
+2.4 Upgrading from the Official MCP SDK (FastMCP 1.0)
+
+For users familiar with the version of fastmcp that was integrated into the official mcp SDK (effectively, FastMCP 1.0), upgrading to the standalone fastmcp 2.x library is generally a straightforward process. The core server API was designed to be highly compatible to ease this transition.11
+In many simple cases, the only required change is to update the import statement in the server files:
+Before (SDK version): from mcp.server.fastmcp import FastMCP
+After (Standalone v2.x): from fastmcp import FastMCP
+While the API remained highly compatible for a time, it is important to note that the standalone fastmcp project and the official SDK are now diverging. As fastmcp 2.x introduces new features and refactors existing ones, using older 1.0-style APIs may trigger deprecation warnings. For full access to the latest capabilities and to ensure long-term compatibility, developers should consult the fastmcp 2.0 documentation and update their code to use the modern APIs.11
+
+Part II: Core Concepts and Components
+
+
+Chapter 3: The FastMCP Server: A Deep Dive
+
+
+3.1 The FastMCP Class: The Heart of the Application
+
+The fastmcp.FastMCP class is the central object and the cornerstone of any application built with the framework. It acts as the primary container, orchestrator, and entrypoint for all server-side logic.5 When an instance of FastMCP is created, it initializes an application that holds all the tools, resources, and prompts that will be exposed to clients. It is also responsible for managing client connections, handling the underlying communication transport, and applying server-wide configurations such as authentication and logging.
+Creating a server instance is the first step in any fastmcp application:
+
+Python
+
+
+from fastmcp import FastMCP
+
+# A minimal server instance
+mcp = FastMCP(name="MyAssistantServer")
+
+
+This single line of code creates a fully functional, albeit empty, MCP server. The power of the framework lies in how this central mcp object is then used to declaratively build out the application's capabilities.
+
+3.2 Anatomy of a Server: Defining Core Components
+
+A fastmcp server's functionality is constructed from four fundamental component types. Each type serves a distinct purpose, and this deliberate separation of concerns guides developers toward building clean, maintainable, and well-structured LLM integrations. This architectural choice prevents the creation of monolithic, "do-everything" tools by encouraging a clear distinction between actions, data access, and conversational guidance. Components are typically defined by applying a decorator from the FastMCP instance to a standard Python function.9
+1. Tools (@mcp.tool)
+Tools represent actions or operations that an LLM can execute. They are the "verbs" of the MCP world, used for tasks that involve computation, external API calls, or any other action that produces a side effect (like writing to a database).7 fastmcp supports both synchronous and asynchronous (async def) functions as tools, seamlessly handling the execution of either in the appropriate event loop.5 The framework uses the function's signature, type hints, and docstring to automatically generate a schema that the LLM uses to understand what the tool does and what parameters it requires.
+Example:
+
+Python
+
+
+@mcp.tool
+async def get_weather(city: str, unit: str = "celsius") -> dict:
+    """Fetches the current weather for a specified city."""
+    # (Implementation to call a weather API)
+    return {"city": city, "temperature": 25, "unit": unit}
+
+
+2. Resources (@mcp.resource)
+Resources expose read-only data sources to the client. They are the "nouns" of the MCP protocol, analogous to a GET request in a REST API.7 Each resource is identified by a unique URI. This component is ideal for providing static or dynamically generated data that an LLM can use for context, such as configuration files, database records, or lists of available items.
+Example:
+
+Python
+
+
+@mcp.resource("data://app/config")
+def get_app_config() -> dict:
+    """Provides the application's configuration settings."""
+    return {"api_version": "v2", "enabled_features": ["search", "analysis"]}
+
+
+3. Resource Templates (@mcp.resource("uri://{param}"))
+Resource templates are a powerful extension of resources that allow for parameterized data retrieval. By including placeholders in the resource URI (e.g., {user_id}), developers can create dynamic endpoints. When a client requests data from such a URI, fastmcp automatically extracts the value from the path and passes it as an argument to the decorated function.2 This enables clients to request specific subsets of data efficiently.
+Example:
+
+Python
+
+
+@mcp.resource("users://{user_id}/profile")
+def get_user_profile(user_id: int) -> dict:
+    """Retrieves a user's profile by their unique ID."""
+    # (Implementation to fetch user data from a database)
+    return {"id": user_id, "name": f"User {user_id}", "status": "active"}
+
+
+4. Prompts (@mcp.prompt)
+Prompts are reusable, parameterized message templates designed to guide LLM interactions. They provide a way to define consistent, structured conversational patterns that can be invoked by clients.9 This is particularly useful for complex tasks that require the LLM to format its output in a specific way or to follow a predefined sequence of steps. By encapsulating these instructions in a server-side prompt, the application logic remains centralized and consistent across different clients.
+Example:
+
+Python
+
+
+@mcp.prompt
+def generate_summary_prompt(article_text: str, length: int = 100) -> str:
+    """Creates a prompt asking an LLM to summarize a text to a specific length."""
+    return f"""Please summarize the following article in approximately {length} words:
+
+{article_text}
+"""
+
+
+
+3.3 Server Configuration
+
+fastmcp provides a flexible, layered system for configuration, allowing settings to be applied at different levels of specificity.6
+Server-Specific Configuration (Constructor Arguments): The most common method is to pass arguments directly to the FastMCP constructor when the server is instantiated. This allows for fine-grained control over a single server instance. Key parameters include name, instructions, auth for security, and lifespan for managing startup/shutdown events. A complete list of constructor parameters can be found in Appendix A.9
+Example:
+Python
+mcp = FastMCP(
+    name="Production Server",
+    instructions="This server provides tools for data analysis.",
+    on_duplicate_tools="warn" # Change behavior for duplicate tool names
+)
+
+
+Global Settings (Environment Variables): Settings that should affect all fastmcp servers running in an environment can be configured via environment variables. These variables are prefixed with FASTMCP_. For example, FASTMCP_LOG_LEVEL=DEBUG will set the log level for any fastmcp server. These settings can also be placed in a .env file, which fastmcp will automatically load.9
+Transport-Specific Configuration (run() Arguments): Configuration related to the communication transport is provided when calling the mcp.run() or mcp.run_async() method. This includes parameters like transport (e.g., "http"), host, and port. This separation allows the same server code to be run with different network configurations without any changes.9
+Example:
+Python
+if __name__ == "__main__":
+    mcp.run(transport="http", host="0.0.0.0", port=8080)
+
+
+This hierarchical approach provides a clear order of precedence: run() arguments override constructor arguments, which in turn override global environment variables, giving developers precise control over server behavior.
+
+Chapter 4: The FastMCP Client: Interacting with Servers
+
+
+4.1 Client Fundamentals
+
+The fastmcp library includes a client component for programmatic interaction with any MCP-compliant server. The primary interface for this is the fastmcp.Client class.7 A crucial aspect of the fastmcp client is its asynchronous nature. All network operations are non-blocking, meaning that interactions with the client must be performed using Python's async/await syntax within an asyncio event loop. Furthermore, the client's lifecycle, including connection and disconnection, is managed via an asynchronous context manager (async with).6
+It is important to note that at the time of this writing, the official documentation pages for "Clients: Essentials," "Core Operations," and "Advanced Features" are inaccessible.15 Therefore, the information in this chapter is synthesized from the code examples available in the Quickstart guide and other tutorials.
+The disparity in available documentation between the server and client components suggests a server-centric design philosophy for the framework. The fastmcp library appears to prioritize providing a rich, feature-complete experience for developers building MCP servers, with the client component offered primarily as a utility for testing and direct interaction rather than as a separate, feature-rich application framework.
+
+4.2 Core Operations
+
+The fundamental operation for a client is to call a tool exposed by a server. This is accomplished using the client.call_tool() method. This method takes the name of the tool as its first argument and a dictionary of parameters as its second.13
+The following example demonstrates the complete workflow: initializing the client, entering the asynchronous context, calling a tool, and processing the result. This code is based on the Quickstart example and assumes the "Hello, World!" server from Chapter 2 is running on localhost:8000.
+
+Python
+
+
+import asyncio
+from fastmcp import Client
+
+# 1. Initialize the client with the server's address.
+# The URL scheme implies the transport protocol (HTTP in this case).
+client = Client("http://localhost:8000/mcp")
+
+async def main():
+    # 2. Enter the client's asynchronous context.
+    # This handles establishing and tearing down the connection.
+    async with client:
+        print("Client connected. Calling tool...")
+        # 3. Call the remote tool and await its result.
+        result = await client.call_tool(
+            name="greet",
+            arguments={"name": "from Client"}
+        )
+        # 4. Process the result.
+        print(f"Server responded: {result}")
+
+# 5. Run the main asynchronous function.
+if __name__ == "__main__":
+    asyncio.run(main())
+
+
+Within a single async with client: block, multiple calls can be made to call_tool or other client methods without the overhead of reconnecting for each operation.13 Although not explicitly demonstrated in the available examples, the server architecture implies that corresponding methods for reading resources (e.g., client.read_resource("uri://...")) would also exist.
+
+4.3 Handling Transports
+
+The fastmcp.Client is designed to work with the various transport protocols supported by fastmcp servers. The client often auto-detects the correct transport to use based on the URL provided during initialization.7
+HTTP Transport: As seen in the example above, providing a standard URL like http://localhost:8000/mcp instructs the client to connect using the Streamable HTTP transport, which is the recommended method for network communication.13
+STDIO Transport: While not shown in the Quickstart client example, the client can also interface with servers running over stdio. This is typically used in scenarios where the client application is responsible for spawning and managing the server as a local subprocess.
+In-Memory Transport: For testing purposes, the client can communicate with a server instance directly in memory, bypassing any network or process overhead entirely. This is the preferred method for writing fast and reliable unit tests.7
+The client's ability to seamlessly handle different transports makes it a versatile tool for both development and production use cases.
+
+Part III: Advanced Implementation and Patterns
+
+
+Chapter 5: Advanced Server Features
+
+Beyond the core components, fastmcp offers a suite of advanced features designed for building scalable, modular, and interoperable applications. These capabilities elevate the framework from a simple server-building library to a comprehensive toolkit for orchestrating complex AI systems.
+
+5.1 Modular Design: Composing Servers
+
+For large applications, fastmcp encourages a modular design through server composition. This feature allows multiple, smaller FastMCP servers to be combined into a single, unified server, much like mounting sub-applications in a web framework.3 This pattern is ideal for organizing code by domain, reusing common functionality across different applications, or building a central API gateway.
+There are two primary methods for composition:
+mount(): This creates a live, dynamic link to a sub-server. Any changes to the sub-server are immediately reflected in the parent. An optional prefix can be used to avoid naming collisions between components from different servers.3
+Example:
+Python
+from fastmcp import FastMCP
+
+# Define a sub-server for calculations
+calc_server = FastMCP(name="Calculator")
+@calc_server.tool
+def add(a: int, b: int) -> int:
+    return a + b
+
+# Define a main application gateway
+main_app = FastMCP(name="MainApp")
+
+# Mount the calculator server with a prefix
+main_app.mount("calc", calc_server)
+
+# The main_app now exposes a tool named 'calc_add'
+
+
+import_server(): This performs a static copy of all components from a sub-server into the parent at the time of the call. Subsequent changes to the sub-server will not be reflected.6 This is useful when a snapshot of another server's functionality is needed.
+
+5.2 Proxying Remote Servers
+
+Composition is effective for servers under direct control, but fastmcp also provides a powerful mechanism for interacting with external, third-party, or remote MCP servers: proxying. A fastmcp server can be configured to act as a transparent proxy for any other MCP server, regardless of its location or implementation language.3
+This is achieved using the FastMCP.as_proxy() class method. The most compelling feature of the proxy is its ability to bridge different transport protocols. For example, a remote server that only communicates over HTTP can be exposed locally via a stdio proxy, making it accessible to desktop clients that require a local subprocess. Conversely, a local stdio tool can be exposed over the web via an HTTP proxy.3
+Example:
+
+Python
+
+
+from fastmcp import FastMCP, Client
+
+# Create a client that connects to a remote server
+backend_client = Client("http://api.thirdparty.com/mcp")
+
+# Create a local proxy server from that client
+# This proxy will run over stdio by default
+proxy_server = FastMCP.as_proxy(backend_client, name="RemoteAPIProxy")
+
+if __name__ == "__main__":
+    proxy_server.run()
+
+
+This pattern is essential for interoperability, allowing developers to create a unified and consistent frontend for a heterogeneous collection of backend services.
+
+5.3 Automated Server Generation: Integrating with OpenAPI and FastAPI
+
+One of fastmcp's most significant accelerator features is its ability to automatically generate an MCP server from existing web APIs. This provides a low-friction path for making legacy services and modern microservices available to LLM applications without writing extensive wrapper code.3 This capability positions fastmcp not just as a tool for new projects, but as a strategic modernization layer for existing infrastructure, translating between the traditional REST world and the emerging MCP ecosystem.
+From OpenAPI Specification: Using FastMCP.from_openapi(), the framework can ingest an OpenAPI 3.x specification document and an HTTP client, and automatically generate corresponding MCP tools for each API endpoint. It intelligently maps URL path parameters, query parameters, and request bodies to tool arguments.9
+Example:
+Python
+import httpx
+from fastmcp import FastMCP
+
+# Fetch an OpenAPI spec
+spec = httpx.get("https://api.example.com/openapi.json").json()
+
+# Create an authenticated HTTP client for the API
+api_client = httpx.AsyncClient(
+    base_url="https://api.example.com",
+    auth=("user", "pass")
+)
+
+# Generate the MCP server from the spec and client
+mcp = FastMCP.from_openapi(openapi_spec=spec, client=api_client)
+
+
+From FastAPI Application: For services built with the popular FastAPI framework, the integration is even more direct. FastMCP.from_fastapi() can take a FastAPI app instance and convert its routes into MCP tools. This approach reuses not only the route logic but also the existing Pydantic models for validation, dependency injection systems, and even middleware and authentication layers.9
+Example:
+Python
+from fastapi import FastAPI
+from fastmcp import FastMCP
+
+# An existing FastAPI application
+app = FastAPI()
+@app.get("/items/{item_id}")
+def read_item(item_id: int):
+    return {"item_id": item_id}
+
+# Generate an MCP server from the FastAPI app
+mcp = FastMCP.from_fastapi(app=app)
+
+
+
+5.4 Fine-Grained Control: Filtering and Serialization
+
+For advanced use cases, fastmcp provides mechanisms to customize precisely which components are exposed and how their data is formatted.
+Tag-Based Filtering: Components (tools, resources, etc.) can be assigned tags during their definition. The FastMCP constructor accepts include_tags and exclude_tags parameters, which are sets of strings. This allows for the creation of different "views" of the same server. For example, a server could have tools tagged as "internal" and "public", and two different server instances could be configured to expose only one set of tools, all from the same codebase.9
+Custom Tool Serialization: By default, when a tool returns a non-string object (like a dictionary or Pydantic model), fastmcp serializes it to a JSON string before sending it to the client. This behavior can be overridden by passing a custom tool_serializer function to the FastMCP constructor. This function can be used to format the output as YAML, a custom text format, or to control JSON formatting options like indentation and key sorting.9
+Example:
+Python
+import yaml
+from fastmcp import FastMCP
+
+def yaml_serializer(data: any) -> str:
+    """Serializes data to YAML format."""
+    return yaml.dump(data, sort_keys=False)
+
+mcp = FastMCP(tool_serializer=yaml_serializer)
+
+@mcp.tool
+def get_data() -> dict:
+    return {"a": 1, "b": } # This will be returned as YAML
+
+
+
+5.5 Extending Functionality: Custom Web Routes
+
+When a fastmcp server is running with the http transport, it uses the Starlette ASGI framework under the hood. The framework exposes this underlying capability through the @mcp.custom_route decorator. This allows developers to add standard HTTP endpoints to their server alongside the main /mcp endpoint. This is particularly useful for operational concerns, such as adding a /health endpoint for monitoring systems, a /metrics endpoint for Prometheus, or simple webhooks.9
+Example:
+
+Python
+
+
+from starlette.requests import Request
+from starlette.responses import PlainTextResponse
+
+@mcp.custom_route("/health", methods=)
+async def health_check(request: Request) -> PlainTextResponse:
+    """A simple health check endpoint."""
+    return PlainTextResponse("OK")
+
+
+For applications requiring more complex web functionality, the recommended pattern is to mount the fastmcp server as a sub-application within a larger FastAPI or Starlette application.9
+
+Chapter 6: Design Patterns and Best Practices
+
+
+6.1 Tool Transformation: The Art of Adapting Tools
+
+Introduced in version 2.8.0, Tool Transformation is one of fastmcp's most powerful and flexible features. It provides a mechanism to create new, enhanced, LLM-friendly versions of existing tools without needing to rewrite or duplicate the original tool's logic.19 This pattern is invaluable when an existing function or method is "almost perfect" for LLM use but has minor deficiencies, such as confusing parameter names, unnecessary arguments, or a lack of input validation.21
+The core of this feature is the Tool.from_tool() class method, which takes an existing tool and a set of transformations, and returns a new TransformedTool instance.
+Common Transformation Patterns:
+Exposing Client Methods as Tools: A primary use case is to wrap methods from existing Python client libraries (e.g., for GitHub, Stripe, or a database) and expose them directly as MCP tools. This avoids writing boilerplate wrapper functions and keeps the core logic encapsulated within the original client.19
+Hiding and Simplifying Arguments: Client methods often have internal parameters (like authentication tokens, configuration flags, or internal IDs) that should not be exposed to the LLM. Using ArgTransform with hide=True and a default value, these parameters can be hidden from the LLM and supplied automatically by the system. This simplifies the tool's interface, making it more intuitive for the model to use correctly.19
+Adapting Generated Tools: Tools that are auto-generated from an OpenAPI specification are often too generic or verbose for direct LLM consumption. Transformation can be used to create a simpler, more focused version of the tool tailored to a specific application's needs, for example by renaming cryptic arguments or providing better descriptions.19
+Chaining Transformations: A transformed tool can itself be the parent for another transformation. This allows for building complex behaviors in layers. For instance, one layer could rename arguments, a second could add default values, and a third could add pre-call validation logic.19
+Context-Aware Tool Factories: A function can be written to act as a "factory" that generates a specialized version of a tool based on runtime context. For example, a factory could create a get_my_open_issues tool that is automatically scoped to the currently authenticated user by hiding the user_id parameter and providing the correct ID from the session context.19
+
+6.2 Decorating Methods: The Right Way to Use Classes
+
+While fastmcp's decorator system is designed for functions, developers often want to organize their tool logic within classes. Applying decorators like @mcp.tool directly to instance or class methods is a common anti-pattern that leads to unexpected behavior. The issue arises because the decorator captures the unbound method at decoration time, before an instance (self) or class (cls) is associated with it. This results in the LLM seeing self or cls as a required parameter that it cannot possibly provide.21
+To use object-oriented patterns correctly with fastmcp, methods must be registered after they have been properly bound.
+Recommended Pattern for Instance Methods:
+The method should be defined normally within the class. Then, after an instance of the class is created, the now-bound method is passed to the decorator's function-call form.
+Example:
+
+Python
+
+
+class GitHubClient:
+    def __init__(self, token: str):
+        self.token = token
+
+    def list_issues(self, repo: str) -> list:
+        """Lists issues for a given repository."""
+        #... implementation...
+        return
+
+# 1. Create an instance of the class.
+github_client = GitHubClient(token="my_secret_token")
+
+# 2. Register the bound method on the instance.
+# 'self' is now implicitly bound to 'github_client'.
+mcp.tool(github_client.list_issues)
+
+
+This pattern ensures that self is correctly handled by Python and is hidden from the LLM, which only sees the repo parameter.21
+Recommended Pattern for Class Methods:
+Similarly, class methods should be registered after the class itself has been defined.
+Example:
+
+Python
+
+
+class UserFactory:
+    @classmethod
+    def from_email(cls, email: str):
+        """Creates a user object from an email address."""
+        #... implementation...
+        pass
+
+# Register the class method after class definition.
+# 'cls' is automatically bound by Python.
+mcp.tool(UserFactory.from_email)
+
+
+Adhering to these patterns allows developers to leverage the organizational benefits of classes while maintaining compatibility with fastmcp's decorator system.21
+
+6.3 Using the Context Object
+
+For tools that need to communicate back to the client during their execution, fastmcp provides a Context object. By adding a parameter type-hinted as ctx: Context to any tool, resource, or prompt function, the framework will automatically inject a session-specific context object when the function is called.7
+The Context object provides several useful capabilities:
+Logging: Methods like await ctx.info(f"Processing item {i}...") can be used to send log messages back to the client, providing visibility into the tool's progress.7
+Progress Reporting: For long-running operations, ctx.report_progress() can be used to send structured progress updates, which a client UI could use to display a progress bar.2
+Accessing Other Components: The context can be used to read resources from the server within a tool, allowing components to interact with each other.7
+Example:
+
+Python
+
+
+from fastmcp import Context
+
+@mcp.tool
+async def process_large_file(uri: str, ctx: Context):
+    await ctx.info(f"Starting to process file at {uri}...")
+    #... long-running logic...
+    await ctx.info("Processing complete.")
+
+
+
+6.4 Extending FastMCP with contrib Modules
+
+The fastmcp.contrib package serves as a home for community-contributed modules that extend the core functionality of the library. These modules are not officially maintained by the core team but provide valuable integrations or patterns for specific use cases.22
+Using a contrib module is as simple as importing it from the fastmcp.contrib namespace. However, developers should be aware that these modules may have different stability guarantees, may have additional dependencies not required by the core library, and may not receive the same level of testing or documentation as core features. The README.md file within each module's directory is the primary source of documentation and usage examples.22
+
+Part IV: The Broader Ecosystem
+
+
+Chapter 7: The FastMCP Command-Line Interface (CLI)
+
+The fastmcp CLI is a powerful and sophisticated tool that is automatically installed with the library. It is designed to manage the entire lifecycle of an MCP server, from local development and testing to installation in client applications.23 The CLI is more than a simple script launcher; it is a comprehensive orchestration tool with deep integration for managing Python environments and dependencies via uv.23
+
+7.1 Overview of CLI Commands and Dependency Management
+
+A key aspect that distinguishes the CLI commands is their approach to Python environments. Understanding this difference is critical to avoiding "works on my machine" issues. Some commands use the currently active local environment, while others create a fresh, isolated environment for execution, ensuring reproducibility.23
+
+Command
+Purpose
+Dependency Management
+run
+Run a FastMCP server directly or proxy a remote server.
+Uses the local environment by default. Can use an isolated uv run subprocess if flags like --with or --python are provided.
+dev
+Run a server with the interactive MCP Inspector for testing.
+Always runs in an isolated uv run subprocess; never uses the local environment directly. Dependencies must be specified.
+install
+Install a server into an MCP client application (e.g., Claude Desktop).
+Always creates a completely isolated environment for the client. Dependencies must be explicitly specified.
+inspect
+Generate a summary or detailed JSON report about a server.
+Uses the local environment. The user is responsible for ensuring all dependencies are available.
+project prepare
+Create a persistent uv project from a fastmcp.json file.
+Creates a uv project directory with all dependencies pre-installed for reuse.
+version
+Display version information for the framework.
+N/A
+Table synthesized from data in.23
+
+
+
+
+
+
+7.2 Practical Use Cases and Examples
+
+The CLI supports a wide range of use cases through its various commands and options.
+fastmcp run
+This is the primary command for executing a server. It supports multiple entrypoint formats 23:
+Run from file (inferred): fastmcp run server.py (looks for an instance named mcp, server, or app).
+Run from file (explicit): fastmcp run server.py:my_server_instance.
+Run from a factory function: fastmcp run server.py:create_server_func (useful for running setup code).
+Run as a remote proxy: fastmcp run https://example.com/mcp.
+Change transport and port: fastmcp run server.py --transport http --port 8080.
+fastmcp dev
+This command is the developer's best friend for interactive testing. It launches the server and connects it to the MCP Inspector, a web-based UI for inspecting messages and manually calling tools.1
+Start dev server: fastmcp dev server.py.
+Start with extra dependencies: fastmcp dev server.py --with pandas --with numpy.
+Start with a specific Python version: fastmcp dev server.py --python 3.11.
+fastmcp install
+This command configures a local MCP server for use in a supported client application. It packages the server and its dependencies into an isolated environment for the client to run securely.23
+Install to Claude Desktop: fastmcp install claude-desktop server.py.
+Install with a custom name and dependencies: fastmcp install cursor server.py:my_server --server-name "My Analysis Tools" --with pandas.
+Install with environment variables: fastmcp install claude-code server.py --env-file.env.
+fastmcp inspect
+This command provides introspection capabilities, allowing developers to see how fastmcp interprets their server code.23
+Show a simple text summary: fastmcp inspect server.py.
+Output the full MCP protocol JSON: fastmcp inspect server.py --format mcp.
+Save the detailed FastMCP-specific JSON to a file: fastmcp inspect server.py --format fastmcp -o manifest.json.
+
+Chapter 8: Deployment and Production Considerations
+
+
+8.1 Deploying to FastMCP Cloud
+
+For developers seeking a streamlined path to a public, secure deployment, FastMCP Cloud is the recommended hosting solution. It is a platform-as-a-service (PaaS) run by the fastmcp team at Prefect, optimized specifically for deploying authenticated fastmcp servers.13 The service is free for personal projects and offers pay-as-you-go pricing for teams.
+Deployment to FastMCP Cloud is designed to be a simple, Git-ops-driven process requiring a GitHub account 13:
+Push Code to GitHub: The my_server.py file and any other project files must be pushed to a GitHub repository.
+Sign In to FastMCP Cloud: The developer signs in to the FastMCP Cloud web interface using their GitHub account.
+Create a New Project: Within the cloud UI, a new project is created by selecting the GitHub repository containing the server code. The developer specifies the server entrypoint, such as my_server.py:mcp.
+FastMCP Cloud then automatically handles the build process, dependency installation, and deployment, making the server available at a secure, public URL (e.g., https://your-project.fastmcp.app/mcp). This URL can then be plugged into any LLM client that supports the MCP protocol.13
+
+8.2 Production Security: OAuth Token Management
+
+Moving an application from local development to a production environment requires careful attention to security. The fastmcp framework has mature, enterprise-ready features for authentication, and understanding their production configuration is critical.
+A key example is the OAuth token management system, which was significantly enhanced for security in version 2.13.0. In production deployments using an OAuth provider (like Google or GitHub), the fastmcp server acts as an OAuth proxy. Instead of forwarding the provider's token directly to the client (which can create security vulnerabilities), the proxy now issues its own short-lived JWTs to the client. This process requires cryptographic keys for signing the JWTs and a persistent storage backend for encrypting and storing the upstream provider's tokens.21
+While fastmcp provides zero-configuration, insecure defaults for local development (using the system keyring or ephemeral keys), a production deployment must provide explicit configuration 21:
+jwt_signing_key: A strong, secret key must be provided for signing the JWTs issued to clients.
+Persistent Storage: A network-accessible, persistent key-value store, such as Redis, must be configured for client_storage. This ensures that user sessions and encrypted tokens can survive server restarts and work correctly in a multi-replica environment.
+Example Production Configuration:
+
+Python
+
+
+import os
+from fastmcp.auth.providers import GitHubProvider
+from fastmcp.auth.storage import RedisStore
+
+auth_provider = GitHubProvider(
+    client_id=os.environ,
+    client_secret=os.environ,
+    
+    # Required for production:
+    jwt_signing_key=os.environ,
+    client_storage=RedisStore(host="redis.example.com", port=6379)
+)
+
+mcp = FastMCP(name="Secure Server", auth=auth_provider)
+
+
+This example illustrates the level of consideration required for production deployments and demonstrates that fastmcp provides the necessary hooks for implementing robust security patterns.21
+
+Chapter 9: Development, Testing, and Contribution
+
+
+9.1 The FastMCP Testing Framework
+
+The fastmcp project treats tests as first-class documentation and a critical defense against regressions. The testing philosophy and framework are designed to encourage developers to write fast, reliable, and maintainable tests for their own MCP servers.17
+Core Testing Principles:
+Speed and Determinism: The vast majority of tests should be written using the in-memory transport. This allows the client and server to communicate directly within the same Python process, bypassing all network and serialization overhead. These tests are extremely fast (often completing in milliseconds) and are not subject to network flakiness.17
+Single Behavior Per Test: Each test function should verify exactly one behavior. This makes failures easy to diagnose, as the failing test's name immediately indicates what broke.17
+Self-Contained Setup: Tests must not share state. Each test should be responsible for creating its own server instances and any other required resources. This ensures that tests can be run in any order or in parallel without interference.17
+Mocking: For tools that interact with external services, standard Python mocking libraries (like unittest.mock) should be used to isolate the test from the external dependency.17
+Testing Network Transports:
+While in-memory testing is preferred, it is sometimes necessary to test the network transports themselves. For this, fastmcp provides two patterns:
+In-Process Network Testing (Preferred): The server is run as an asynchronous task within the same process as the test client. This is fast, reliable, and supports debuggers.17
+Subprocess Testing: For cases requiring complete process isolation (like testing the stdio transport), the test can spawn the server in a separate subprocess. This is slower and harder to debug and should be used sparingly.17
+
+9.2 Contributing to FastMCP
+
+The fastmcp project welcomes community contributions but maintains high standards for code quality and development practices to ensure the long-term health of the library.21
+Development Standards:
+Scope: Pull requests should be small and focused. Large features should be broken down into a series of smaller, incremental PRs that are easier to review and merge.
+Code Quality: The project values clarity and maintainability over cleverness. Code should be idiomatic, well-documented, and easy for other developers to understand and maintain.
+Required Practices:
+Full Type Annotations: All functions and methods must have complete type annotations.
+Async for I/O: All I/O-bound operations must use async/await to prevent blocking the event loop.
+Descriptive Naming: Variable and function names should be descriptive and self-documenting.
+Specific Exceptions: Error handling should catch specific exception types rather than using bare except clauses.
+By adhering to these standards, contributors can help ensure that fastmcp remains a high-quality, reliable, and easy-to-use framework for the entire MCP community.21
+
+Part V: Appendices
+
+
+Appendix A: API Reference
+
+
+FastMCP Server Constructor Parameters
+
+The fastmcp.FastMCP class is the primary entrypoint for creating a server. Its constructor accepts a wide range of parameters for configuration.
+
+Parameter
+Type
+Default
+Description
+New in Version
+name
+str
+"FastMCP"
+A human-readable name for the server.
+
+
+instructions
+str | None
+None
+A description guiding clients on how to interact with the server.
+
+
+version
+str | None
+None
+A version string for the server. Defaults to the library version.
+
+
+website_url
+str | None
+None
+A URL to a website with more information about the server.
+2.14.0
+icons
+list[Icon] | None
+None
+A list of icon representations for the server for use in client UIs.
+2.14.0
+auth
+OAuthProvider | TokenVerifier | None
+None
+An authentication provider for securing HTTP-based transports.
+
+
+lifespan
+AsyncContextManager | None
+None
+An async context manager for handling server startup and shutdown logic.
+
+
+tools
+list | None
+None
+A list of tools to add programmatically, as an alternative to the decorator.
+
+
+include_tags
+set[str] | None
+None
+If set, only exposes components with at least one matching tag.
+
+
+exclude_tags
+set[str] | None
+None
+If set, hides any components that have a matching tag. Takes precedence over include_tags.
+
+
+on_duplicate_tools
+Literal["error", "warn", "replace"]
+"error"
+How to handle duplicate tool name registrations.
+
+
+on_duplicate_resources
+Literal["error", "warn", "replace"]
+"warn"
+How to handle duplicate resource URI registrations.
+
+
+on_duplicate_prompts
+Literal["error", "warn", "replace"]
+"replace"
+How to handle duplicate prompt name registrations.
+
+
+strict_input_validation
+bool
+False
+If True, uses strict JSON Schema validation. If False, uses Pydantic's more flexible type coercion.
+2.13.0
+include_fastmcp_meta
+bool
+True
+Whether to include FastMCP-specific metadata in component responses.
+2.11.0
+Table synthesized from data in.9
+
+
+
+
+
+
+
+
+
+
+Core Component Decorator Reference
+
+@mcp.tool: Registers a function as an executable tool. fastmcp infers the schema from type hints and the docstring.
+@mcp.resource(uri: str): Registers a function as a read-only data resource, accessible at the given URI.
+@mcp.prompt: Registers a function as a reusable, parameterized message template for guiding LLM interactions.
+
+Appendix B: Community and Learning Resources
+
+
+Showcase and Tutorials
+
+The fastmcp community provides a number of high-quality learning resources and example projects to help developers get started and learn best practices.24
+MCP Dummy Server: A comprehensive educational example project demonstrating best practices, including a dual-transport server implementation and an interactive test client.24
+Video Tutorials:
+"Build Remote MCP Servers w/ Python & FastMCP" by Greg + Code.
+"FastMCP — the best way to build an MCP server with Python" by ZazenCodes.
+"Speedrun a MCP server for Claude Desktop (fastmcp)" by Nate from Prefect.
+
+Engaging with the Community
+
+The fastmcp project encourages active community participation. Developers who have built interesting projects are encouraged to share them with the community to be featured in the official showcase. Submissions should demonstrate best practices, include comprehensive documentation, and can be initiated by starting a discussion on the project's GitHub Discussions page.24 Further community interaction is available via the project's Discord server.22
+Works cited
+FastMCP: The fastway to build MCP servers. | by CellCS - Medium, accessed October 26, 2025, https://medium.com/@shmilysyg/fastmcp-the-fastway-to-build-mcp-servers-aa14f88536d2
+Creating an MCP Server Using FastMCP: A Comprehensive Guide - Pondhouse Data, accessed October 26, 2025, https://www.pondhouse-data.com/blog/create-mcp-server-with-fastmcp
+Introducing FastMCP 2.0 - Mostly Harmless, accessed October 26, 2025, https://jlowin.dev/blog/fastmcp-2
+Welcome to FastMCP 2.0! - FastMCP, accessed October 26, 2025, https://gofastmcp.com/
+FastMCP 2.0: Building the USB-C of AI with Python | LLM Multi Agent, accessed October 26, 2025, https://llmmultiagents.com/en/blogs/FastMCP-2.0--Building-the-USB-C-of-AI-with-Python
+A Beginner's Guide to Use FastMCP - Apidog, accessed October 26, 2025, https://apidog.com/blog/fastmcp/
+jlowin/fastmcp: The fast, Pythonic way to build MCP servers and clients - GitHub, accessed October 26, 2025, https://github.com/jlowin/fastmcp
+How to Build MCP Servers in Python: Complete FastMCP Tutorial for AI Developers, accessed October 26, 2025, https://www.firecrawl.dev/blog/fastmcp-tutorial-building-mcp-servers-python
+The FastMCP Server - FastMCP, accessed October 26, 2025, https://gofastmcp.com/servers/server
+10 Reasons I Love FastMCP (and Why You Should Try It for MCP Development), accessed October 26, 2025, https://earthkhan.medium.com/10-reasons-i-love-fastmcp-and-why-you-should-try-it-for-mcp-development-877ccf3c1dd0
+Installation - FastMCP, accessed October 26, 2025, https://gofastmcp.com/getting-started/installation
+Build an MCP server - Model Context Protocol, accessed October 26, 2025, https://modelcontextprotocol.io/docs/develop/build-server
+Quickstart - FastMCP, accessed October 26, 2025, https://gofastmcp.com/getting-started/quickstart
+Building an MCP Server and Client with FastMCP 2.0 - DataCamp, accessed October 26, 2025, https://www.datacamp.com/tutorial/building-mcp-server-client-fastmcp
+accessed January 1, 1970, https://gofastmcp.com/clients/essentials
+accessed January 1, 1970, https://gofastmcp.com/integrations/authentication
+Tests - FastMCP, accessed October 26, 2025, https://gofastmcp.com/development/tests
+Building an MCP Server with FastAPI and FastMCP - Speakeasy, accessed October 26, 2025, https://www.speakeasy.com/mcp/framework-guides/building-fastapi-server
+Tool Transformation - FastMCP, accessed October 26, 2025, https://gofastmcp.com/patterns/tool-transformation
+FastMCP Updates, accessed October 26, 2025, https://gofastmcp.com/updates
+Contributing - FastMCP, accessed October 26, 2025, https://gofastmcp.com/development/contributing
+Contrib Modules - FastMCP, accessed October 26, 2025, https://gofastmcp.com/patterns/contrib
+FastMCP CLI - FastMCP, accessed October 26, 2025, https://gofastmcp.com/patterns/cli
+Community Showcase - FastMCP, accessed October 26, 2025, https://gofastmcp.com/community/showcase
+
+
+

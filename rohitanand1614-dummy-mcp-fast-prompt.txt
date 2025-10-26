@@ -1,0 +1,504 @@
+Repository Structure:
+
+Directory structure:
+└── DUMMY-MCP-FAST/
+    ├── ReadMe_MCP_selenium.md
+    ├── manifest.json
+    ├── open_browser.py
+    ├── requirements.txt
+    ├── run_mcp_selenium.py
+    ├── browsers/
+    ├── drivers/
+    └── mcp_selenium/
+        ├── __init__.py
+        ├── browser_manager.py
+        ├── element_actions.py
+        ├── schemas.py
+        ├── server.py
+        ├── utils.py
+        └── __pycache__/
+
+
+Files Content:
+
+================================================
+File: ReadMe_MCP_selenium.md
+================================================
+# 🚀 MCP Selenium Server — FastMCP Integration
+
+## 📘 Overview
+This repository implements a **Model Context Protocol (MCP) server** that integrates **Selenium WebDriver** with **FastMCP**, enabling automated browser interactions through a structured, tool-based API.  
+It allows you to **launch browsers**, **navigate**, **interact with elements**, and **close sessions** — all accessible via the **MCP Inspector**.
+
+---
+
+## 🧩 Repository Structure
+
+```
+DUMMY-MCP-FAST/
+├── run_mcp_selenium.py            # Entry point to start MCP Selenium server
+├── manifest.json                  # Defines environment paths and entry script
+├── requirements.txt               # Required dependencies
+├── browsers/                      # Browser binaries (e.g., chrome.exe)
+├── drivers/                       # WebDriver executables (e.g., chromedriver.exe)
+└── mcp_selenium/                  # Main MCP Selenium package
+    ├── __init__.py                # Initializes logging and package metadata
+    ├── browser_manager.py         # Manages Selenium sessions (start/stop)
+    ├── element_actions.py         # Encapsulates element-level actions (click, send_keys, etc.)
+    ├── schemas.py                 # Pydantic schemas for structured tool inputs/outputs
+    ├── server.py                  # FastMCP app defining available tools and handlers
+    ├── utils.py                   # Helper functions (timestamp, screenshots, encoding)
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+### 1️⃣ Create Virtual Environment
+```bash
+python -m venv venv
+venv\Scripts\activate  # On Windows
+source venv/bin/activate  # On Mac/Linux
+```
+
+### 2️⃣ Install Dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 3️⃣ Verify Chrome & WebDriver Paths
+Ensure paths in `manifest.json` are correct:
+```json
+{
+  "SELENIUM_DRIVER_PATH": "./drivers/chromedriver.exe",
+  "SELENIUM_BINARY_PATH": "./browsers/chrome.exe"
+}
+```
+
+---
+
+## 🧠 Understanding Each File
+
+### 🔹 `run_mcp_selenium.py`
+Main script that **starts the FastMCP server** by importing `app` from `server.py` and running it.
+
+### 🔹 `manifest.json`
+Defines **metadata and environment variables** for MCP setup:
+- `entry`: Script to start (`run_mcp_selenium.py`)
+- `SELENIUM_DRIVER_PATH`: Path to Chrome WebDriver
+- `SELENIUM_BINARY_PATH`: Chrome binary path
+
+### 🔹 `requirements.txt`
+Specifies core dependencies:
+- `selenium` → for browser automation  
+- `fastmcp` → for MCP server interface  
+- `pydantic` → for structured data models  
+
+### 🔹 `mcp_selenium/__init__.py`
+Initializes the MCP Selenium package with logging and metadata.  
+Logs “✅ MCP Selenium package initialized” at startup.
+
+### 🔹 `mcp_selenium/browser_manager.py`
+Handles:
+- Starting and managing browser sessions  
+- Tracking session IDs  
+- Closing active sessions  
+- Switching between session contexts  
+
+### 🔹 `mcp_selenium/element_actions.py`
+Provides all **UI interactions** like:
+- `click(by, value)` → clicks on element  
+- `send_keys(by, value, text)` → types input  
+- `find_element(by, value)` → waits for presence of element  
+
+### 🔹 `mcp_selenium/schemas.py`
+Defines **Pydantic models** for tool input/output, ensuring validation and descriptive fields for commands like navigation.
+
+### 🔹 `mcp_selenium/server.py`
+Core MCP logic — defines all **tools available to the MCP inspector**, such as:
+- `start_browser` → Launch Chrome in headless or UI mode  
+- `navigate` → Open URL  
+- `click_element` → Click an element by selector  
+- `send_keys` → Type text into a field  
+- `close_session` → Close browser  
+
+This is the **main logic layer** of the system.
+
+### 🔹 `mcp_selenium/utils.py`
+Provides **support utilities** for screenshots and encoding:
+- `save_screenshot()` → captures and stores browser images  
+- `encode_image()` → returns base64-encoded screenshot  
+
+---
+
+## 🧭 Workflow & Lifecycle
+
+1️⃣ **Initialization**
+   - When `run_mcp_selenium.py` runs, FastMCP starts and registers all tools from `server.py`.
+
+2️⃣ **Browser Launch**
+   - MCP Inspector or client calls `start_browser` → BrowserManager opens Chrome.
+
+3️⃣ **Navigation & Actions**
+   - `navigate`, `click_element`, and `send_keys` interact with live browser session.
+
+4️⃣ **Session Close**
+   - `close_session` terminates WebDriver and clears memory.
+
+5️⃣ **Logging & Debugging**
+   - Logs appear in terminal to trace tool calls and session flow.
+
+---
+
+## 🔍 MCP Inspector — Interactive Testing
+
+Use the MCP Inspector to explore, invoke, and debug all MCP tools:
+
+```bash
+npx @modelcontextprotocol/inspector python run_mcp_selenium.py
+```
+
+### ✅ Expected Behavior
+- Inspector UI lists tools: `start_browser`, `navigate`, `click_element`, etc.
+- You can call them interactively and see real-time results.
+- Browser sessions launch in real Chrome instances via `chromedriver.exe`.
+
+---
+
+## 💡 Example Commands
+
+### Start the server:
+```bash
+python run_mcp_selenium.py
+```
+
+### Start MCP Inspector:
+```bash
+npx @modelcontextprotocol/inspector python run_mcp_selenium.py
+```
+
+### Example Workflow:
+1. In Inspector, run:
+   ```json
+   {
+     "tool": "start_browser",
+     "input": { "browser": "chrome", "headless": false }
+   }
+   ```
+2. Then:
+   ```json
+   { "tool": "navigate", "input": "https://example.com" }
+   ```
+3. Interact with elements:
+   ```json
+   { "tool": "click_element", "input": { "by": "css", "value": "#submit" } }
+   ```
+4. Close session:
+   ```json
+   { "tool": "close_session" }
+   ```
+
+---
+
+## 🧾 Logging Example
+When you start the app, you’ll see logs like:
+```
+INFO: ✅ MCP Selenium package initialized.
+DEBUG: Starting FastMCP server on port 8000
+```
+
+---
+
+## 🧩 Credits
+**Author:** Rohit Anand  
+**Version:** 1.0.0  
+**License:** MIT (optional)
+
+---
+
+## 🧰 Future Enhancements
+- Add multi-browser support (Firefox, Edge)  
+- Capture screenshots on tool errors  
+- Integrate AI-driven test case generation via LLM
+
+
+================================================
+File: manifest.json
+================================================
+{
+  "name": "Selenium MCP Python",
+  "summary": "MCP server for Selenium WebDriver automation",
+  "entry": "run_mcp_selenium.py",
+  "env": {
+    "SELENIUM_DRIVER_PATH": "./drivers/chromedriver.exe",
+    "SELENIUM_BINARY_PATH": "./browsers/chrome.exe",
+    "PYTHONPATH": "."
+  }
+}
+
+
+================================================
+File: requirements.txt
+================================================
+selenium==4.21.0
+fastmcp==2.13.0
+pydantic>=2.0
+
+
+================================================
+File: run_mcp_selenium.py
+================================================
+from mcp_selenium.server import app
+
+if __name__ == "__main__":
+    app.run()
+
+
+================================================
+File: mcp_selenium/__init__.py
+================================================
+"""
+MCP Selenium package initialization.
+"""
+
+import logging
+logging.basicConfig(level=logging.INFO, format="%(levelname)s: %(message)s")
+
+__version__ = "1.0.0"
+__author__ = "Rohit Anand"
+
+logging.info("✅ MCP Selenium package initialized.")
+
+
+================================================
+File: mcp_selenium/browser_manager.py
+================================================
+import os
+import uuid
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
+
+class BrowserManager:
+    def __init__(self):
+        self.sessions: dict[str, webdriver.Chrome] = {}
+        self.current_session: str | None = None
+
+    def start_browser(self, browser: str, headless: bool = False, args=None):
+        driver_path = os.getenv("SELENIUM_DRIVER_PATH", "./drivers/chromedriver.exe")
+        binary_path = os.getenv("SELENIUM_BINARY_PATH")
+
+        options = Options()
+        if headless:
+            options.add_argument("--headless=new")
+        if args:
+            for arg in args:
+                options.add_argument(arg)
+        if binary_path:
+            options.binary_location = binary_path
+
+        service = Service(driver_path)
+        driver = webdriver.Chrome(service=service, options=options)
+
+        session_id = f"{browser}_{uuid.uuid4().hex[:8]}"
+        self.sessions[session_id] = driver
+        self.current_session = session_id
+        return session_id
+
+    def get_active_driver(self):
+        if not self.current_session or self.current_session not in self.sessions:
+            raise RuntimeError("No active browser session")
+        return self.sessions[self.current_session]
+
+    def close_active_session(self):
+        if self.current_session:
+            driver = self.sessions.pop(self.current_session, None)
+            if driver:
+                driver.quit()
+            self.current_session = None
+
+
+================================================
+File: mcp_selenium/element_actions.py
+================================================
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+class ElementActions:
+    def __init__(self, driver):
+        self.driver = driver
+
+    def _locator(self, by, value):
+        strategies = {
+            "id": By.ID,
+            "css": By.CSS_SELECTOR,
+            "xpath": By.XPATH,
+            "name": By.NAME,
+            "class": By.CLASS_NAME,
+            "tag": By.TAG_NAME
+        }
+        return strategies[by.lower()], value
+
+    def find_element(self, by, value, timeout=10):
+        return WebDriverWait(self.driver, timeout).until(
+            EC.presence_of_element_located(self._locator(by, value))
+        )
+
+    def click(self, by, value, timeout=10):
+        el = self.find_element(by, value, timeout)
+        el.click()
+
+    def send_keys(self, by, value, text, timeout=10):
+        el = self.find_element(by, value, timeout)
+        el.clear()
+        el.send_keys(text)
+
+
+================================================
+File: mcp_selenium/schemas.py
+================================================
+from pydantic import BaseModel, Field
+from typing import Optional
+
+class NavigateInput(BaseModel):
+    url: str = Field(..., description="URL to open")
+
+class NavigateOutput(BaseModel):
+    message: str
+    current_url: Optional[str]
+
+
+================================================
+File: mcp_selenium/server.py
+================================================
+from pydantic import BaseModel, Field
+from fastmcp import FastMCP
+from mcp_selenium.browser_manager import BrowserManager
+from mcp_selenium.element_actions import ElementActions
+import logging
+logging.basicConfig(level=logging.DEBUG)
+logger = logging.getLogger(__name__)
+app = FastMCP()
+browser_manager = BrowserManager()
+
+# ✅ Define a schema for structured input
+class StartBrowserInput(BaseModel):
+    browser: str = Field(default="chrome", description="Browser name (e.g. 'chrome')")
+    headless: bool = Field(default=False, description="Launch browser in headless mode")
+    args: list[str] | None = Field(default_factory=list, description="Extra command-line args")
+
+@app.tool("start_browser")
+def start_browser(input: StartBrowserInput):
+    """Launch a Chrome browser session."""
+    try:
+        data = input.model_dump()  # Changed from dict() to model_dump()
+        session_id = browser_manager.start_browser(
+            browser=data["browser"],
+            headless=data["headless"],
+            args=data.get("args") or []
+        )
+        return {"session_id": session_id}
+    except Exception as e:
+        return {"error": str(e)}
+
+
+@app.tool("navigate")
+def navigate(url: str):
+    """Navigate to a URL"""
+    driver = browser_manager.get_active_driver()
+    driver.get(url)
+    return {"message": f"Navigated to {url}"}
+
+
+@app.tool("click_element")
+def click_element(by: str, value: str):
+    """Click an element by selector"""
+    driver = browser_manager.get_active_driver()
+    ElementActions(driver).click(by, value)
+    return {"message": f"Clicked element '{value}'"}
+
+
+@app.tool("send_keys")
+def send_keys(by: str, value: str, text: str):
+    """Type text into an element"""
+    driver = browser_manager.get_active_driver()
+    ElementActions(driver).send_keys(by, value, text)
+    return {"message": f"Sent keys '{text}'"}
+
+# ✅ New input schema for HTML capture
+class CaptureHTMLInput(BaseModel):
+    by: str = Field(..., description="Locator strategy (e.g., 'id', 'xpath', 'css selector')")
+    value: str = Field(..., description="Locator value for the element")
+
+
+
+@app.tool("capture_html")
+def capture_html(input: CaptureHTMLInput):
+    """
+    Capture and return the outer HTML, tag name, and attributes
+    of an element located by the given selector.
+    Useful for generating automation scripts based on actual page structure.
+    """
+    try:
+        data = input.model_dump()
+        driver = browser_manager.get_active_driver()
+        element = ElementActions(driver).find_element(data["by"], data["value"])
+        html_content = element.get_attribute("outerHTML")
+
+        # Extract element attributes using JS
+        attributes = driver.execute_script(
+            """
+            var items = {};
+            for (var i = 0; i < arguments[0].attributes.length; ++i) {
+                items[arguments[0].attributes[i].name] = arguments[0].attributes[i].value;
+            }
+            return items;
+            """,
+            element
+        )
+
+        return {
+            "locator": data,
+            "tag": element.tag_name,
+            "attributes": attributes,
+            "html": html_content.strip() if html_content else "",
+            "message": "Captured HTML and attributes successfully"
+        }
+
+    except Exception as e:
+        logger.error(f"Failed to capture HTML: {e}")
+        return {"error": str(e)}
+
+@app.tool("close_session")
+def close_session():
+    """Close the active browser"""
+    browser_manager.close_active_session()
+    return {"message": "Session closed"}
+
+
+if __name__ == "__main__":
+    app.run()
+
+
+
+================================================
+File: mcp_selenium/utils.py
+================================================
+import os, base64
+from datetime import datetime
+
+def timestamp():
+    return datetime.now().strftime("%Y%m%d_%H%M%S")
+
+def save_screenshot(driver, folder="screenshots", prefix="shot"):
+    os.makedirs(folder, exist_ok=True)
+    path = os.path.join(folder, f"{prefix}_{timestamp()}.png")
+    driver.save_screenshot(path)
+    return path
+
+def encode_image(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+

@@ -1,0 +1,23 @@
+.github/
+├─ copilot-instructions.md
+├─ copilot.config.json
+└─ copilot_services/
+   └─ figma-ui-compare.service.prompt.md
+
+
+config.json
+
+{
+  "default_instruction_file": ".github/copilot-instructions.md",
+  "services": {
+    "figma-ui-compare": ".github/copilot_services/figma-ui-compare.service.prompt.md"
+  }
+}
+
+
+new prompt 
+@copilot use figma-ui-compare
+Figma URL: https://www.figma.com/design&m=dev
+Site URL: https://example.com/figma-comparison
+Selector Type: class
+Selector: hero-wrapper

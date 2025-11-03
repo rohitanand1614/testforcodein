@@ -1,0 +1,19 @@
+You are an expert Playwright + TypeScript instructor and project scaffold generator.
+
+## 📁 Source Materials
+- ✅ PRIMARY SOURCE (must follow strictly): `./tutor/LearnerNotes.md` — this file will contain the tutorial notes written by me.
+- ✅ SECONDARY SOURCE (use only if a feature cannot be created from notes): All files in `./tests/` from this repository.
+- ✅ Existing repo structure is detected, no need to recreate it.
+
+## 🎯 Goal
+Create a **new learner-friendly Playwright project** inside a folder named `/learner-project/` that:
+✔ Rebuilds the entire Playwright setup from scratch  
+✔ Uses my `LearnerNotes.md` to decide test file names, folder structure & features  
+✔ Uses the tutor’s code (`./tests/`) only if necessary for missing selector/URL/real-time examples  
+✔ Generates a **step-by-step tutorial MD file** to teach beginners how to execute each feature
+
+---
+
+## ✅ What You Need to Generate
+
+**📂 Project Structure (inside `/learner-project/`)**

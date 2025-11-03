@@ -1,0 +1,4315 @@
+Repository Structure:
+
+Directory structure:
+└── PlaywrightTypeScriptTutorialFullCourse/
+    ├── README.md
+    ├── JenkinsFile
+    ├── azure-devops-pipeline.yml
+    ├── azure-devops-test-plan-pipeline.yml
+    ├── package.json
+    ├── playwright.config.ts
+    ├── tsconfig.json
+    ├── globals/
+    │   ├── global-setup.ts
+    │   └── global-teardown.ts
+    ├── screenshots/
+    ├── selectors/
+    │   └── commonselectors.json
+    ├── src/
+    │   ├── fixture/
+    │   │   └── TestFixture.ts
+    │   ├── interface/
+    │   │   ├── BookingAPI.interface.ts
+    │   │   ├── Module1TestData.interface.ts
+    │   │   └── TestResults.interface.ts
+    │   ├── pages/
+    │   │   ├── HomePage.ts
+    │   │   ├── PlaylistPage.ts
+    │   │   └── ResultPage.ts
+    │   └── utils/
+    │       ├── APIHelper.ts
+    │       ├── AzureDevOpsHelper.ts
+    │       ├── Common.ts
+    │       ├── ExcelHelper.ts
+    │       ├── JsonHelper.ts
+    │       ├── Login.ts
+    │       └── RunUpdate.ts
+    ├── storage-state/
+    │   └── Storage-State.json
+    ├── test-data/
+    │   ├── Clock_Timer_Demo.html
+    │   ├── api_requests/
+    │   │   ├── Dynamic_POST_API_Request.json
+    │   │   ├── PATCH_API_Request.json
+    │   │   ├── POST_API_Request.json
+    │   │   ├── PUT_API_Request.json
+    │   │   └── Token_API_Request.json
+    │   ├── dev/
+    │   │   └── Module1TestData.json
+    │   └── qa/
+    │       ├── Module1TestData.json
+    │       ├── TestData.xlsx
+    │       ├── testdata.csv
+    │       └── testdata.json
+    ├── tests/
+    │   ├── count_tests.spec.ts
+    │   ├── example.spec.ts
+    │   ├── Chapter01/
+    │   │   ├── 01_Record_Test.spec.ts
+    │   │   ├── 02_First_Test.spec.ts
+    │   │   ├── 03_RecordAtCursor_Test.spec.ts
+    │   │   └── 04_Codegen_Test.spec.ts
+    │   ├── Chapter02/
+    │   │   ├── 01_Screenshots_Test.spec.ts
+    │   │   ├── 02_Locators_Test.spec.ts
+    │   │   ├── 03_Hooks_Test.spec.ts
+    │   │   ├── 04_DropdownList_Test.spec.ts
+    │   │   ├── 05_Iframes_DragDrop_Test.spec.ts
+    │   │   ├── 06_MouseActions_Test.spec.ts
+    │   │   ├── 07_KeyboardActions_Test.spec.ts
+    │   │   ├── 08_DatePicker_Test.spec.ts
+    │   │   ├── 09_Assertions_Test.spec.ts
+    │   │   └── 10_SoftAssertions_Test.spec.ts
+    │   ├── Chapter03/
+    │   │   ├── 01_Annotations_Test.spec.ts
+    │   │   ├── 02_Grouping_Test.spec.ts
+    │   │   ├── 03_Tags_Test.spec.ts
+    │   │   ├── 04_Retry_Test.spec.ts
+    │   │   ├── 05_Parameterize_Test.spec.ts
+    │   │   ├── 06_VisualTesting_Test.spec.ts
+    │   │   ├── 07_Timeouts_Test.spec.ts
+    │   │   └── 06_VisualTesting_Test.spec.ts-snapshots/
+    │   ├── Chapter04/
+    │   │   ├── 01_BrowserContext_Test.spec.ts
+    │   │   ├── 02_ReRunFailed_Test.spec.ts
+    │   │   ├── 03_AlertsPopups_Test.spec.ts
+    │   │   ├── 04_TestReports_Test.spec.ts
+    │   │   ├── 05_TextContent_GetAttribute_Test.spec.ts
+    │   │   ├── 06_Iterating_Elements_Test.spec.ts
+    │   │   └── 07_Checkbox_RadioButton_Test.spec.ts
+    │   ├── Chapter05/
+    │   │   ├── 01_ReadENVFile_Test.spec.ts
+    │   │   ├── 02_DataDrivenTestingUsingJSON.spec.ts
+    │   │   ├── 03_DataDrivenTestingUsingCSV.spec.ts
+    │   │   ├── 04_DataDrivenTestingUsingEXCEL.spec.ts
+    │   │   ├── 05_PageObjectModelTest.spec.ts
+    │   │   ├── 06_Fixture_Test.spec.ts
+    │   │   ├── 07_Optimized_POM_Test.spec.ts
+    │   │   ├── 08_RunTestBasedOnEnv.spec.ts
+    │   │   ├── 09_Authentication_Test.spec.ts
+    │   │   └── 10_Without_PageObjectModel_Test.spec.ts
+    │   └── Chapter06/
+    │       ├── 01_POST_API_Request_Static.spec.ts
+    │       ├── 02_POST_API_Request_Dynamic.spec.ts
+    │       ├── 03_Dynamic_TypeSafety_POST_API_Request.spec.ts
+    │       ├── 04_GET_API_Request.spec.ts
+    │       ├── 05_Query_Parameters.spec.ts
+    │       ├── 06_PUT_API_Request.spec.ts
+    │       ├── 07_PATCH_API_Request.spec.ts
+    │       ├── 08_DELETE_API_Request.spec.ts
+    │       ├── 09_Mock_API_Request.spec.ts
+    │       ├── 10_Mock_API_Response.spec.ts
+    │       └── 11_Mock_From_HAR_File.spec.ts
+    ├── tests-examples/
+    │   └── demo-todo-app.spec.ts
+    └── .github/
+        └── workflows/
+            ├── playwright_auto.yml
+            └── playwright_manual.yml
+
+
+Files Content:
+
+================================================
+File: README.md
+================================================
+# Complete Playwright with TypeScript Full Course
+## [Part01 : Learn Playwright with TypeScript from Scratch](https://www.youtube.com/watch?v=788GvvcfwTY)
+  [![Watch the video](https://img.youtube.com/vi/788GvvcfwTY/hqdefault.jpg)](https://www.youtube.com/watch?v=788GvvcfwTY)
+## [Part02 : Learn Playwright with TypeScript from Scratch](https://www.youtube.com/watch?v=YfRazDhi9Fw)
+  [![Watch the video](https://img.youtube.com/vi/YfRazDhi9Fw/hqdefault.jpg)](https://www.youtube.com/watch?v=YfRazDhi9Fw)
+## [Part03 : Learn Playwright with TypeScript API Automation](https://www.youtube.com/watch?v=iGQ-qTLEPLw)
+  [![Watch the video](https://img.youtube.com/vi/iGQ-qTLEPLw/hqdefault.jpg)](https://www.youtube.com/watch?v=iGQ-qTLEPLw)
+## [Part04 : Learn Playwright with CI CD - Jenkins, Azure DevOps & GitHub Actions](https://www.youtube.com/watch?v=D44k45N6S58)
+  [![Watch the video](https://img.youtube.com/vi/D44k45N6S58/hqdefault.jpg)](https://www.youtube.com/watch?v=D44k45N6S58)
+  
+- Playwright with TypeScript Full Course Playlist - https://youtube.com/playlist?list=PLUeDIlio4THEXmQxNvKmdDxAVloGTHXMr&feature=shared
+===============================================================
+# Complete Playwright with JavaScript Full Course
+## [Part01 : Learn Playwright with JavaScript from Scratch](https://www.youtube.com/watch?v=2poXBtifpzA)
+[![Watch the video](https://img.youtube.com/vi/2poXBtifpzA/hqdefault.jpg)](https://www.youtube.com/watch?v=2poXBtifpzA)
+
+- Playwright with JavaScript UI Automation Full Course Playlist - https://bit.ly/playwright-tutorial-automation-testing
+===============================================================
+
+## [Part02 : Learn Playwright with API Automation Testing from Scratch](https://youtu.be/lM-lqPun9P8?feature=shared)
+[![Watch the video](https://img.youtube.com/vi/lM-lqPun9P8/hqdefault.jpg)](https://www.youtube.com/watch?v=lM-lqPun9P8)
+
+- Playwright API Testing Crash Course Playlist - https://bit.ly/playwright-api-testing-tutorial
+===============================================================
+
+## [Part03 : Learn Playwright with Azure DevOps Pipeline](https://www.youtube.com/watch?v=Exx2M5Pz06g)
+[![Watch the video](https://img.youtube.com/vi/Exx2M5Pz06g/hqdefault.jpg)](https://www.youtube.com/watch?v=Exx2M5Pz06g)
+
+- Playwright with Azure DevOps Pipeline Playlist - https://bit.ly/playwright-azure-devops-tutorial
+===============================================================
+
+- Playwright with Dynamics 365 CRM Application Testing - https://youtu.be/WwovRRp0f4o?si=oqPE2ux7UcDeJMm6
+
+
+
+
+================================================
+File: JenkinsFile
+================================================
+pipeline {
+    agent any
+
+        environment {
+            NODE_HOME = tool name: 'nodejs', type: 'NodeJS'  // This must match the name in Global Tool Configuration
+            PATH = "${NODE_HOME}/bin:${env.PATH}"
+        }
+
+        stages {
+
+        stage('Check Node.js Version') {
+            steps {
+                sh 'node -v'    // Verify the Node.js version
+                sh 'npm -v'     // Verify the npm version
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm ci'
+                sh 'npx playwright install --with-deps'
+            }
+        }
+        
+        stage('Run Playwright Tests') {
+            steps {
+                sh 'npx playwright test --grep PlaywrightWithJenkins'  // You can specify browsers or configurations
+            }
+        }
+    }
+}
+
+
+================================================
+File: azure-devops-pipeline.yml
+================================================
+trigger:
+  - main
+
+# schedules:
+#   - cron: "30 3 * * 1-5"
+#     displayName: Weekday Build Auto Trigger
+#     branches:
+#       include:
+#         - main
+#     always: true
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "18"
+    displayName: "Install Node.js"
+
+  - script: npm ci
+    displayName: "npm ci"
+
+  #    workingDirectory: "$(Build.SourcesDirectory)/FolderNameInAny"
+
+  - script: npx playwright install --with-deps
+    displayName: "Install Playwright browsers"
+
+  - script: npx playwright test --grep PlaywrightWithAzureDevOpsPipeline
+    displayName: "Run Playwright tests"
+    env:
+      CI: "true"
+
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    inputs:
+      testResultsFormat: "JUnit"
+      testResultsFiles: "junit-test-report.xml"
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+      testRunTitle: "My End-To-End Tests"
+    condition: succeededOrFailed()
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: playwright-report
+      artifact: playwright-report
+      publishLocation: "pipeline"
+    condition: succeededOrFailed()
+
+
+================================================
+File: azure-devops-test-plan-pipeline.yml
+================================================
+trigger:
+  - main
+
+# schedules:
+#   - cron: "30 3 * * 1-5"
+#     displayName: Weekday Build Auto Trigger
+#     branches:
+#       include:
+#         - main
+#     always: true
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: "18"
+    displayName: "Install Node.js"
+
+  #    workingDirectory: "$(Build.SourcesDirectory)/FolderNameInAny"
+
+  - script: npm ci
+    displayName: "npm ci"
+
+  - script: npx playwright install --with-deps
+    displayName: "Install Playwright browsers"
+
+  - script: npx playwright test --grep PlaywrightWithAzureDevOpsPipeline
+    displayName: "Run Playwright tests"
+    env:
+      CI: "true"
+
+  - script: npx ts-node src/utils/RunUpdate.ts
+    displayName: "Update Test Plan Test Case Status"
+    condition: always()
+
+  - task: PublishTestResults@2
+    displayName: "Publish test results"
+    inputs:
+      testResultsFormat: "JUnit"
+      testResultsFiles: "junit-test-report.xml"
+      mergeTestResults: true
+      failTaskOnFailedTests: true
+      testRunTitle: "My End-To-End Tests"
+    condition: succeededOrFailed()
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: playwright-report
+      artifact: playwright-report
+      publishLocation: "pipeline"
+    condition: succeededOrFailed()
+
+
+================================================
+File: package.json
+================================================
+{
+  "name": "playwrighttypescripttutorialfullcourse",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc",
+    "DataDrivenTesting": "npx playwright test --grep @DataDrivenTesting",
+    "Suite": "npx playwright test --grep \"@SmokeTesting|@RegressionTesting\"",
+    "SmokeTesting": "npx playwright test --grep @SmokeTesting",
+    "RegressionTesting": "npx playwright test --grep @RegressionTesting",
+    "test": "playwright test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@playwright/test": "^1.49.0",
+    "@types/node": "^22.9.3",
+    "allure-playwright": "^3.0.7"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^9.4.0",
+    "axios": "^1.7.9",
+    "csv-parse": "^5.6.0",
+    "dotenv": "^16.4.7",
+    "xlsx": "^0.18.5"
+  }
+}
+
+
+================================================
+File: playwright.config.ts
+================================================
+import { defineConfig, devices } from '@playwright/test';
+
+/**
+ * Read environment variables from file.
+ * https://github.com/motdotla/dotenv
+ */
+import dotenv from 'dotenv';
+import path from 'path';
+dotenv.config({ path: path.resolve(__dirname, '.env') });
+
+/**
+ * See https://playwright.dev/docs/test-configuration.
+ */
+export default defineConfig({
+  testDir: './tests',
+
+  // globalTimeout : 60 * 60 * 1000,
+  // Test timeout
+  timeout: 1 * 60 * 1000,
+  // Assertion timeout
+  expect: {
+    timeout: 30000
+  },
+  /* Run tests in files in parallel */
+  fullyParallel: true,
+  /* Fail the build on CI if you accidentally left test.only in the source code. */
+  forbidOnly: !!process.env.CI,
+  /* Retry on CI only */
+  retries: process.env.CI ? 1 : 0,
+  /* Opt out of parallel tests on CI. */
+  workers: process.env.CI ? 3 : 3,
+  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  reporter: [
+    ['html'],
+    ['list'],
+    //['dot'],
+    ['json', { outputFile: 'json-test-report.json' }],
+    ['junit', { outputFile: 'junit-test-report.xml' }],
+    ['allure-playwright'],
+  ],
+  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
+  use: {
+    /* Base URL to use in actions like `await page.goto('/')`. */
+    // baseURL: 'http://127.0.0.1:3000',
+
+    testIdAttribute: 'data-tab-item',
+    video: 'off',
+    screenshot: 'on',
+    headless: true,
+    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
+    trace: 'on',
+    actionTimeout: 45000,
+
+    // launchOptions: {
+    //   args: ['--start-maximized']
+    // },
+  },
+
+  // globalSetup: require.resolve('./globals/global-setup'),
+  // globalTeardown: require.resolve('./globals/global-teardown'),
+
+  /* Configure projects for major browsers */
+  projects: [
+    // {
+    //   name: 'chromium',
+    //   use: { ...devices['Desktop Chrome'] },
+    // },
+
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+
+    /* Test against mobile viewports. */
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: { ...devices['Pixel 5'] },
+    // },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 12'] },
+    // },
+
+    /* Test against branded browsers. */
+    // {
+    //   name: 'Microsoft Edge',
+    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    // },
+    {
+      name: 'Google Chrome',
+      use: {
+        ...devices['Desktop Chrome'],
+        channel: 'chrome',
+        viewport : { width: 1440, height:900 },
+        //storageState: '/storage-state/StorageState.json' 
+      }
+    },
+  ],
+
+  /* Run your local dev server before starting the tests */
+  // webServer: {
+  //   command: 'npm run start',
+  //   url: 'http://127.0.0.1:3000',
+  //   reuseExistingServer: !process.env.CI,
+  // },
+});
+
+
+================================================
+File: tsconfig.json
+================================================
+{
+    "compilerOptions": {
+      "target": "ESNext",              // Compile to the latest ECMAScript version
+      "module": "CommonJS",            // Module system for Node.js compatibility
+      "moduleResolution": "node",      // Resolve modules like Node.js
+      "strict": true,                  // Enable all strict type-checking options
+      "esModuleInterop": true,         // Allows default imports for CommonJS modules
+      "skipLibCheck": true,            // Skip type checking of declaration files for faster builds
+      "forceConsistentCasingInFileNames": true, // Ensure consistent file naming
+      "outDir": "./dist",              // Output directory for compiled JavaScript files
+      "rootDir": ".",              // Root directory for TypeScript files
+      "resolveJsonModule": true,       // Allow importing of JSON files
+      "types": ["node", "playwright"], // Include the types for Node.js and Playwright
+      "declaration": true,             // Generate .d.ts files for type declarations
+      "sourceMap": true                // Generate source maps for easier debugging
+    },
+    "include": [
+      "src/**/*.ts",   // Include all TypeScript files in the 'src' folder
+      "tests/**/*.ts",  // Include all TypeScript files in the 'tests' folder
+      "globals/*.ts"
+    ],
+    "exclude": [
+      "node_modules",  // Exclude node_modules from compilation
+      "dist"           // Exclude the output directory
+    ]
+  }
+
+================================================
+File: globals/global-setup.ts
+================================================
+import { chromium, FullConfig } from '@playwright/test';
+import login from '../src/utils/Login';
+import * as dotenv from 'dotenv';
+dotenv.config();
+
+const authFile = '/storage-state/StorageState.json';
+const username = process.env.DYN365_USERNAME ?? '';
+const password = process.env.DYN365_PASSWORD ?? '';
+const orgurl = process.env.DYN365_ORGURL ?? '';
+
+/**
+ * Author Testers Talk
+ */
+async function globalSetup(config: FullConfig): Promise<void> {
+  const { storageState } = config.projects[0].use;
+  const browser = await chromium.launch({ headless: false });
+  const page = await browser.newPage();
+  await login(page, orgurl, username, password);
+  await page.context().storageState({
+    path: authFile,
+  });
+  await browser.close();
+}
+
+export default globalSetup;
+
+================================================
+File: globals/global-teardown.ts
+================================================
+async function globalTeardown(): void {
+  console.log("Global tear down is running...");
+}
+
+export default globalTeardown;
+
+================================================
+File: selectors/commonselectors.json
+================================================
+{
+	"subAreaMenuSelectors": {
+		"DynamicSubAreaMenuSelector": "//ul[@aria-label='{0}']//span[text()='{1}']",
+		"ServiceCaseMenuSelector": "//ul[@aria-label='Service']//span[text()='Cases']",
+		"ServiceKBMenuSelector": "//ul[@aria-label='Service']//span[text()='Knowledge Search']"
+	},
+	"viewSelectors": {
+		"MyActiveCasesSelector": "//button[@type='button']//span[text()='My Active Cases']",
+		"ActiveCasesSelector": "//div[@aria-label='Views']//label[text()='Active Cases']",
+		"DynamicViewSelector": "//*[@aria-label='Views']//label[text()='{0}']",
+		"DefaultViewSelector": "//Span[text()='Open popup to change view.']/ancestor::button"
+	},
+	"advancedFilterSelectors": {
+		"openFilterSelector": "//*[@id='open-advanced-filter']",
+		"addRowFilterMenuSelector": "//*[@id='AddMenu0']",
+		"addRowSelector": "//div[@role='menu']//span[text()='Add row']",
+		"filterFieldMenuSelector": "//input[@placeholder='Select a field']//following-sibling::button",
+		"filterFieldSelector": "//span[text()='{0}']/ancestor::button",
+		"filterOperatorMenuSelector": "//input[@aria-label='Operator']//following-sibling::button",
+		"filterOperatorSelector": "//div[@aria-label='Operator']//span[text()='Contains']",
+		"filterOperatorContainsSelect": "//div[@aria-label='Operator']//span[text()='Contains']//ancestor::button",
+		"filterInputTextSelector": "//input[@placeholder='Value']",
+		"applyFilterButtonSelector": "//*[@id='applyFilters']"
+	},
+	"gridSelectors": {
+		"gridFirstRowSelector": "[data-id='entity_control-pcf_grid_control_container'] [role='rowgroup'] [aria-rowindex='2'] [aria-colindex='2']",
+		"cswGridRowSelector": "//div[@data-id='entity_control-pcf_grid_control_container']//descendant::a[@role='link']"
+	},
+	"FormSelectors": {
+		"textAreaSelector": "//textarea[@aria-label='{0}']",
+		"EditFormSelector": "//div[@data-id='editFormRoot']",
+		"QuickCreateFormSelector": "[data-id='quickCreateRoot']"
+	},
+	"FormControlSelectors": {
+		"CheckBoxSelect": "[data-id='{0}.fieldControl-checkbox-select']",
+		"CheckBoxToggle": "input[data-id='{0}.fieldControl-checkbox-toggle']",
+		"CurrencyTextBox": "[data-id='{0}.fieldControl-currency-text-input']",
+		"DateTimeTextBox": "[data-id='{0}.fieldControl-date-time-input']",
+		"DecimalTextBox": "[data-id='{0}.fieldControl-decimal-number-text-input']",
+		"DurationComboBoxText": "[data-id='{0}.fieldControl-duration-combobox-text']",
+		"EmailActionIcon": "[data-id='{0}.fieldControl-mail-action-icon']",
+		"FloatNumberTextBox": "[data-id='{0}.fieldControl-floating-point-text-input']",
+		"LangaugeSelect": "[data-id='{0}.fieldControl-language-picker-select']",
+		"MailTextBox": "[data-id='{0}.fieldControl-mail-text-input']",
+		"MultiSelect": "[data-id='{0}-FieldSectionItemContainer'] [title='{1}']",
+		"MultiSelectTextBox": "[data-id='{0}-FieldSectionItemContainer'] [id='{0}_ledit']",
+		"OptionSet": "[data-id='{0}.fieldControl-option-set-select']",
+		"PhoneActionIcon": "[data-id='{0}.fieldControl-phone-action-icon']",
+		"PhoneTextBox": "[data-id='{0}.fieldControl-phone-text-input']",
+		"PicklistStatusComboBox": "[data-id='{0}.fieldControl-pickliststatus-comboBox-text']",
+		"RecurranceDialogEvery": "[data-id='{0}.fieldControl.everylabelEveryControlID-whole-number-text-input']",
+		"RichTextEditorBody": "[class^='cke_editable cke_editable_themed cke_contents_ltr']",
+		"RichTextEditorBodyDescription": "[class^='cke_editable cke_editable_themed cke_contents_ltr'] > div",
+		"RichTextEditorChildFrame": "[class^='cke_wysiwyg_frame']",
+		"RichTextEditorFrame": "[data-id='{0}.fieldControl_container'] [class='fullPageContentEditorFrame']",
+		"RecurrenceDialogTime": "[data-id='{0}.fieldControl_container'] input",
+		"SubjectTree": "[data-id='{0}.fieldControl-subject-tree-input']",
+		"TextBox": "[data-id='{0}.fieldControl-text-box-text']",
+		"TickerActionIcon": "[data-id='{0}.fieldControl-ticker-action-icon']",
+		"TickerTextBox": "[data-id='{0}.fieldControl-ticker-text-input']",
+		"TimeComboBox": "[id='{0}_fabric_combobox-input']",
+		"TimeZoneSelect": "[data-id='{0}.fieldControl-timezone-picker-select']",
+		"ToggleContainer": "[data-id='{0}.fieldControl-toggle-container']",
+		"TwoOptionListSelect": "[data-id='{0}.fieldControl-checkbox-select']",
+		"TwoOptionListSelectContainer": "[data-id='{0}.fieldControl-checkbox-select-container']",
+		"URLActionIcon": "[data-id='{0}.fieldControl-url-action-icon']",
+		"URLTextBox": "[data-id='{0}.fieldControl-url-text-input']",
+		"WholeNumberTextBox": "[data-id='{0}.fieldControl-whole-number-text-input']",
+		"LookupButton": "//input[@data-id='{0}.fieldControl-LookupResultsDropdown_{0}_textInputBox_with_filter_new']//following-sibling::button",
+		"TextBoxValueSelector": "//input[@data-id='{0}.fieldControl-text-box-text']"
+	},
+	"CommandBarFormButtonsSelectors": {
+		"DynamicCommandBarButtonSelector": "//span[text()='{0}']//ancestor::button",
+		"SaveButton": "//span[text()='Save']//ancestor::button"
+	},
+	"ResolveCaseFormSelector": {
+		"DynamicTextBoxSelector": "//div[@data-id='{0}']//input[@aria-label='{1}']",
+		"BillableTimeSelector": "//div[@data-id='billabletime_id']//input[@aria-label='Billable Time']",
+		"DynamicFooterButtonSelector": "//div[@data-id='dialogFooter']//button[@aria-label='{0}']"
+	},
+	"cswSelectors": {
+		"SiteMapButtonSelector": "//div[@aria-label='{0}']//button[@title='{1}']//span",
+		"ServiceCaseMenuSelector": "//ul[@aria-label='Service']//span[text()='Cases']",
+		"smartAssistKBSearchSelector": "//button[@aria-label='Knowledge search']//span",
+		"smartAssistKBSearchTextboxSelector": "//*[@id='MscrmControls.KnowledgeControl.KnowledgeControl-ProductivityPanel-SearchTextBox']",
+		"smartAssistKBSearchResultsSelector": "//ul[@id='MscrmControls.KnowledgeControl.KnowledgeControl-kbSearchResultsListId']//button[@title='Link this article to the current record']",
+		"smartAssistKBArticleLinkedtoCaseSelector": "//ul[@id='MscrmControls.KnowledgeControl.KnowledgeControl-kbSearchResultsListId']//label[@aria-label='This article is linked to the Case record']",
+		"smartAssistKBArticleUnlinktoCaseSelector": "//ul[@id='MscrmControls.KnowledgeControl.KnowledgeControl-kbSearchResultsListId']//button[@aria-label='Unlink']",
+		"homeTabSelector": "//div[@role='tablist']//button[@aria-label='Home']",
+		"dashboardTabSelector": "//div[@role='tablist']//span[text()='Customer Service Agent Dashboard']",
+		"defaultCaseViewSelector": "//div[@aria-label='My Active Cases']",
+		"gridSelector": "//div[@aria-label='CC_ReadonlyGrid_Name']//div[@tabindex='0']",
+		"gridURLSelector": "//div[@aria-label='CC_ReadonlyGrid_Name']//div[@tabindex='0']//a[@tabindex='-1']",
+		"globalSearchButtonSelector": "//button[@id='searchLauncher-button']",
+		"searchInputSelector": "//input[@aria-label='Search box']",
+		"searchFilterSelector": "//select[@data-id='categorized-search-filter-select']",
+		"searchFilterOptionSelector": "//option[text()='Account']",
+		"searchGridSelector": "//div[@id='MscrmControls.Grid.GridControl-account-MscrmControls.Grid.GridControl.account-GridListContainer']//li",
+		"knowledgeSearchInputSelector": "//input[@id='MscrmControls.KnowledgeControl.KnowledgeControl-SearchTextBox']",
+		"knowledgeSearchResultsSelector": "//div[@id='MscrmControls.KnowledgeControl.KnowledgeControl-SearchAndDataBlockContainer']//a[@role='button']",
+		"inboxViewTabSelector": "//div[@role='tablist']//button[@aria-label='Inbox']"
+	},
+	"ReactivateCaseDialogSelector": {
+		"ReactivateButtonSelector": "//div[@data-id='confirmdialog']//button[@aria-label='Reactivate']"
+	},
+	"GlobalCommandBarSelectors": {
+		"globalQuickCreateButtonSelector": "//button[@aria-label='Create New Record. New']"
+	},
+	"CommandBarGlobalButtonsSelectors": {
+		"AccountManager": "[id='mectrl_main_trigger']",
+		"CommandBarSelector": "[data-id='topBar'] [data-lp-id*='commandbar-Global:']",
+		"CustomButton": "[data-id='new.ApplicationRibbon.{0}.Button']",
+		"Dynamics365TopBarButton": "[data-id='dynamics-button']",
+		"ListOfButtons": "[data-id='topBar'] [data-lp-id*='commandbar-Global:'] li",
+		"PersonalSettingsLauncher": "[data-id='topBar'] [data-id='personalSettingsLauncher']",
+		"PersonalSettingsLauncherFlyoutAbout": "[data-id='__flyoutRootNode'] [data-id='personalSettingsLauncher'] [data-id='SettingsMenu.About']",
+		"QuickCreateLauncher": "[data-id='topBar'] [data-id='quickCreateLauncher']",
+		"QuickCreateLauncherFlyout": "[data-id='__flyoutRootNode'] [data-id='quickCreateLauncher']",
+		"QuickCreateLauncherFlyoutButton": "[data-id*='quickCreateMenuButton_{0}']",
+		"QuickCreateLauncherActivitiesFlyout": "[id*='id'][id*='_buttoncrm_header_global_flyout']",
+		"TopBar": "[data-id='topBar']",
+		"UserInformationLauncher": "[data-id='userInformationLauncher']"
+	},
+	"QuickCreateCaseFormSelectors": {
+		"CustomerLookupSelector": "//div[@aria-label='Quick Create: Case']//input[@aria-label='Customer, Lookup']//following-sibling::button",
+		"CaseTitleSelector": "//div[@aria-label='Quick Create: Case']//input[@aria-label='Case Title']",
+		"DescriptionSelector": "//div[@aria-label='Quick Create: Case']//textarea[@aria-label='Description']",
+		"SaveCloseButtonSelector": "//div[@aria-label='Quick Create: Case']//button[@data-id='quickCreateSaveAndCloseBtn']"
+	}
+}
+
+================================================
+File: src/fixture/TestFixture.ts
+================================================
+import { test as base } from '@playwright/test';
+import { HomePage } from '../pages/HomePage';
+import { ResultPage } from '../pages/ResultPage';
+import { PlaylistPage } from '../pages/PlaylistPage';
+import { loadTestData } from '../utils/JsonHelper';
+import { TestData } from '../interface/Module1TestData.interface';
+
+/**
+ * author Testers Talk
+ */
+export const test = base.extend<{
+    saveLogs: void;
+    homePage: HomePage;
+    resultPage: ResultPage;
+    playlistPage: PlaylistPage;
+    testData: TestData;
+}>({
+    saveLogs: [async ({ }, use) => {
+        console.log('Global before is running...');
+
+        await use();
+
+        console.log('Global afterEach is running...');
+    },
+    { auto: true }],
+    homePage: async ({ page }, use) => {
+        const homePage = new HomePage(page);
+        await use(homePage);
+    },
+    resultPage: async ({ page }, use) => {
+        const resultPage = new ResultPage(page);
+        await use(resultPage);
+    },
+    playlistPage: async ({ page }, use) => {
+        const playlistPage = new PlaylistPage(page);
+        await use(playlistPage);
+    },
+    testData: async ({ }, use) => {
+        const data = await loadTestData();
+        await use(data);
+    }
+});
+
+export { expect } from '@playwright/test';
+
+================================================
+File: src/interface/BookingAPI.interface.ts
+================================================
+interface BookingAPI {
+    "firstname": string,
+    "lastname": string,
+    "totalprice": number,
+    "depositpaid": boolean,
+    "additionalneeds": string,
+    "bookingdates": BookingDates
+}
+
+interface BookingDates {
+    "checkin": string,
+    "checkout": string
+}
+
+================================================
+File: src/interface/Module1TestData.interface.ts
+================================================
+export interface Module1TestData {
+    "Skill1": string;
+    "Skill2": string;
+    "Skill3": string;
+    "Skill4": string;
+    "Skill5": string;
+    "Skill6": string;
+    "Skill7": string;
+}
+
+export interface TestData {
+    Module1TestData?: Module1TestData;
+}
+
+================================================
+File: src/interface/TestResults.interface.ts
+================================================
+export interface TestResult {
+    title: string;
+    status: string;
+}
+
+export interface Suite {
+    title: string;
+    file: string;
+    specs: {
+        title: string;
+        tests: {
+            results: {
+                status: string;
+            }[];
+        }[];
+    }[];
+}
+
+export interface TestReport {
+    config: any; 
+    suites: Suite[];
+    errors: any[]; 
+    stats: any; 
+}
+
+================================================
+File: src/pages/HomePage.ts
+================================================
+import { Locator, Page } from "@playwright/test";
+
+export class HomePage {
+    readonly page: Page;
+    readonly searchTextbox: Locator;
+
+    constructor(page: Page) {
+        this.page = page;
+
+        // Elements
+        this.searchTextbox = page.locator('#APjFqb');
+    }
+
+    // Methods
+    async goToURL() {
+        if (process.env.TEST_EXECUTION_ENV == 'qa') {
+            await this.page.goto(`${process.env.GOOGLE_URL}`);
+            console.log(`Tests are running in ${process.env.TEST_EXECUTION_ENV} env.`)
+        } else if (process.env.TEST_EXECUTION_ENV == 'dev') {
+            await this.page.goto(`${process.env.GOOGLE_URL}`);
+            console.log(`Tests are running in ${process.env.TEST_EXECUTION_ENV} env.`)
+        }
+    }
+
+    async searchWithKeywords(keyword: string) {
+        await this.searchTextbox.click();
+        await this.searchTextbox.fill(keyword);
+        await this.searchTextbox.press('Enter');
+    }
+}
+
+================================================
+File: src/pages/PlaylistPage.ts
+================================================
+import { expect, Locator, Page } from "@playwright/test";
+
+export class PlaylistPage {
+    readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
+
+        // Elements
+    }
+
+    // Methods
+    async validatePageTitle(title: string) {
+        await expect(this.page).toHaveTitle(title);
+    }
+}
+
+================================================
+File: src/pages/ResultPage.ts
+================================================
+import { Locator, Page } from "@playwright/test";
+
+export class ResultPage {
+
+    readonly page: Page;
+
+    constructor(page: Page) {
+        this.page = page;
+
+        // Elements
+    }
+
+    // Methods
+    async clickOnPlaylist(link: string) {
+        await this.page.getByRole('link', { name: link }).first().click();
+    }
+}
+
+================================================
+File: src/utils/APIHelper.ts
+================================================
+export async function formatAPIRequest(template: string, values: any[]): Promise<string> {
+    return template.replace(/{(\d+)}/g, (match, p1) => {
+        const index = parseInt(p1, 10);
+        return index < values.length ? String(values[index]) : match;
+    });
+}
+
+export async function getPOSTAPIRequestBody(fname: string, lname: string, price: number,
+    depositepaid: boolean, additionalneeds: string, checkin: string, checkout: string) {
+
+    const apiRequest: BookingAPI = {
+        firstname: fname,
+        lastname: lname,
+        totalprice: price,
+        depositpaid: depositepaid,
+        additionalneeds: additionalneeds,
+        bookingdates: {
+            checkin: checkin,
+            checkout: checkout
+        }
+    }
+    return apiRequest;
+} 
+
+================================================
+File: src/utils/AzureDevOpsHelper.ts
+================================================
+import { request, expect } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config();
+
+import axios from 'axios';
+
+const credentials = Buffer.from(`${process.env.AZURE_DEVOPS_USER}:${process.env.AZURE_DEVOPS_PASS}`).toString('base64');
+
+/**
+ * Testers Talk
+ */
+class AzureDevOps {
+    constructor() { }
+
+    /**
+     * Testers Talk
+     */
+    async updateTestCaseStatus(testCaseId: string, testCaseStatus: string): Promise<void> {
+        try {
+            const testPlanId = process.env.TEST_PLAN_ID as string;
+            const testSuiteId = process.env.TEST_SUITE_ID as string;
+
+            const testPointId = await this.getTestPoint(testPlanId, testSuiteId, testCaseId);
+            await this.updateTestPointStatus(testPlanId, testSuiteId, testPointId, testCaseStatus.charAt(0).toUpperCase() + testCaseStatus.slice(1));
+
+            console.log(`Updated Test Case ID - ${testCaseId} as ${testCaseStatus} in test plan`);
+        } catch (error) {
+            console.error('Error in updating test case status:', error);
+        }
+    }
+
+    /**
+     * Testers Talk
+     */
+    async getTestPoint(testPlanId: string, testSuiteId: string, testCaseId: string): Promise<string> {
+        const values = [testPlanId, testSuiteId, testCaseId];
+        const URL = process.env.TEST_PLAN_GET_API!.replace(/{(\d+)}/g, (match, number) => values[number] || match);
+        const getTestPointResponse = await axios.get(URL, {
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': `Basic ${credentials}`
+            },
+        });
+
+        const jsonResponse = await getTestPointResponse.data;
+        expect(getTestPointResponse.status).toBe(200);
+        return jsonResponse.value[0].id;
+    }
+
+    /**
+     * Testers Talk
+     */
+    async updateTestPointStatus(testPlanId: string, testSuiteId: string, testPointId: string, testCaseStatus: string): Promise<void> {
+        const values = [testPlanId, testSuiteId, testPointId];
+        const URL = process.env.TEST_PLAN_PATCH_API!.replace(/{(\d+)}/g, (match, number) => values[number] || match);
+
+        const requestBody = {
+            "outcome": testCaseStatus // Passed, Failed, Blocked, etc.
+        };
+
+        try {
+            const patchAPIResponse = await axios.patch(URL, requestBody, {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Basic ${credentials}`
+                }
+            });
+            expect(patchAPIResponse.status).toBe(200);
+        } catch (error: any) {
+            console.error('Error occurred during API request:', error.message);
+            console.error('Stack trace:', error.stack);
+        }
+    }
+}
+
+export default AzureDevOps;
+
+================================================
+File: src/utils/Common.ts
+================================================
+import { Page } from '@playwright/test';
+import AzureDevOps from '../../src/utils/AzureDevOpsHelper';
+import * as fs from 'fs';
+import { TestReport } from '../../src/interface/TestResults.interface';
+
+import dotenv from 'dotenv';
+dotenv.config();
+
+
+/**
+ * Author Testers Talk
+ */
+export const stringFormat = (str: string, ...args: (string | number)[]): string =>
+    str.replace(/{(\d+)}/g, (match, index) => args[index]?.toString() || "");
+
+/**
+ * Author Testers Talk
+ */
+export async function waitUntilAppIdle(page: Page): Promise<void> {
+    try {
+        // Wait for the function to evaluate in the browser context.
+        await page.waitForFunction(() => (window as any).UCWorkBlockTracker?.isAppIdle());
+    } catch (e) {
+        // Log error with type check for error object
+        console.log(`waitUntilIdle failed, ignoring.., error: ${(e as Error).message}`);
+    }
+}
+
+/**
+ * Author Testers Talk
+ */
+export async function navigateToApps(
+    page: Page,
+    appId: string | number,
+    appName: string
+): Promise<void> {
+    console.log('Navigate to ' + appName + ' - Start');
+    await page.goto(`/main.aspx?appid=${appId.toString()}`);
+    await page.getByRole('button', { name: appName }).isVisible();
+    console.log('Navigated to ' + appName + ' - Success');
+}
+
+/**
+ * Author Testers Talk
+ */
+async function readJsonReport() {
+    const azureDevOps = new AzureDevOps();
+    const filePath = 'json-test-report.json';
+
+    if (process.env.UPDATE_TEST_PLAN === 'Yes' && process.env.PIPELINE === 'Yes') {
+
+        await waitForFile(filePath);
+
+        try {
+            const data: TestReport = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            data.suites.forEach(suite => {
+                suite.specs.forEach(spec => {
+                    const testCaseTitle = `${spec.title}`;
+                    spec.tests.forEach(test => {
+                        test.results.forEach(async result => {
+                            const testCaseStatus = `${result.status}`;
+
+                            const matches = testCaseTitle.match(/\[(.*?)\]/);
+                            const numbersPart = matches?.[1];
+                            const numbersArray: number[] = numbersPart?.split(',').map(num => parseInt(num.trim(), 10)) ?? [];
+
+                            for (const testCaseId of numbersArray) {
+                                console.log(`Test Case & Status : ${testCaseId} : ${testCaseStatus}`);
+                                await azureDevOps.updateTestCaseStatus(String(testCaseId), testCaseStatus);
+                            }
+                        });
+                    });
+                });
+            });
+        } catch (error) {
+            console.error('Error while readinf JSON report' + error)
+        }
+    } else {
+        console.log('Update test plan or pipeline conditions not met.');
+    }
+}
+
+
+/**
+ * Author Testers Talk
+ */
+async function waitForFile(filePath: string) {
+    const fs = require('fs').promises;
+
+    let fileExists = false;
+    while (!fileExists) {
+        try {
+            await fs.access(filePath);
+            fileExists = true; // If no error is thrown, the file exists
+        } catch (err) {
+            // File does not exist yet, wait and try again
+            console.log('Waiting for the file to be available...');
+            await new Promise(resolve => setTimeout(resolve, 5000)); // Retry every 5 seconds
+        }
+    }
+    console.log(`File ${filePath} is now available!`);
+}
+
+export async function updateTestCaseStatusInTestPlan() {
+    await readJsonReport();
+}
+
+================================================
+File: src/utils/ExcelHelper.ts
+================================================
+// Import xlsx
+import * as EXCEL from 'xlsx';
+import fs from 'fs';
+
+// Define test data structure
+interface TestRecord {
+    Skill1: string,
+    Skill2: string
+}
+
+// Create method to read excel file
+export function readExcelFile(filePath: string) {
+
+    // Read the excel file as binary string
+    const file = fs.readFileSync(filePath);
+
+    // parse into workbook
+    const workbook = EXCEL.read(file);
+
+    // Get first sheet
+    const sheet = workbook.Sheets[workbook.SheetNames[0]];
+
+    // convert sheet into json
+    const rawData: any[] = EXCEL.utils.sheet_to_json(sheet, { header: 1 })
+
+    // convert raw data into TestRecord
+    const records: TestRecord[] = rawData.slice(1).map((column: any) => ({
+        Skill1: column[0],
+        Skill2: column[1]
+    }))
+    return records;
+}
+
+================================================
+File: src/utils/JsonHelper.ts
+================================================
+import fs from 'fs';
+import path from 'path';
+import { TestData } from '../interface/Module1TestData.interface';
+
+/**
+ * author Testers Talk
+ */
+export async function loadTestData() {
+    const environment = `${process.env.TEST_EXECUTION_ENV}` || 'qa';
+    const directoryPath = path.join(__dirname, `../../test-data/`, environment);
+
+    const jsonData: TestData = {};
+    fs.readdirSync(directoryPath).forEach(file => {
+        if (path.extname(file) === '.json') {
+            const filePath = path.join(directoryPath, file);
+            const fileContent: TestData = JSON.parse(fs.readFileSync(filePath, 'utf-8'));
+            Object.assign(jsonData, fileContent); // Merge the content into a single object
+        }
+    });
+    return jsonData;
+}
+
+================================================
+File: src/utils/Login.ts
+================================================
+import { Page } from '@playwright/test';
+
+export async function login(
+    page: Page, 
+    orgurl: string, 
+    username: string, 
+    password: string 
+): Promise<void> { 
+    await page.goto(orgurl);
+    await page.locator('input[placeholder="Email, phone, or Skype"]').click();
+    await page.locator('input[placeholder="Email, phone, or Skype"]').fill(username);
+    await page.getByRole('button', { name: 'Next' }).click();
+    await page.locator('input[placeholder="Password"]').click();
+    await page.locator('input[placeholder="Password"]').fill(password);
+    await Promise.all([
+        page.waitForNavigation(),
+        page.getByRole('button', { name: 'Sign in' }).click(),
+        page.getByRole('button', { name: 'Yes' }).click(),
+    ]);
+}
+
+export default login;
+
+
+================================================
+File: src/utils/RunUpdate.ts
+================================================
+import { updateTestCaseStatusInTestPlan } from '../../src/utils/Common';
+
+async function run() {
+  try {
+    await updateTestCaseStatusInTestPlan();
+  } catch (error) {
+    console.error('Error executing updateTestCaseStatusInTestPlan:', error);
+  }
+}
+
+run();
+
+================================================
+File: test-data/Clock_Timer_Demo.html
+================================================
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Testers Talk</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet"> <!-- Font Awesome -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: flex-start; /* Aligns items to the top */
+            align-items: center; /* Centers content horizontally */
+            flex-direction: column;
+            padding-top: 20px; /* Added padding for space at the top */
+        }
+        h1 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        #calendar-icon {
+            font-size: 50px;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        #clock {
+            font-size: 48px;
+            font-weight: bold;
+        }
+        #flash-offer {
+            font-size: 24px;
+            color: red;
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #ffeb3b;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+        }
+        #flash-offer.started {
+            display: block; /* Show the banner when started */
+        }
+        #timer {
+            font-size: 30px;
+            color: #FF5722;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .video-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        iframe {
+            width: 480px; /* Adjusted width for 2 videos per column */
+            height: 270px; /* Adjusted height to maintain 16:9 aspect ratio */
+            border: none;
+        }
+        .serial-number {
+            font-size: 70px;  /* Increased font size to 70px */
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+        .video-item {
+            display: flex;
+            align-items: center;
+        }
+        /* Banner styling for the flash offer */
+        .offer-banner {
+            font-size: 30px;
+            color: #fff;
+            background-color: #d32f2f;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 5px;
+            display: none; /* Initially hidden */
+            position: fixed;
+            top: 20px;
+            right: 20px; /* Top-right corner */
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Testers Talk</h1>
+    
+    <!-- Calendar Icon -->
+    <div id="calendar-icon" class="fas fa-calendar-alt"></div>
+    
+    <!-- Clock Display -->
+    <div id="clock"></div>
+    
+    <!-- Flash Offer Section -->
+    <div id="flash-offer" class="started">
+        Flash Offer Started! Ends in <span id="timer">02:00</span> minutes
+    </div>
+
+    <!-- Flash Offer Banner -->
+    <div id="offer-banner" class="offer-banner">
+        The Flash Offer has ended!
+    </div>
+
+    <script>
+        // Update the clock
+        function updateClock() {
+            const now = new Date();
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const month = String(now.getMonth() + 1).padStart(2, '0'); // Month is 0-based
+            const year = now.getFullYear();
+            
+            // Format date and time in yyyy-mm-ddThh:mm:ss
+            const dateTimeString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
+
+            // Update the clock element
+            document.getElementById('clock').textContent = dateTimeString;
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+
+        // Initialize the clock immediately
+        updateClock();
+        
+        // Flash Offer Timer
+        const flashOfferDuration = 2 * 60 * 1000; // 2 minutes in milliseconds
+        let flashOfferStartTime = Date.now(); // Save the start time when the offer starts
+        const timerElement = document.getElementById('timer');
+        const flashOfferElement = document.getElementById('flash-offer');
+        const offerBannerElement = document.getElementById('offer-banner');
+
+        function updateFlashOfferTimer() {
+            const elapsedTime = Date.now() - flashOfferStartTime; // Time passed since the offer started
+
+            if (elapsedTime < flashOfferDuration) {
+                const remainingTime = flashOfferDuration - elapsedTime; // Time remaining
+                const minutes = String(Math.floor(remainingTime / 60000)).padStart(2, '0'); // Convert milliseconds to minutes
+                const seconds = String(Math.floor((remainingTime % 60000) / 1000)).padStart(2, '0'); // Convert remaining milliseconds to seconds
+                timerElement.textContent = `${minutes}:${seconds}`;
+            } else {
+                // Once the offer ends, hide the Flash Offer message
+                flashOfferElement.style.display = 'none'; // Hide the "Flash Offer Started!" message
+                showOfferBanner(); // Show the offer banner
+            }
+        }
+
+        // Show Flash Offer started banner when offer starts
+        flashOfferElement.classList.add('started');
+
+        // Show the offer banner for 30 seconds
+        function showOfferBanner() {
+            offerBannerElement.style.display = 'block'; // Show the offer banner
+            setTimeout(() => {
+                offerBannerElement.style.display = 'none'; // Hide after 30 seconds
+            }, 30000); // 30000ms = 30 seconds
+        }
+
+        // Update the flash offer timer every second
+        setInterval(updateFlashOfferTimer, 1000);
+
+        // Initialize the flash offer timer immediately
+        updateFlashOfferTimer();
+    </script>
+
+    <!-- Video Containers: Left and Right Columns -->
+    <div class="video-container">
+        <!-- Left Column (Video 1 & 3) -->
+        <div class="video-column">
+            <div class="video-item">
+                <div class="serial-number">#1</div>
+                <iframe src="https://www.youtube.com/embed/788GvvcfwTY" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="video-item">
+                <div class="serial-number">#3</div>
+                <iframe src="https://www.youtube.com/embed/iGQ-qTLEPLw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <!-- Right Column (Video 2 & 4) -->
+        <div class="video-column">
+            <div class="video-item">
+                <div class="serial-number">#2</div>
+                <iframe src="https://www.youtube.com/embed/YfRazDhi9Fw" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <div class="video-item">
+                <div class="serial-number">#4</div>
+                <iframe src="https://www.youtube.com/embed/D44k45N6S58" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+================================================
+File: test-data/api_requests/Dynamic_POST_API_Request.json
+================================================
+{
+    "firstname": "{0}",
+    "lastname": "{1}",
+    "totalprice": "{2}",
+    "depositpaid": true,
+    "bookingdates": {
+        "checkin": "2025-01-15",
+        "checkout": "2025-01-17"
+    },
+    "additionalneeds": "breakfast"
+}
+
+================================================
+File: test-data/api_requests/PATCH_API_Request.json
+================================================
+{
+    "firstname": "Testers Talk"
+}
+
+================================================
+File: test-data/api_requests/POST_API_Request.json
+================================================
+{
+    "firstname": "playwright typescript by testers talk",
+    "lastname": "playwright javascript by testers talk",
+    "totalprice": 1000,
+    "depositpaid": true,
+    "bookingdates": {
+        "checkin": "2025-01-15",
+        "checkout": "2025-01-17"
+    },
+    "additionalneeds": "breakfast"
+}
+
+================================================
+File: test-data/api_requests/PUT_API_Request.json
+================================================
+{
+    "firstname": "cypress by testers talk",
+    "lastname": "javascript by testers talk",
+    "totalprice": 1000,
+    "depositpaid": true,
+    "bookingdates": {
+        "checkin": "2025-01-15",
+        "checkout": "2025-01-17"
+    },
+    "additionalneeds": "breakfast"
+}
+
+================================================
+File: test-data/api_requests/Token_API_Request.json
+================================================
+{
+    "username": "admin",
+    "password": "password123"
+}
+
+================================================
+File: test-data/dev/Module1TestData.json
+================================================
+{
+    "Module1TestData": {
+        "Skill1": "API Testing by Testers Talk",
+        "Skill2": "Rest Assured by Testers Talk",
+        "Skill3": "Postman by Testers Talk"
+    }
+}
+
+================================================
+File: test-data/qa/Module1TestData.json
+================================================
+{
+    "Module1TestData": {
+        "Skill1": "Playwright by Testers Talk",
+        "Skill2": "Cypress by Testers Talk",
+        "Skill3": "JavaScript by Testers Talk",
+        "Skill4": "API Testing by Testers Talk",
+        "Skill5": "Postman by Testers Talk",
+        "Skill6": "Rest Assured by Testers Talk",
+        "Skill7": "SpecFlow by Testers Talk"
+    }
+}
+
+================================================
+File: test-data/qa/testdata.csv
+================================================
+Skill1,Skill2
+Playwright by Testers Talk,SpecFlow by Testers Talk
+Cypress by Testers Talk,Postman by Testers Talk
+JavaScript by Testers Talk,Rest Assured by Testers Talk
+API Testing by Testers Talk,API Testing by Testers Talk
+Postman by Testers Talk,JavaScript by Testers Talk
+Rest Assured by Testers Talk,Cypress by Testers Talk
+SpecFlow by Testers Talk,Playwright by Testers Talk
+
+================================================
+File: test-data/qa/testdata.json
+================================================
+{
+    "TestDataSet1": {
+        "Skill1": "Playwright by Testers Talk",
+        "Skill2": "Cypress by Testers Talk",
+        "Skill3": "JavaScript by Testers Talk",
+        "Skill4": "API Testing by Testers Talk",
+        "Skill5": "Postman by Testers Talk",
+        "Skill6": "Rest Assured by Testers Talk",
+        "Skill7": "SpecFow by Testers Talk"
+    },
+    "TestDataSet2": {
+        "Skill1": "SpecFow by Testers Talk",
+        "Skill2": "Rest Assured by Testers Talk",
+        "Skill3": "Postman by Testers Talk",
+        "Skill4": "API Testing by Testers Talk",
+        "Skill5": "JavaScript by Testers Talk",
+        "Skill6": "Cypress by Testers Talk",
+        "Skill7": "Playwright by Testers Talk"
+    }
+}
+
+================================================
+File: tests/count_tests.spec.ts
+================================================
+// Import playwright module
+import { test } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Count total tests in playwright report', async ({ page }) => {
+
+    const reportPath = 'file:///path/PlaywrightTypeScriptTutorialFullCourse/screenshots/playwright-report/index.html';
+    await page.goto(reportPath);
+
+   // Object to store the counts of tests (total, passed, failed, flaky) per spec file
+  const testStatusCounts: Record<string, { total: number, passed: number, failed: number, flaky: number, skipped: number }> = {};
+
+  // Get all chips (each representing a spec file)
+  const chips = await page.locator('.chip').all();
+
+  for (const chip of chips) {
+    // Extract the spec file path from the header
+    const filePath = await chip.locator('.chip-header span').textContent();
+
+    if (filePath) {
+      let totalCount = 0;
+      let passedCount = 0;
+      let failedCount = 0;
+      let flakyCount = 0;
+      let skippedCount = 0;
+
+      // Get all test entries under this spec file
+      const testEntries = await chip.locator('.test-file-test').all();
+
+      for (const testEntry of testEntries) {
+        totalCount++; // Increment the total test count
+
+        // Check the test status (success, failure, flaky)
+        const testStatusIcon = await testEntry.locator('.test-file-test-status-icon svg').getAttribute('class');
+
+        // Check for passed tests
+        if (testStatusIcon?.includes('color-icon-success')) {
+          passedCount++;
+        }
+        // Check for failed tests
+        else if (testStatusIcon?.includes('color-text-danger')) {
+          failedCount++;
+        }
+        // Check for skipped tests (replace with actual class if different)
+        else if (testStatusIcon?.includes('octicon')) {
+            skippedCount++;
+        }
+        // For flaky tests, you can use another class or rule (adjust this if you have flaky indicators)
+        else if (testStatusIcon?.includes('color-icon-warning')) {
+          flakyCount++;
+        }
+      }
+
+      // Store the counts for this spec file
+      testStatusCounts[filePath] = {
+        total: totalCount,
+        passed: passedCount,
+        failed: failedCount,
+        flaky: flakyCount,
+        skipped: skippedCount
+      };
+    }
+  }
+
+  // Print the result (for debugging or checking the counts)
+  console.log(testStatusCounts);
+
+});
+
+================================================
+File: tests/example.spec.ts
+================================================
+import { test, expect } from '@playwright/test';
+
+test('has title', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Expect a title "to contain" a substring.
+  await expect(page).toHaveTitle(/Playwright/);
+});
+
+test('get started link', async ({ page }) => {
+  await page.goto('https://playwright.dev/');
+
+  // Click the get started link.
+  await page.getByRole('link', { name: 'Get started' }).click();
+
+  // Expects page to have a heading with the name of Installation.
+  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
+});
+
+
+================================================
+File: tests/Chapter01/01_Record_Test.spec.ts
+================================================
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('[3] Record a test', { tag: ['@PlaywrightWithAzureDevOpsPipeline','@PlaywrightWithGitHubActions'] }, async ({ page }) => {
+
+  console.log('Test execution started...');
+  await test.step('Navigating to URL', async () => {
+    await page.goto('https://github.com/');
+    await page.getByRole('link', { name: 'Sign in' }).click();
+  });
+
+  await test.step('Enter username & password', async () => {
+    await page.getByLabel('Username or email address').click();
+    await page.getByLabel('Username or email address').fill('testerstalk');
+    await page.getByLabel('Password').click();
+    await page.getByLabel('Password').fill('test123');
+  });
+
+  await test.step('Click on sign in', async () => {
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+  });
+
+  await test.step('Validate error message', async () => {
+    await expect(page.getByRole('alert')).toContainText('Incorrect username or password.');
+  });
+});
+
+/**
+ * Author Testers Talk
+ */
+test('[8] Test 2 will fail', { tag: ['@PlaywrightWithAzureDevOpsPipeline','@PlaywrightWithGitHubActions'] }, async ({ page }) => {
+  await page.goto('https://www.youtube.com/@testerstalk');
+  expect(true).toBe(false);
+});
+
+================================================
+File: tests/Chapter01/02_First_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('My First Playwright TypeScript Test', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+================================================
+File: tests/Chapter01/03_RecordAtCursor_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Record at cursor test', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+    
+    await expect(page.getByRole('link', { name: 'Playwright Tutorial Full' })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Playwright API Testing Tutorial Crash Course' })).toBeVisible();
+    await expect(page.getByLabel('Playwright Tutorial Full Course 2024').locator('#video-title')).toContainText('Playwright Tutorial Full Course 2024 | Playwright Testing Tutorial');
+    await expect(page.getByLabel('Playwright API Testing Tutorial Crash Course 2024').locator('#video-title')).toContainText('Playwright API Testing Tutorial Crash Course 2024');
+});
+
+
+
+================================================
+File: tests/Chapter01/04_Codegen_Test.spec.ts
+================================================
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Codegen test case', { tag: ['@PlaywrightWithJenkins'] }, async ({ page }) => {
+  await page.goto('https://www.youtube.com/');
+  await page.getByPlaceholder('Search').first().click();
+  await page.getByPlaceholder('Search').first().fill('playwright by testers talk ');
+  await page.getByRole('button', { name: 'Search', exact: true }).click();
+  await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).click();
+  await page.locator('video').click();
+  await expect(page.getByRole('link', { name: 'Playwright by Testers Talk☑️' })).toBeVisible();
+});
+
+/**
+ * Author Testers Talk
+ */
+test('Test 2 will fail', { tag: ['@PlaywrightWithJenkins'] }, async ({ page }) => {
+  await page.goto('https://www.youtube.com/@testerstalk');
+  expect(true).toBe(false);
+});
+
+================================================
+File: tests/Chapter02/01_Screenshots_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Capture screenshots in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.youtube.com/@testerstalk');
+
+    // Element screenshot
+    await page.locator('#page-header-container').screenshot({path :'./screenshots/ElementScreenshot.png'});
+
+    // Page screenshot
+    await page.screenshot({path :'./screenshots/PageScreenshot.png'});
+
+    // Full page screenshot
+    await page.screenshot({path :'./screenshots/FullPageScreenshot.png', fullPage:true});
+
+});
+
+
+
+================================================
+File: tests/Chapter02/02_Locators_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Locators in Playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://github.com/BakkappaN/');
+
+    // GetByRole
+    await page.getByRole('link', { name: 'Sign in' }).click()
+
+    // GetBylabel
+    await page.getByLabel('Homepage', { exact: true }).first().click();
+
+    // GetByAltText
+    // await page.getByAltText("View BakkappaN's full-sized avatar").click();
+
+    // GetByTestId
+    // await page.getByTestId("projects").first().click();
+
+    // GetByText
+    // await page.getByText("Sign up").click();
+
+    // GetByPlaceholder, Xpath, CSSSelectors
+    await page.goto('https://www.youtube.com/@testerstalk');
+    await page.getByPlaceholder('Search').fill('cypress by testers talk');
+    await page.locator('input[name="search_query"]').first().fill('playwright typescript by testers talk');
+
+    // GetByTitle
+    await page.goto('https://www.google.com/');
+    await page.getByTitle('Search').fill('playwright javascript by testers talk');
+});
+
+
+
+================================================
+File: tests/Chapter02/03_Hooks_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+test.beforeAll(async() => {
+    console.log(`Running before all tests...`);
+});
+
+test.beforeEach(async( { page }) => {
+    console.log(`Running before each tests...`);
+    await page.goto('https://www.google.com/');
+});
+
+test.afterEach(async() => {
+    console.log(`Running after each tests...`);
+});
+
+test.afterAll(async() => {
+    console.log(`Running after all tests...`);
+});
+
+/**
+ * Author Testers Talk
+ */
+test('Test 1', async ({ page }) => {
+    console.log('Test1 execution started...');
+    // Go to URL
+    // await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+/**
+ * Author Testers Talk
+ */
+test('Test 2', async ({ page }) => {
+    console.log('Test2 execution started...');
+    // Go to URL
+    // await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+================================================
+File: tests/Chapter02/04_DropdownList_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Handling Dropdown list in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.facebook.com/');
+    await page.getByRole('button',{name : 'Create new account'}).click();
+
+    // Select dropdown using value
+    await page.getByLabel('Month').selectOption('3');
+
+    // Select dropdown using visible text
+    await page.getByLabel('Month').selectOption('Oct');
+
+    // Validate all the options
+    await expect(page.locator('#month > option')).toHaveText(['Jan', 'Feb', 'Mar','Apr', 'May', 'Jun', 'Jul','Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+});
+
+
+
+================================================
+File: tests/Chapter02/05_Iframes_DragDrop_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Handling Iframes, Drag and Drop element in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://jqueryui.com/droppable/');
+
+    const iframe = page.frameLocator('[class="demo-frame"]');
+    
+    // drag element, drop element
+    const dragElement = iframe.locator('[id="draggable"]');
+    const dropElement = iframe.locator('[id="droppable"]');
+
+    await dragElement.dragTo(dropElement);
+});
+
+
+
+================================================
+File: tests/Chapter02/06_MouseActions_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+// Write a test
+test('Mouse actions in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/search?q=playwright+by+testers+talk');
+
+    // Left button click
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click({ button: 'left' });
+
+    // Middle button click
+    // await page.getByRole('link', { name : 'Playwright by Testers Talk☑️'}).first().click({ button :'middle'});
+
+    // Right button click
+    //await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click({ button: 'right' });
+
+    // Mouse hover
+    // await page.getByLabel('Search by voice').hover();
+
+    // Double click
+    // await page.getByLabel('Search by voice').dblclick();
+});
+
+
+
+================================================
+File: tests/Chapter02/07_KeyboardActions_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Keyboard actions in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Enter action from keyboard
+    // await page.getByLabel('Search', {exact : true}).first().click();
+    // await page.getByLabel('Search', {exact : true}).first().fill('playwright by testers talk');
+    // await page.getByLabel('Search', {exact : true}).first().press('Enter');
+
+    // Selecting & deleting from keyboard
+    // await page.getByLabel('Search', {exact : true}).first().click();
+    // await page.keyboard.press('Meta+A');
+    // await page.keyboard.press('Delete');
+
+    // Press TAB and Enter
+    await page.getByLabel('Search', {exact : true}).first().click();
+    await page.keyboard.press('Tab');
+    await page.keyboard.press('Enter');
+});
+
+
+
+================================================
+File: tests/Chapter02/08_DatePicker_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Selecting date value in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://jqueryui.com/datepicker/');
+
+    // Hardcoded date
+    const iframe = page.frameLocator('[class="demo-frame"]');
+    //await iframe.locator('[id="datepicker"]').fill('12/15/2024');
+
+    // Selecting dynamic date
+    // await iframe.locator('[id="datepicker"]').click();
+    // await iframe.locator('.ui-datepicker-today').click();
+
+    // Selecting past date
+    // await iframe.locator('[id="datepicker"]').click();
+    // await iframe.locator('[title="Prev"]').click();
+    // await iframe.locator('text="15"').click();
+
+    // Selecting future date
+    await iframe.locator('[id="datepicker"]').click();
+    await iframe.locator('[title="Next"]').click();
+    await iframe.locator('text="15"').click();
+});
+
+
+
+
+================================================
+File: tests/Chapter02/09_Assertions_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Assertions in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.youtube.com/');
+
+    // visible, editable, enabled, empty
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeVisible();
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeEditable();
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeEnabled();
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeEmpty();
+
+    // Verify URL, title, text, count, 
+    await page.getByPlaceholder('Search', {exact :true}).first().click();
+    await page.getByPlaceholder('Search', {exact :true}).first().fill('playwright by testers talk')
+    await page.getByPlaceholder('Search', {exact :true}).first().press('Enter');
+    await expect(page).toHaveURL('https://www.youtube.com/results?search_query=playwright+by+testers+talk');
+
+    await expect(page).toHaveTitle('playwright by testers talk - YouTube');
+
+    await expect(page.locator('span[id="title"]').first()).toHaveText('Latest posts from Testers Talk');
+
+    await expect(page.locator('span[id="title"]')).toHaveCount(4);
+
+    //await expect(page.locator('span[id="title"]')).toBeDisabled();
+});
+
+
+
+
+================================================
+File: tests/Chapter02/10_SoftAssertions_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Soft Assertions in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.youtube.com/');
+
+    // Visible, editable, enabled, empty
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeVisible();
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeEditable();
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeEnabled();
+    await expect(page.getByPlaceholder('Search', {exact :true}).first()).toBeEmpty();
+
+    // Verify URL, title, text, count, 
+    await page.getByPlaceholder('Search', {exact :true}).first().click();
+    await page.getByPlaceholder('Search', {exact :true}).first().fill('playwright by testers talk')
+    await page.getByPlaceholder('Search', {exact :true}).first().press('Enter');
+    await expect(page).toHaveURL('https://www.youtube.com/results?search_query=playwright+by+testers+talk');
+
+    await expect.soft(page).toHaveTitle('playwright typescript by testers talk - YouTube');
+
+    await expect(page.locator('span[id="title"]').first()).toHaveText('Latest posts from Testers Talk');
+
+    await expect(page.locator('span[id="title"]')).toHaveCount(4);
+});
+
+
+
+
+================================================
+File: tests/Chapter03/01_Annotations_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Test 1', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+/**
+ * Author Testers Talk
+ */
+test.skip('Test 2', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+/**
+ * Author Testers Talk
+ */
+test.only('Test 3', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+================================================
+File: tests/Chapter03/02_Grouping_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test.describe('SmokeTesting', () => {
+    // Write a test
+    test('Test 1', async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+    });
+});
+
+/**
+ * Author Testers Talk
+ */
+test.describe('RegressionTesting', () => {
+    // Write a test
+    test('Test 2', async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+    });
+
+    // Write a test
+    test('Test 3', async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+    });
+});
+
+================================================
+File: tests/Chapter03/03_Tags_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('My First Playwright TypeScript Test 1',{tag :['@SmokeTesting']}, async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+/**
+ * Author Testers Talk
+ */
+test('My First Playwright TypeScript Test 2',{tag :['@SmokeTesting', '@RegressionTesting']}, async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+/**
+ * Author Testers Talk
+ */
+test('My First Playwright TypeScript Test 3',{tag :['@RegressionTesting']}, async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+================================================
+File: tests/Chapter03/04_Retry_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('My First Playwright TypeScript Test 1',{tag :['@SmokeTesting']}, async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright TypeScript by Testers Talk☑️ - YouTube');
+});
+
+================================================
+File: tests/Chapter03/05_Parameterize_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+const searchKeywords = ['Playwright by Testers Talk', 'Cypress by Testers Talk', 'API Testing by Testers Talk']
+
+for (const searchKeyword of searchKeywords) {
+
+    /**
+    * Author Testers Talk
+    */
+    test(`Parameterize Tests in Playwright ${searchKeyword}`, async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill(searchKeyword);
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: searchKeyword }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle(searchKeyword + '☑️ - YouTube');
+    });
+}
+
+
+================================================
+File: tests/Chapter03/06_VisualTesting_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Visual Comparison in Playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://github.com/login');
+
+    // Compare page screnshots
+    await expect(page).toHaveScreenshot('GitHubLoginPage.png');
+
+    await page.locator('#login_field').fill('playwright with typescript')
+
+    // Compare page screnshots
+    //await expect(page).toHaveScreenshot('GitHubLoginPage.png');
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Element Visual Comparison in Playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://github.com/login');
+
+    await expect(page).toHaveScreenshot('GitHubLoginPage.png');
+
+    // Compare element screnshots
+    const element = page.locator('[class="auth-form-body mt-3"]');
+    await expect(element).toHaveScreenshot('GitHubLoginForm.png');
+
+    // Compare element screnshots
+    await page.locator('#login_field').fill('playwright with typescript')
+    //await expect(element).toHaveScreenshot('GitHubLoginForm.png');
+});
+
+================================================
+File: tests/Chapter03/07_Timeouts_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Timeouts in Playwright ', async ({ page }) => {
+    test.setTimeout(1 * 60 * 1000);
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click({timeout: 5000});
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube', {timeout : 5000});
+
+   // await page.waitForTimeout(60000);
+});
+
+================================================
+File: tests/Chapter04/01_BrowserContext_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Multiple browser/tabs in Playwright TypeScript', async ({ page, browser }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+
+
+    // New browser session
+    const context2 = await browser.newContext();
+    const page2 = await context2.newPage();
+    // Go to URL
+    await page2.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page2.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page2.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page2.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page2).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+
+
+    // Create new tabs
+    const newTab = await context2.newPage();
+    await newTab.goto('https://www.google.com/');
+
+    // Search with keywords
+    await newTab.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await newTab.getByLabel('Search', { exact: true }).press('Enter');
+});
+
+================================================
+File: tests/Chapter04/02_ReRunFailed_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Test 1', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.google.com/');
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+});
+
+/**
+ * Author Testers Talk
+ */
+test('Test 2', async ({ page }) => {
+   expect(true).toBe(false);
+});
+
+/**
+ * Author Testers Talk
+ */
+test('Test 3', async ({ page }) => {
+    expect(true).toBe(false);
+});
+
+================================================
+File: tests/Chapter04/03_AlertsPopups_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Handling Alert popups in Playwright ', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.selenium.dev/documentation/webdriver/interactions/alerts/');
+
+    page.once('dialog', dialog =>{
+        dialog.accept();
+        console.log(`Alert message is : ${dialog.message()}`);
+        console.log(`Dialog type is : ${dialog.type()}`);
+    })
+    await page.getByText('See an example alert', {exact : true}).click();
+});
+
+/**
+ * Author Testers Talk
+ */
+test('Handling Popups in Playwright ', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.selenium.dev/documentation/webdriver/interactions/alerts/');
+
+    page.once('dialog', dialog =>{
+        console.log(`Dialog type is : ${dialog.type()}`);
+        //dialog.accept();
+        dialog.dismiss();
+        console.log(`Popup message is : ${dialog.message()}`);
+    })
+    await page.getByText('See a sample confirm', {exact : true}).click();
+});
+
+// Write a test
+test('Handling Prompt Popups in Playwright ', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://www.selenium.dev/documentation/webdriver/interactions/alerts/');
+
+    page.once('dialog', async(dialog) =>{
+        console.log(`Dialog type is : ${dialog.type()}`);
+        console.log(`Prompt popup message is : ${dialog.message()}`);
+        await dialog.accept('playwright');
+    })
+    await page.getByText('See a sample prompt', {exact : true}).click();
+});
+
+
+
+
+================================================
+File: tests/Chapter04/04_TestReports_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test.describe('SmokeTesting', () => {
+    // Write a test
+    test('Test 1', async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+    });
+});
+
+/**
+ * Author Testers Talk
+ */
+test.describe('RegressionTesting', () => {
+    // Write a test
+    test('Test 2', async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+    });
+
+    // Write a test
+    test('Test 3', async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle('Playwright by Testers Talk☑️ - YouTube');
+    });
+
+    test('Test 4', async ({ page }) => {
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill('playwright by testers talk');
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: 'Playwright by Testers Talk☑️' }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle('Playwright TypeScript by Testers Talk☑️ - YouTube');
+    });
+});
+
+================================================
+File: tests/Chapter04/05_TextContent_GetAttribute_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Get Text & Get attribute value in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://github.com/BakkappaN');
+
+    // Get element text & assert
+    const name = await page.locator('[itemprop="name"]').innerText();
+    const finalName = name?.trim();
+    console.log(`Name is : ${finalName}`);
+    expect(finalName).toBe('Testers Talk');
+
+    // Get attribute value
+    const attributeValue = await page.getByTestId('repositories').first().getAttribute('data-selected-links');
+    console.log(`Attribute value is : ${attributeValue}`);
+});
+
+================================================
+File: tests/Chapter04/06_Iterating_Elements_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Iterating matching elements in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://github.com/BakkappaN');
+
+    // For of loop
+    const repositoryLinks = await page.$$('.repo');
+    for (const repositoryLink of repositoryLinks) {
+        const text = await repositoryLink.textContent();
+        console.log(`Text from 1st for loop: ${text}`);
+    }
+
+    console.log(`==========================`);
+
+    // For loop using index
+    for (let index = 0; index < repositoryLinks.length; index++) {
+        const text = await repositoryLinks[index].textContent();
+        console.log(`Text from 2nd for loop: ${text}`);
+    }
+
+    console.log(`==========================`);
+
+    // For loop using nth() method
+    const repositoryLinks2 = page.locator('.repo');
+    const count = await repositoryLinks2.count();
+    for (let index = 0; index < count; index++) {
+        const text = await repositoryLinks2.nth(index).textContent();
+        console.log(`Text from 3rd for loop: ${text}`);
+    }
+});
+
+================================================
+File: tests/Chapter04/07_Checkbox_RadioButton_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Working with checkbox & radion buttons in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto('https://jqueryui.com/checkboxradio/');
+
+    const iframe = page.frameLocator('[class="demo-frame"]');
+
+    // Validate radio button or checkbox unchecked
+    await expect(iframe.locator('[for="radio-1"]')).not.toBeChecked();
+
+    // Check radio button or checkbox
+    await iframe.locator('[for="radio-1"]').check();
+
+    // Validate radio button or checkbox checked
+    await expect(iframe.locator('[for="radio-1"]')).toBeChecked();
+});
+
+================================================
+File: tests/Chapter05/01_ReadENVFile_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Read ENV file config in playwright', async ({ page }) => {
+    // Go to URL
+    await page.goto(`${process.env.GOOGLE_URL}`);
+
+    // Search with keywords
+    await page.getByLabel('Search', { exact: true }).fill(`${process.env.SEARCH_KEYWORDS}`);
+    await page.getByLabel('Search', { exact: true }).press('Enter');
+
+    // Click on playlist
+    await page.getByRole('link', { name: `${process.env.SEARCH_KEYWORDS}` }).first().click();
+
+    // Validate web page title 
+    await expect(page).toHaveTitle(`${process.env.SEARCH_KEYWORDS}`+'☑️ - YouTube');
+});
+
+================================================
+File: tests/Chapter05/02_DataDrivenTestingUsingJSON.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+import testData from '../../test-data/qa/testdata.json';
+
+type TestData = {
+    TestDataSet1: {
+        Skill1: string,
+        Skill2: string,
+        Skill3: string,
+        Skill4: string,
+        Skill5: string,
+        Skill6: string,
+        Skill7: string,
+    },
+    TestDataSet2: {
+        Skill1: string,
+        Skill2: string,
+        Skill3: string,
+        Skill4: string,
+        Skill5: string,
+        Skill6: string,
+        Skill7: string,
+    },
+}
+const typedTestData = testData as TestData;
+
+/**
+ * Author Testers Talk
+ */
+for (const dataSetName in typedTestData) {
+
+    const skill = typedTestData[dataSetName as keyof TestData];
+
+    test(`Data Driven Testing Using JSON file in playwright : ${skill.Skill2}`, { tag: ['@DataDrivenTesting'] }, async ({ page }) => {
+
+        console.log(`Data set name : ${dataSetName}`);
+        console.log(`Skill : ${skill.Skill1}`);
+        console.log(`Skill : ${skill.Skill2}`);
+        console.log(`Skill : ${skill.Skill3}`);
+        console.log(`Skill : ${skill.Skill4}`);
+        console.log(`Skill : ${skill.Skill5}`);
+        console.log(`Skill : ${skill.Skill6}`);
+        console.log(`Skill : ${skill.Skill7}`);
+
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill(skill.Skill2);
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: skill.Skill2 }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle(skill.Skill2 + '☑️ - YouTube');
+    });
+}
+
+================================================
+File: tests/Chapter05/03_DataDrivenTestingUsingCSV.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { parse } from 'csv-parse/sync';
+import fs from 'fs';
+import path from 'path';
+
+type TestRecords = {
+    Skill1: string,
+    Skill2: string
+}
+
+const records = parse(
+    fs.readFileSync(path.join(__dirname, '../../test-data/qa/testdata.csv')),
+    {
+        columns: true,
+        skipEmptyLines: true
+    }
+) as TestRecords[];
+
+/**
+ * Author Testers Talk
+ */
+for (const record of records) {
+
+    test(`Data Driven Testing Using CSV file in playwright : ${record.Skill1}`, { tag: ['@DataDrivenTesting'] }, async ({ page }) => {
+
+        console.log(`CSV file row data`);
+        console.log(`Skill 1 : ${record.Skill1}`);
+        console.log(`Skill 2 : ${record.Skill2}`);
+
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill(record.Skill1);
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: record.Skill1 }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle(record.Skill1 + '☑️ - YouTube');
+    });
+}
+
+================================================
+File: tests/Chapter05/04_DataDrivenTestingUsingEXCEL.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import path from 'path';
+import { readExcelFile } from '../../src/utils/ExcelHelper';
+
+const filePath = path.join(__dirname, '../../test-data/qa/TestData.xlsx');
+const records = readExcelFile(filePath);
+
+/**
+ * Author Testers Talk
+ */
+for (const record of records) {
+
+    test(`Data Driven Testing Using Excel file in playwright : ${record.Skill2}`, { tag: ['@DataDrivenTesting'] }, async ({ page }) => {
+
+        console.log(`Excel file row data`);
+        console.log(`Skill 1 : ${record.Skill1}`);
+        console.log(`Skill 2 : ${record.Skill2}`);
+
+        // Go to URL
+        await page.goto('https://www.google.com/');
+
+        // Search with keywords
+        await page.getByLabel('Search', { exact: true }).fill(record.Skill2);
+        await page.getByLabel('Search', { exact: true }).press('Enter');
+
+        // Click on playlist
+        await page.getByRole('link', { name: record.Skill2 }).first().click();
+
+        // Validate web page title 
+        await expect(page).toHaveTitle(record.Skill2 + '☑️ - YouTube');
+    });
+}
+
+================================================
+File: tests/Chapter05/05_PageObjectModelTest.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+import { HomePage } from '../../src/pages/HomePage';
+import { ResultPage } from '../../src/pages/ResultPage';
+import { PlaylistPage } from '../../src/pages/PlaylistPage';
+
+/**
+ * author Testers Talk
+ */
+test('Page Object Model Test in Playwright', async ({ page }) => {
+
+    // Create object of homepage
+    const homePage = new HomePage(page);
+    await homePage.goToURL();
+    await homePage.searchWithKeywords(`${process.env.SEARCH_KEYWORDS}`);
+
+    // Create object of resultpage
+    const resultPage = new ResultPage(page);
+    await resultPage.clickOnPlaylist(`${process.env.SEARCH_KEYWORDS}`)
+
+    // Create object of playlistpage
+    const playlistPage = new PlaylistPage(page);
+    await playlistPage.validatePageTitle(`${process.env.SEARCH_KEYWORDS}` + '☑️ - YouTube')
+});
+
+================================================
+File: tests/Chapter05/06_Fixture_Test.spec.ts
+================================================
+// Import playwright module
+import { test } from '../../src/fixture/TestFixture'
+import { HomePage } from '../../src/pages/HomePage';
+import { ResultPage } from '../../src/pages/ResultPage';
+import { PlaylistPage } from '../../src/pages/PlaylistPage';
+
+/**
+ * author Testers Talk
+ */
+test('Implementing fixture in Playwright', async ({ page }) => {
+
+    console.log(`Test execution started...`);
+
+    // Create object of homepage
+    const homePage = new HomePage(page);
+    await homePage.goToURL();
+    await homePage.searchWithKeywords(`${process.env.SEARCH_KEYWORDS}`);
+
+    // Create object of resultpage
+    const resultPage = new ResultPage(page);
+    await resultPage.clickOnPlaylist(`${process.env.SEARCH_KEYWORDS}`)
+
+    // Create object of playlistpage
+    const playlistPage = new PlaylistPage(page);
+    await playlistPage.validatePageTitle(`${process.env.SEARCH_KEYWORDS}` + '☑️ - YouTube')
+
+    console.log(`Test execution ended...`);
+});
+
+================================================
+File: tests/Chapter05/07_Optimized_POM_Test.spec.ts
+================================================
+// Import playwright module
+import { test } from "../../src/fixture/TestFixture";
+
+/**
+ * author Testers Talk
+ */
+test('Optimized Page Object Model Test in Playwright', async ({ page, homePage, resultPage, playlistPage }) => {
+
+    // Go to URL & Search with keywords
+    await homePage.goToURL();
+    await homePage.searchWithKeywords(`${process.env.SEARCH_KEYWORDS}`);
+
+    // Click on playlist
+    await resultPage.clickOnPlaylist(`${process.env.SEARCH_KEYWORDS}`)
+
+    // Validate web page title
+    await playlistPage.validatePageTitle(`${process.env.SEARCH_KEYWORDS}` + '☑️ - YouTube')
+});
+
+================================================
+File: tests/Chapter05/08_RunTestBasedOnEnv.spec.ts
+================================================
+// Import playwright module
+import { test } from "../../src/fixture/TestFixture";
+
+/**
+ * author Testers Talk
+ */
+test('Optimized Page Object Model Test in Playwright', async ({ page, homePage, resultPage, playlistPage, testData }) => {
+
+    // Go to URL & Search with keywords
+    await homePage.goToURL();
+    await homePage.searchWithKeywords(String(testData.Module1TestData?.Skill1));
+
+    // Click on playlist
+    await resultPage.clickOnPlaylist(String(testData.Module1TestData?.Skill1))
+
+    // Validate web page title
+    await playlistPage.validatePageTitle(String(testData.Module1TestData?.Skill1) + '☑️ - YouTube')
+
+    console.log(`Skill : ${String(testData.Module1TestData?.Skill1)}`);
+    console.log(`Skill : ${String(testData.Module1TestData?.Skill2)}`);
+    console.log(`Skill : ${String(testData.Module1TestData?.Skill3)}`);
+    console.log(`Skill : ${String(testData.Module1TestData?.Skill4)}`);
+    console.log(`Skill : ${String(testData.Module1TestData?.Skill5)}`);
+    console.log(`Skill : ${String(testData.Module1TestData?.Skill6)}`);
+    console.log(`Skill : ${String(testData.Module1TestData?.Skill7)}`);
+});
+
+================================================
+File: tests/Chapter05/09_Authentication_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect, Page, Locator } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config();
+import { subAreaMenuSelectors, FormControlSelectors, CommandBarFormButtonsSelectors } from "../../selectors/commonselectors.json";
+import { navigateToApps, stringFormat, waitUntilAppIdle } from '../../src/utils/Common';
+
+const appId = `process.env.CSH_APPID`;
+
+/**
+ * Author Testers Talk
+ */
+test('Authention Test in Playwright', async ({ page }: { page: Page }) => {
+
+  await navigateToApps(page, stringFormat(appId), 'Customer Service Hub');
+
+  await page.locator(stringFormat(subAreaMenuSelectors.ServiceCaseMenuSelector, "Service", "Cases")).click();
+
+  await page.locator(stringFormat(CommandBarFormButtonsSelectors.DynamicCommandBarButtonSelector, 'New Case')).click();
+
+  const titleLocator = page.locator(stringFormat(FormControlSelectors.TextBox, 'title'));
+  await titleLocator.click();
+  await titleLocator.fill('TEST CASE AUTOMATION - SAMPLE ' + Math.floor((Math.random() * 100) + 1).toString());
+
+  await page.locator(stringFormat(FormControlSelectors.LookupButton, 'customerid')).click();
+  await page.getByRole('button', { name: 'Search records for Customer, Lookup field' }).click();
+  await page.getByRole('treeitem', { name: 'Fourth Coffee, claudia@pmgdemo.onmicrosoft.com' })
+    .getByText('Fourth Coffee').click();
+
+  const descriptionLocator = page.locator(stringFormat(FormControlSelectors.TextBox, 'description'));
+  await descriptionLocator.click();
+  await descriptionLocator.fill('We are having issue turning on the coffee machine.');
+
+  await page.locator(stringFormat(CommandBarFormButtonsSelectors.DynamicCommandBarButtonSelector, 'Save')).click();
+
+  await waitUntilAppIdle(page);
+
+  const ticketNumberLocator = page.locator(stringFormat(FormControlSelectors.TextBoxValueSelector, 'ticketnumber'));
+  await ticketNumberLocator.waitFor({ state: 'visible' });
+
+  await ticketNumberLocator.waitFor({ state: 'attached' });
+  const caseNumber = await ticketNumberLocator.inputValue();
+  console.log(stringFormat('CREATED A NEW CASE: {0}', caseNumber));
+});
+
+
+================================================
+File: tests/Chapter05/10_Without_PageObjectModel_Test.spec.ts
+================================================
+// Import playwright module
+import { test, expect, Page, Locator } from '@playwright/test';
+import dotenv from 'dotenv';
+dotenv.config();
+import { subAreaMenuSelectors, FormControlSelectors, CommandBarFormButtonsSelectors } from "../../selectors/commonselectors.json";
+import { navigateToApps, stringFormat, waitUntilAppIdle } from '../../src/utils/Common';
+
+const appId = `process.env.CSH_APPID`;
+
+/**
+ * Author Testers Talk
+ */
+test('Without Page Object Model in Playwright', async ({ page }: { page: Page }) => {
+
+  await navigateToApps(page, stringFormat(appId), 'Customer Service Hub');
+
+  await page.locator(stringFormat(subAreaMenuSelectors.ServiceCaseMenuSelector, "Service", "Cases")).click();
+
+  await page.locator(stringFormat(CommandBarFormButtonsSelectors.DynamicCommandBarButtonSelector, 'New Case')).click();
+
+  const titleLocator = page.locator(stringFormat(FormControlSelectors.TextBox, 'title'));
+  await titleLocator.click();
+  await titleLocator.fill('TEST CASE AUTOMATION - SAMPLE ' + Math.floor((Math.random() * 100) + 1).toString());
+
+  await page.locator(stringFormat(FormControlSelectors.LookupButton, 'customerid')).click();
+  await page.getByRole('button', { name: 'Search records for Customer, Lookup field' }).click();
+  await page.getByRole('treeitem', { name: 'Fourth Coffee, claudia@pmgdemo.onmicrosoft.com' })
+    .getByText('Fourth Coffee').click();
+
+  const descriptionLocator = page.locator(stringFormat(FormControlSelectors.TextBox, 'description'));
+  await descriptionLocator.click();
+  await descriptionLocator.fill('We are having issue turning on the coffee machine.');
+
+  await page.locator(stringFormat(CommandBarFormButtonsSelectors.DynamicCommandBarButtonSelector, 'Save')).click();
+
+  await waitUntilAppIdle(page);
+
+  const ticketNumberLocator = page.locator(stringFormat(FormControlSelectors.TextBoxValueSelector, 'ticketnumber'));
+  await ticketNumberLocator.waitFor({ state: 'visible' });
+
+  await ticketNumberLocator.waitFor({ state: 'attached' });
+  const caseNumber = await ticketNumberLocator.inputValue();
+  console.log(stringFormat('CREATED A NEW CASE: {0}', caseNumber));
+});
+
+
+================================================
+File: tests/Chapter06/01_POST_API_Request_Static.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import postAPIRequest from '../../test-data/api_requests/POST_API_Request.json';
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Create POST API Request using static file in playwright & typescript', async ({ request }) => {
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: postAPIRequest });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe('playwright typescript by testers talk');
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe('playwright javascript by testers talk');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-15');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-17');
+});
+
+================================================
+File: tests/Chapter06/02_POST_API_Request_Dynamic.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { formatAPIRequest } from '../../src/utils/APIHelper';
+
+import path from 'path';
+import fs from 'fs';
+
+import { faker } from '@faker-js/faker';
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Create POST API Request using dynamic api request body in playwright & typescript', async ({ request }) => {
+
+    // Reading json file
+    const filePath = path.join(__dirname, '../../test-data/api_requests/Dynamic_POST_API_Request.json');
+    const jsonTemplate = fs.readFileSync(filePath, 'utf-8');
+
+    const values = ['cypress by testers talk', 'javascript by testers talk', 1000];
+
+    // Updating POST API request body
+    const postAPIRequest = await formatAPIRequest(jsonTemplate, values);
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: JSON.parse(postAPIRequest) });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe('cypress by testers talk');
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe('javascript by testers talk');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-15');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-17');
+});
+
+/**
+ * Author Testers Talk
+ */
+test('Create POST API Request using dynamic api request body in playwright & typescript 2', async ({ request }) => {
+
+    // Reading json file
+    const filePath = path.join(__dirname, '../../test-data/api_requests/Dynamic_POST_API_Request.json');
+    const jsonTemplate = fs.readFileSync(filePath, 'utf-8');
+
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const totalPrice = faker.number.int({ min: 1000, max: 10000 });
+
+    const values = [firstName, lastName, totalPrice];
+
+    // Updating POST API request body
+    const postAPIRequest = await formatAPIRequest(jsonTemplate, values);
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: JSON.parse(postAPIRequest) });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe(firstName);
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe(lastName);
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-15');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-17');
+});
+
+================================================
+File: tests/Chapter06/03_Dynamic_TypeSafety_POST_API_Request.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { getPOSTAPIRequestBody } from '../../src/utils/APIHelper';
+
+import { faker } from '@faker-js/faker';
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Create TypeSafety POST API Request using dynamic api request body in playwright & typescript', async ({ request }) => {
+
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const totalPrice = faker.number.int({ min: 1000, max: 10000 });
+
+    const postAPIRequest = await getPOSTAPIRequestBody(firstName, lastName, totalPrice,
+        true, "breakfast", "2025-01-25", "2025-01-27");
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: postAPIRequest });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe(firstName);
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe(lastName);
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-25');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-27');
+});
+
+================================================
+File: tests/Chapter06/04_GET_API_Request.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { getPOSTAPIRequestBody } from '../../src/utils/APIHelper';
+
+import { faker } from '@faker-js/faker';
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Create GET API Request using playwright & typescript', async ({ request }) => {
+
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const totalPrice = faker.number.int({ min: 1000, max: 10000 });
+
+    const postAPIRequest = await getPOSTAPIRequestBody(firstName, lastName, totalPrice,
+        true, "breakfast", "2025-01-25", "2025-01-27");
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: postAPIRequest });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe(firstName);
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe(lastName);
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-25');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-27');
+
+    // Create GET API request
+    const bookingId = jsonPOSTAPIResponse.bookingid;
+    console.log('Booking Id : ' + bookingId);
+
+    const getAPIResponse = await request.get(`/booking/${bookingId}`);
+
+    // Validate status code, status text
+    expect(getAPIResponse.status()).toBe(200);
+    expect(getAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const getAPIJSONResponse = await getAPIResponse.json();
+    console.log('GET API Response : ' + JSON.stringify(getAPIJSONResponse, null, 2));
+});
+
+================================================
+File: tests/Chapter06/05_Query_Parameters.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { getPOSTAPIRequestBody } from '../../src/utils/APIHelper';
+
+import { faker } from '@faker-js/faker';
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Create GET API Request using query parameters in playwright & typescript', async ({ request }) => {
+
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const totalPrice = faker.number.int({ min: 1000, max: 10000 });
+
+    const postAPIRequest = await getPOSTAPIRequestBody(firstName, lastName, totalPrice,
+        true, "breakfast", "2025-01-25", "2025-01-27");
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: postAPIRequest });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe(firstName);
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe(lastName);
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-25');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-27');
+
+    // Create GET API request using query parameters
+    const bookingId = jsonPOSTAPIResponse.bookingid;
+    console.log('Booking Id : ' + bookingId);
+
+    const getAPIResponse = await request.get(`/booking/`, {
+        params: {
+            firstname: firstName,
+            lastname: lastName
+        },
+    });
+
+    // Validate status code, status text
+    expect(getAPIResponse.status()).toBe(200);
+    expect(getAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const getAPIJSONResponse = await getAPIResponse.json();
+    console.log('GET API Response : ' + JSON.stringify(getAPIJSONResponse, null, 2));
+});
+
+================================================
+File: tests/Chapter06/06_PUT_API_Request.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { getPOSTAPIRequestBody } from '../../src/utils/APIHelper';
+
+import { faker } from '@faker-js/faker';
+
+import tokenAPIRequest from '../../test-data/api_requests/Token_API_Request.json'
+import putAPIRequest from '../../test-data/api_requests/PUT_API_Request.json'
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Create PUT API Request using playwright & typescript', async ({ request }) => {
+
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const totalPrice = faker.number.int({ min: 1000, max: 10000 });
+
+    const postAPIRequest = await getPOSTAPIRequestBody(firstName, lastName, totalPrice,
+        true, "breakfast", "2025-01-25", "2025-01-27");
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: postAPIRequest });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe(firstName);
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe(lastName);
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-25');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-27');
+
+    // Create GET API request
+    const bookingId = jsonPOSTAPIResponse.bookingid;
+    console.log('Booking Id : ' + bookingId);
+
+    const getAPIResponse = await request.get(`/booking/${bookingId}`);
+
+    // Validate status code, status text
+    expect(getAPIResponse.status()).toBe(200);
+    expect(getAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const getAPIJSONResponse = await getAPIResponse.json();
+    console.log('GET API Response : ' + JSON.stringify(getAPIJSONResponse, null, 2));
+
+    // Generate token
+    const tokenAPIResponse = await request.post(`/auth`, { data: tokenAPIRequest });
+
+    // Validate status code, status text
+    expect(tokenAPIResponse.status()).toBe(200);
+    expect(tokenAPIResponse.statusText()).toBe('OK');
+
+    const tokenAPIJSONResponse = await tokenAPIResponse.json();
+    const token = tokenAPIJSONResponse.token;
+    console.log('Token : ' + token);
+
+    // Create PUT API Request
+    const putAPIResponse = await request.put(`/booking/${bookingId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Cookie": `token=${token}`
+        },
+        data: putAPIRequest,
+    })
+
+    // Validate status code, status text
+    expect(putAPIResponse.status()).toBe(200);
+    expect(putAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const putAPIJSONResponse = await putAPIResponse.json();
+    console.log('PUT API Response : ' + JSON.stringify(putAPIJSONResponse, null, 2));
+});
+
+================================================
+File: tests/Chapter06/07_PATCH_API_Request.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { getPOSTAPIRequestBody } from '../../src/utils/APIHelper';
+
+import { faker } from '@faker-js/faker';
+
+import tokenAPIRequest from '../../test-data/api_requests/Token_API_Request.json'
+import patchAPIRequest from '../../test-data/api_requests/PATCH_API_Request.json'
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('Create PATCH API Request using playwright & typescript', async ({ request }) => {
+
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const totalPrice = faker.number.int({ min: 1000, max: 10000 });
+
+    const postAPIRequest = await getPOSTAPIRequestBody(firstName, lastName, totalPrice,
+        true, "breakfast", "2025-01-25", "2025-01-27");
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: postAPIRequest });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe(firstName);
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe(lastName);
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-25');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-27');
+
+    // Create GET API request
+    const bookingId = jsonPOSTAPIResponse.bookingid;
+    console.log('Booking Id : ' + bookingId);
+
+    const getAPIResponse = await request.get(`/booking/${bookingId}`);
+
+    // Validate status code, status text
+    expect(getAPIResponse.status()).toBe(200);
+    expect(getAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const getAPIJSONResponse = await getAPIResponse.json();
+    console.log('GET API Response : ' + JSON.stringify(getAPIJSONResponse, null, 2));
+
+    // Generate token
+    const tokenAPIResponse = await request.post(`/auth`, { data: tokenAPIRequest });
+
+    // Validate status code, status text
+    expect(tokenAPIResponse.status()).toBe(200);
+    expect(tokenAPIResponse.statusText()).toBe('OK');
+
+    const tokenAPIJSONResponse = await tokenAPIResponse.json();
+    const token = tokenAPIJSONResponse.token;
+    console.log('Token : ' + token);
+
+    // Create PATCH API Request
+    const patchAPIResponse = await request.patch(`/booking/${bookingId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Cookie": `token=${token}`
+        },
+        data: patchAPIRequest,
+    })
+
+    // Validate status code, status text
+    expect(patchAPIResponse.status()).toBe(200);
+    expect(patchAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const patchAPIJSONResponse = await patchAPIResponse.json();
+    console.log('PATCH API Response : ' + JSON.stringify(patchAPIJSONResponse, null, 2));
+});
+
+================================================
+File: tests/Chapter06/08_DELETE_API_Request.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+import { getPOSTAPIRequestBody } from '../../src/utils/APIHelper';
+
+import { faker } from '@faker-js/faker';
+
+import tokenAPIRequest from '../../test-data/api_requests/Token_API_Request.json'
+import patchAPIRequest from '../../test-data/api_requests/PATCH_API_Request.json'
+
+test.use({
+    baseURL: process.env.BASE_API_URL,
+})
+
+/**
+ * Author Testers Talk
+ */
+test('[10,11] Create DELETE API Request using playwright & typescript', { tag: ['@PlaywrightWithJenkins', '@PlaywrightWithAzureDevOpsPipeline','@PlaywrightWithGitHubActions'] }, async ({ request }) => {
+
+    const firstName = faker.person.firstName();
+    const lastName = faker.person.lastName();
+    const totalPrice = faker.number.int({ min: 1000, max: 10000 });
+
+    const postAPIRequest = await getPOSTAPIRequestBody(firstName, lastName, totalPrice,
+        true, "breakfast", "2025-01-25", "2025-01-27");
+
+    // Create POST API Request
+    const postAPIResponse = await request.post(`/booking`, { data: postAPIRequest });
+
+    // Print JSON API response
+    const jsonPOSTAPIResponse = await postAPIResponse.json();
+    console.log('POST API Response : ' + JSON.stringify(jsonPOSTAPIResponse, null, 2));
+
+    // Validating api response
+    expect(postAPIResponse.status()).toBe(200);
+    expect(postAPIResponse.statusText()).toBe('OK');
+    expect(postAPIResponse.headers()['content-type']).toContain('application/json');
+
+    // Validate propert/key names
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('firstname');
+    expect(jsonPOSTAPIResponse.booking).toHaveProperty('lastname');
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkin');
+    expect(jsonPOSTAPIResponse.booking.bookingdates).toHaveProperty('checkout');
+
+    // Validate API response body
+    expect(jsonPOSTAPIResponse.bookingid).toBeGreaterThan(0);
+    expect(jsonPOSTAPIResponse.booking.firstname).toBe(firstName);
+    expect(jsonPOSTAPIResponse.booking.lastname).toBe(lastName);
+
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkin).toBe('2025-01-25');
+    expect(jsonPOSTAPIResponse.booking.bookingdates.checkout).toBe('2025-01-27');
+
+    // Create GET API request
+    const bookingId = jsonPOSTAPIResponse.bookingid;
+    console.log('Booking Id : ' + bookingId);
+
+    const getAPIResponse = await request.get(`/booking/${bookingId}`);
+
+    // Validate status code, status text
+    expect(getAPIResponse.status()).toBe(200);
+    expect(getAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const getAPIJSONResponse = await getAPIResponse.json();
+    console.log('GET API Response : ' + JSON.stringify(getAPIJSONResponse, null, 2));
+
+    // Generate token
+    const tokenAPIResponse = await request.post(`/auth`, { data: tokenAPIRequest });
+
+    // Validate status code, status text
+    expect(tokenAPIResponse.status()).toBe(200);
+    expect(tokenAPIResponse.statusText()).toBe('OK');
+
+    const tokenAPIJSONResponse = await tokenAPIResponse.json();
+    const token = tokenAPIJSONResponse.token;
+    console.log('Token : ' + token);
+
+    // Create PATCH API Request
+    const patchAPIResponse = await request.patch(`/booking/${bookingId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Cookie": `token=${token}`
+        },
+        data: patchAPIRequest,
+    })
+
+    // Validate status code, status text
+    expect(patchAPIResponse.status()).toBe(200);
+    expect(patchAPIResponse.statusText()).toBe('OK');
+
+    // Print GET API response
+    const patchAPIJSONResponse = await patchAPIResponse.json();
+    console.log('PATCH API Response : ' + JSON.stringify(patchAPIJSONResponse, null, 2));
+
+
+    // Create DELETE API Request
+    const deleteAPIResponse = await request.delete(`/booking/${bookingId}`, {
+        headers: {
+            "Content-Type": "application/json",
+            "Cookie": `token=${token}`
+        },
+    })
+
+    // Validate status code, status text
+    expect(deleteAPIResponse.status()).toBe(201);
+    expect(deleteAPIResponse.statusText()).toBe('Created');
+
+    console.log('DELETE API Response : ' + await deleteAPIResponse.body());
+});
+
+================================================
+File: tests/Chapter06/09_Mock_API_Request.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Mock API request in playwright', async ({ page }) => {
+
+    // Mock API request
+    await page.route('*/**/api/v1/fruits', async route => {
+        const json = [
+            { name: 'playwright typescript by testers talk', id: 12 },
+            { name: 'playwright javascript by testers talk', id: 13 },
+            { name: 'cypress by testers talk', id: 14 },
+            { name: 'api testing by testers talk', id: 15 },
+        ];
+        await route.fulfill({ json });
+    })
+
+    // Go to URL
+    await page.goto('https://demo.playwright.dev/api-mocking/');
+
+    // Validate text
+    await expect(page.getByText('playwright typescript by testers talk')).toBeVisible();
+    await expect(page.getByText('playwright javascript by testers talk')).toBeVisible();
+    await expect(page.getByText('cypress by testers talk')).toBeVisible();
+    await expect(page.getByText('api testing by testers talk')).toBeVisible();
+});
+
+================================================
+File: tests/Chapter06/10_Mock_API_Response.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Mock API response in playwright', async ({ page }) => {
+
+    // Mock API response
+    await page.route('*/**/api/v1/fruits', async route => {
+        const response = await route.fetch();
+        const json = await response.json();
+        json.push({ name: 'playwright typescript by testers talk', id: 12 });
+        json.push({ name: 'playwright javascript by testers talk', id: 13 });
+        json.push({ name: 'cypress by testers talk', id: 14 });
+        json.push({ name: 'api testing by testers talk', id: 15 });
+
+        await route.fulfill({ response, json });
+    })
+
+    // Go to URL
+    await page.goto('https://demo.playwright.dev/api-mocking/');
+
+    // Validate text
+    await expect(page.getByText('playwright typescript by testers talk')).toBeVisible();
+    await expect(page.getByText('playwright javascript by testers talk')).toBeVisible();
+    await expect(page.getByText('cypress by testers talk')).toBeVisible();
+    await expect(page.getByText('api testing by testers talk')).toBeVisible();
+});
+
+================================================
+File: tests/Chapter06/11_Mock_From_HAR_File.spec.ts
+================================================
+// Import playwright module
+import { test, expect } from '@playwright/test';
+
+/**
+ * Author Testers Talk
+ */
+test('Mock API from HAR file in playwright', async ({ page }) => {
+
+    // Recording a HAR file
+    await page.routeFromHAR('./har/fruits.har', {
+        url: '*/**/api/v1/fruits',
+        update: false
+    })
+
+    // Go to URL
+    await page.goto('https://demo.playwright.dev/api-mocking/');
+
+    // Validate text
+    await expect(page.getByText('Strawberry')).toBeVisible();
+    await expect(page.getByText('playwright typescript by testers talk')).toBeVisible();
+    await expect(page.getByText('playwright javascript by testers talk')).toBeVisible();
+    await expect(page.getByText('cypress by testers talk')).toBeVisible();
+    await expect(page.getByText('api testing by testers talk')).toBeVisible();
+});
+
+================================================
+File: tests-examples/demo-todo-app.spec.ts
+================================================
+import { test, expect, type Page } from '@playwright/test';
+
+test.beforeEach(async ({ page }) => {
+  await page.goto('https://demo.playwright.dev/todomvc');
+});
+
+const TODO_ITEMS = [
+  'buy some cheese',
+  'feed the cat',
+  'book a doctors appointment'
+] as const;
+
+test.describe('New Todo', () => {
+  test('should allow me to add todo items', async ({ page }) => {
+    // create a new todo locator
+    const newTodo = page.getByPlaceholder('What needs to be done?');
+
+    // Create 1st todo.
+    await newTodo.fill(TODO_ITEMS[0]);
+    await newTodo.press('Enter');
+
+    // Make sure the list only has one todo item.
+    await expect(page.getByTestId('todo-title')).toHaveText([
+      TODO_ITEMS[0]
+    ]);
+
+    // Create 2nd todo.
+    await newTodo.fill(TODO_ITEMS[1]);
+    await newTodo.press('Enter');
+
+    // Make sure the list now has two todo items.
+    await expect(page.getByTestId('todo-title')).toHaveText([
+      TODO_ITEMS[0],
+      TODO_ITEMS[1]
+    ]);
+
+    await checkNumberOfTodosInLocalStorage(page, 2);
+  });
+
+  test('should clear text input field when an item is added', async ({ page }) => {
+    // create a new todo locator
+    const newTodo = page.getByPlaceholder('What needs to be done?');
+
+    // Create one todo item.
+    await newTodo.fill(TODO_ITEMS[0]);
+    await newTodo.press('Enter');
+
+    // Check that input is empty.
+    await expect(newTodo).toBeEmpty();
+    await checkNumberOfTodosInLocalStorage(page, 1);
+  });
+
+  test('should append new items to the bottom of the list', async ({ page }) => {
+    // Create 3 items.
+    await createDefaultTodos(page);
+
+    // create a todo count locator
+    const todoCount = page.getByTestId('todo-count')
+  
+    // Check test using different methods.
+    await expect(page.getByText('3 items left')).toBeVisible();
+    await expect(todoCount).toHaveText('3 items left');
+    await expect(todoCount).toContainText('3');
+    await expect(todoCount).toHaveText(/3/);
+
+    // Check all items in one call.
+    await expect(page.getByTestId('todo-title')).toHaveText(TODO_ITEMS);
+    await checkNumberOfTodosInLocalStorage(page, 3);
+  });
+});
+
+test.describe('Mark all as completed', () => {
+  test.beforeEach(async ({ page }) => {
+    await createDefaultTodos(page);
+    await checkNumberOfTodosInLocalStorage(page, 3);
+  });
+
+  test.afterEach(async ({ page }) => {
+    await checkNumberOfTodosInLocalStorage(page, 3);
+  });
+
+  test('should allow me to mark all items as completed', async ({ page }) => {
+    // Complete all todos.
+    await page.getByLabel('Mark all as complete').check();
+
+    // Ensure all todos have 'completed' class.
+    await expect(page.getByTestId('todo-item')).toHaveClass(['completed', 'completed', 'completed']);
+    await checkNumberOfCompletedTodosInLocalStorage(page, 3);
+  });
+
+  test('should allow me to clear the complete state of all items', async ({ page }) => {
+    const toggleAll = page.getByLabel('Mark all as complete');
+    // Check and then immediately uncheck.
+    await toggleAll.check();
+    await toggleAll.uncheck();
+
+    // Should be no completed classes.
+    await expect(page.getByTestId('todo-item')).toHaveClass(['', '', '']);
+  });
+
+  test('complete all checkbox should update state when items are completed / cleared', async ({ page }) => {
+    const toggleAll = page.getByLabel('Mark all as complete');
+    await toggleAll.check();
+    await expect(toggleAll).toBeChecked();
+    await checkNumberOfCompletedTodosInLocalStorage(page, 3);
+
+    // Uncheck first todo.
+    const firstTodo = page.getByTestId('todo-item').nth(0);
+    await firstTodo.getByRole('checkbox').uncheck();
+
+    // Reuse toggleAll locator and make sure its not checked.
+    await expect(toggleAll).not.toBeChecked();
+
+    await firstTodo.getByRole('checkbox').check();
+    await checkNumberOfCompletedTodosInLocalStorage(page, 3);
+
+    // Assert the toggle all is checked again.
+    await expect(toggleAll).toBeChecked();
+  });
+});
+
+test.describe('Item', () => {
+
+  test('should allow me to mark items as complete', async ({ page }) => {
+    // create a new todo locator
+    const newTodo = page.getByPlaceholder('What needs to be done?');
+
+    // Create two items.
+    for (const item of TODO_ITEMS.slice(0, 2)) {
+      await newTodo.fill(item);
+      await newTodo.press('Enter');
+    }
+
+    // Check first item.
+    const firstTodo = page.getByTestId('todo-item').nth(0);
+    await firstTodo.getByRole('checkbox').check();
+    await expect(firstTodo).toHaveClass('completed');
+
+    // Check second item.
+    const secondTodo = page.getByTestId('todo-item').nth(1);
+    await expect(secondTodo).not.toHaveClass('completed');
+    await secondTodo.getByRole('checkbox').check();
+
+    // Assert completed class.
+    await expect(firstTodo).toHaveClass('completed');
+    await expect(secondTodo).toHaveClass('completed');
+  });
+
+  test('should allow me to un-mark items as complete', async ({ page }) => {
+    // create a new todo locator
+    const newTodo = page.getByPlaceholder('What needs to be done?');
+
+    // Create two items.
+    for (const item of TODO_ITEMS.slice(0, 2)) {
+      await newTodo.fill(item);
+      await newTodo.press('Enter');
+    }
+
+    const firstTodo = page.getByTestId('todo-item').nth(0);
+    const secondTodo = page.getByTestId('todo-item').nth(1);
+    const firstTodoCheckbox = firstTodo.getByRole('checkbox');
+
+    await firstTodoCheckbox.check();
+    await expect(firstTodo).toHaveClass('completed');
+    await expect(secondTodo).not.toHaveClass('completed');
+    await checkNumberOfCompletedTodosInLocalStorage(page, 1);
+
+    await firstTodoCheckbox.uncheck();
+    await expect(firstTodo).not.toHaveClass('completed');
+    await expect(secondTodo).not.toHaveClass('completed');
+    await checkNumberOfCompletedTodosInLocalStorage(page, 0);
+  });
+
+  test('should allow me to edit an item', async ({ page }) => {
+    await createDefaultTodos(page);
+
+    const todoItems = page.getByTestId('todo-item');
+    const secondTodo = todoItems.nth(1);
+    await secondTodo.dblclick();
+    await expect(secondTodo.getByRole('textbox', { name: 'Edit' })).toHaveValue(TODO_ITEMS[1]);
+    await secondTodo.getByRole('textbox', { name: 'Edit' }).fill('buy some sausages');
+    await secondTodo.getByRole('textbox', { name: 'Edit' }).press('Enter');
+
+    // Explicitly assert the new text value.
+    await expect(todoItems).toHaveText([
+      TODO_ITEMS[0],
+      'buy some sausages',
+      TODO_ITEMS[2]
+    ]);
+    await checkTodosInLocalStorage(page, 'buy some sausages');
+  });
+});
+
+test.describe('Editing', () => {
+  test.beforeEach(async ({ page }) => {
+    await createDefaultTodos(page);
+    await checkNumberOfTodosInLocalStorage(page, 3);
+  });
+
+  test('should hide other controls when editing', async ({ page }) => {
+    const todoItem = page.getByTestId('todo-item').nth(1);
+    await todoItem.dblclick();
+    await expect(todoItem.getByRole('checkbox')).not.toBeVisible();
+    await expect(todoItem.locator('label', {
+      hasText: TODO_ITEMS[1],
+    })).not.toBeVisible();
+    await checkNumberOfTodosInLocalStorage(page, 3);
+  });
+
+  test('should save edits on blur', async ({ page }) => {
+    const todoItems = page.getByTestId('todo-item');
+    await todoItems.nth(1).dblclick();
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('buy some sausages');
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).dispatchEvent('blur');
+
+    await expect(todoItems).toHaveText([
+      TODO_ITEMS[0],
+      'buy some sausages',
+      TODO_ITEMS[2],
+    ]);
+    await checkTodosInLocalStorage(page, 'buy some sausages');
+  });
+
+  test('should trim entered text', async ({ page }) => {
+    const todoItems = page.getByTestId('todo-item');
+    await todoItems.nth(1).dblclick();
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('    buy some sausages    ');
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).press('Enter');
+
+    await expect(todoItems).toHaveText([
+      TODO_ITEMS[0],
+      'buy some sausages',
+      TODO_ITEMS[2],
+    ]);
+    await checkTodosInLocalStorage(page, 'buy some sausages');
+  });
+
+  test('should remove the item if an empty text string was entered', async ({ page }) => {
+    const todoItems = page.getByTestId('todo-item');
+    await todoItems.nth(1).dblclick();
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('');
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).press('Enter');
+
+    await expect(todoItems).toHaveText([
+      TODO_ITEMS[0],
+      TODO_ITEMS[2],
+    ]);
+  });
+
+  test('should cancel edits on escape', async ({ page }) => {
+    const todoItems = page.getByTestId('todo-item');
+    await todoItems.nth(1).dblclick();
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).fill('buy some sausages');
+    await todoItems.nth(1).getByRole('textbox', { name: 'Edit' }).press('Escape');
+    await expect(todoItems).toHaveText(TODO_ITEMS);
+  });
+});
+
+test.describe('Counter', () => {
+  test('should display the current number of todo items', async ({ page }) => {
+    // create a new todo locator
+    const newTodo = page.getByPlaceholder('What needs to be done?');
+    
+    // create a todo count locator
+    const todoCount = page.getByTestId('todo-count')
+
+    await newTodo.fill(TODO_ITEMS[0]);
+    await newTodo.press('Enter');
+
+    await expect(todoCount).toContainText('1');
+
+    await newTodo.fill(TODO_ITEMS[1]);
+    await newTodo.press('Enter');
+    await expect(todoCount).toContainText('2');
+
+    await checkNumberOfTodosInLocalStorage(page, 2);
+  });
+});
+
+test.describe('Clear completed button', () => {
+  test.beforeEach(async ({ page }) => {
+    await createDefaultTodos(page);
+  });
+
+  test('should display the correct text', async ({ page }) => {
+    await page.locator('.todo-list li .toggle').first().check();
+    await expect(page.getByRole('button', { name: 'Clear completed' })).toBeVisible();
+  });
+
+  test('should remove completed items when clicked', async ({ page }) => {
+    const todoItems = page.getByTestId('todo-item');
+    await todoItems.nth(1).getByRole('checkbox').check();
+    await page.getByRole('button', { name: 'Clear completed' }).click();
+    await expect(todoItems).toHaveCount(2);
+    await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
+  });
+
+  test('should be hidden when there are no items that are completed', async ({ page }) => {
+    await page.locator('.todo-list li .toggle').first().check();
+    await page.getByRole('button', { name: 'Clear completed' }).click();
+    await expect(page.getByRole('button', { name: 'Clear completed' })).toBeHidden();
+  });
+});
+
+test.describe('Persistence', () => {
+  test('should persist its data', async ({ page }) => {
+    // create a new todo locator
+    const newTodo = page.getByPlaceholder('What needs to be done?');
+
+    for (const item of TODO_ITEMS.slice(0, 2)) {
+      await newTodo.fill(item);
+      await newTodo.press('Enter');
+    }
+
+    const todoItems = page.getByTestId('todo-item');
+    const firstTodoCheck = todoItems.nth(0).getByRole('checkbox');
+    await firstTodoCheck.check();
+    await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[1]]);
+    await expect(firstTodoCheck).toBeChecked();
+    await expect(todoItems).toHaveClass(['completed', '']);
+
+    // Ensure there is 1 completed item.
+    await checkNumberOfCompletedTodosInLocalStorage(page, 1);
+
+    // Now reload.
+    await page.reload();
+    await expect(todoItems).toHaveText([TODO_ITEMS[0], TODO_ITEMS[1]]);
+    await expect(firstTodoCheck).toBeChecked();
+    await expect(todoItems).toHaveClass(['completed', '']);
+  });
+});
+
+test.describe('Routing', () => {
+  test.beforeEach(async ({ page }) => {
+    await createDefaultTodos(page);
+    // make sure the app had a chance to save updated todos in storage
+    // before navigating to a new view, otherwise the items can get lost :(
+    // in some frameworks like Durandal
+    await checkTodosInLocalStorage(page, TODO_ITEMS[0]);
+  });
+
+  test('should allow me to display active items', async ({ page }) => {
+    const todoItem = page.getByTestId('todo-item');
+    await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check();
+
+    await checkNumberOfCompletedTodosInLocalStorage(page, 1);
+    await page.getByRole('link', { name: 'Active' }).click();
+    await expect(todoItem).toHaveCount(2);
+    await expect(todoItem).toHaveText([TODO_ITEMS[0], TODO_ITEMS[2]]);
+  });
+
+  test('should respect the back button', async ({ page }) => {
+    const todoItem = page.getByTestId('todo-item'); 
+    await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check();
+
+    await checkNumberOfCompletedTodosInLocalStorage(page, 1);
+
+    await test.step('Showing all items', async () => {
+      await page.getByRole('link', { name: 'All' }).click();
+      await expect(todoItem).toHaveCount(3);
+    });
+
+    await test.step('Showing active items', async () => {
+      await page.getByRole('link', { name: 'Active' }).click();
+    });
+
+    await test.step('Showing completed items', async () => {
+      await page.getByRole('link', { name: 'Completed' }).click();
+    });
+
+    await expect(todoItem).toHaveCount(1);
+    await page.goBack();
+    await expect(todoItem).toHaveCount(2);
+    await page.goBack();
+    await expect(todoItem).toHaveCount(3);
+  });
+
+  test('should allow me to display completed items', async ({ page }) => {
+    await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check();
+    await checkNumberOfCompletedTodosInLocalStorage(page, 1);
+    await page.getByRole('link', { name: 'Completed' }).click();
+    await expect(page.getByTestId('todo-item')).toHaveCount(1);
+  });
+
+  test('should allow me to display all items', async ({ page }) => {
+    await page.getByTestId('todo-item').nth(1).getByRole('checkbox').check();
+    await checkNumberOfCompletedTodosInLocalStorage(page, 1);
+    await page.getByRole('link', { name: 'Active' }).click();
+    await page.getByRole('link', { name: 'Completed' }).click();
+    await page.getByRole('link', { name: 'All' }).click();
+    await expect(page.getByTestId('todo-item')).toHaveCount(3);
+  });
+
+  test('should highlight the currently applied filter', async ({ page }) => {
+    await expect(page.getByRole('link', { name: 'All' })).toHaveClass('selected');
+    
+    //create locators for active and completed links
+    const activeLink = page.getByRole('link', { name: 'Active' });
+    const completedLink = page.getByRole('link', { name: 'Completed' });
+    await activeLink.click();
+
+    // Page change - active items.
+    await expect(activeLink).toHaveClass('selected');
+    await completedLink.click();
+
+    // Page change - completed items.
+    await expect(completedLink).toHaveClass('selected');
+  });
+});
+
+async function createDefaultTodos(page: Page) {
+  // create a new todo locator
+  const newTodo = page.getByPlaceholder('What needs to be done?');
+
+  for (const item of TODO_ITEMS) {
+    await newTodo.fill(item);
+    await newTodo.press('Enter');
+  }
+}
+
+async function checkNumberOfTodosInLocalStorage(page: Page, expected: number) {
+  return await page.waitForFunction(e => {
+    return JSON.parse(localStorage['react-todos']).length === e;
+  }, expected);
+}
+
+async function checkNumberOfCompletedTodosInLocalStorage(page: Page, expected: number) {
+  return await page.waitForFunction(e => {
+    return JSON.parse(localStorage['react-todos']).filter((todo: any) => todo.completed).length === e;
+  }, expected);
+}
+
+async function checkTodosInLocalStorage(page: Page, title: string) {
+  return await page.waitForFunction(t => {
+    return JSON.parse(localStorage['react-todos']).map((todo: any) => todo.title).includes(t);
+  }, title);
+}
+
+
+================================================
+File: .github/workflows/playwright_auto.yml
+================================================
+name: Playwright Tests - Auto Trigger
+on:
+  #   push:
+  #     branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test --grep PlaywrightWithGitHubActions
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+
+================================================
+File: .github/workflows/playwright_manual.yml
+================================================
+name: Playwright Tests - Manual Trigger
+on:
+  # push:
+  #   branches: [main, master]
+  # pull_request:
+  #   branches: [main, master]
+  workflow_dispatch: # This enables manual triggering
+
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+      - name: Install dependencies
+        run: npm ci
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps
+      - name: Run Playwright tests
+        run: npx playwright test --grep PlaywrightWithGitHubActions
+      - uses: actions/upload-artifact@v4
+        if: ${{ !cancelled() }}
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
+
+

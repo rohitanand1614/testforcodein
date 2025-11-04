@@ -1,0 +1,157 @@
+Goal
+
+Compare a Figma component (and all its nested child elements) with its live implementation on a deployed site, ensuring that all nef-* design tokens match between design and implementation.
+
+
+---
+
+Step 1: 🎨 Fetch Design Tokens via Figma MCP
+
+Use MCP Server: figma-desktop
+Tool: get_variable_defs
+
+Command Example:
+
+get_variable_defs(fileUrl="https://www.figma.com/design/oQ7ziuZat5pYib7AMVLF41/lib-demo-v5--Components?node-id=10940-20239&m=dev")
+
+Instructions:
+
+1. Retrieve all design variables prefixed with nef- from the specified component.
+
+
+2. Include variable metadata:
+
+Variable name
+
+Type (color, typography, spacing, etc.)
+
+Resolved value (e.g., #171717, 16px, Inter)
+
+
+
+3. Traverse through all child nodes recursively.
+
+
+4. Store results as JSON:
+
+{
+  "Text Label": {
+    "nef-color-content-default": "#171717",
+    "nef-typography-label-sm-font-size": "14px"
+  },
+  "Title": {
+    "nef-typography-font-size-24": "24px",
+    "nef-font-weight-semibold": "600"
+  }
+}
+
+
+5. Save this dataset as figmaDesign.
+
+
+
+
+---
+
+Step 2: 🌐 Extract Implementation Tokens via Playwright MCP
+
+Use MCP Server: playwright
+Tool(s): navigate, evaluateOnSelector, getComputedStyle
+
+Target URL (sample):
+
+https://uat.example.com/solutions/most-active-dollar-volume-light
+
+Instructions:
+
+1. Navigate to the page above.
+
+
+2. Locate the parent component (e.g., #defaultWrapper).
+
+
+3. For each child element within this parent:
+
+Traverse into shadow roots when present.
+
+Extract computed styles and CSS custom properties that are prefixed with --nef-.
+
+Capture both:
+
+Variable name (without -- prefix)
+
+Computed value (resolved via getComputedStyle)
+
+
+
+
+4. Build a structure mirroring the Figma JSON:
+
+{
+  "Text Label": {
+    "nef-color-content-default": "#181818",
+    "nef-typography-label-sm-font-size": "14px"
+  },
+  "Title": {
+    "nef-typography-font-size-24": "24px",
+    "nef-font-weight-semibold": "700"
+  }
+}
+
+
+5. Save this dataset as uiDesign.
+
+
+
+
+---
+
+Step 3: ⚖️ Compare and Report
+
+For each corresponding element (matched by name or DOM hierarchy):
+
+1. Compare all variables with prefix nef-.
+
+
+2. Mark results as:
+
+✅ Match – identical token and value.
+
+⚠️ Mismatch – same token, different value.
+
+❌ Missing – token absent in one source.
+
+
+
+3. Print a summary table:
+
+
+
+Element Name	Token Name	Figma Value	UI Value	Status
+
+Text Label	nef-color-content-default	#171717	#181818	⚠️ Mismatch
+Text Label	nef-typography-label-sm-font-size	14px	14px	✅ Match
+Title	nef-font-weight-semibold	600	700	⚠️ Mismatch
+
+
+4. Highlight mismatched tokens visually in the output for quick scanning.
+
+
+
+
+---
+
+Output Requirements
+
+Include total counts:
+
+Total tokens checked
+
+Matches
+
+Mismatches
+
+Missing
+
+
+Save final comparison summary as comparison-report.md

@@ -1,0 +1,20 @@
+Of course, I'll slow it down a bit. So you could say: "Hi everyone. Today, I'm excited to show you how we've been using the Figma MCP Server and Playwright MCP Server to make our regular testing process a whole lot smoother. We've implemented a few new approaches, and we're about to walk you through exactly how these tools are helping us out."
+
+Take your time to jot that down.
+
+
+That's a great approach. So we can polish that a little bit by saying something like, "All right, let's dive into our first implementation. I'll start by explaining how we do Figma-to-UI comparison. But before we jump into how it works, let's take a moment to understand the challenge or problem statement we're trying to solve here." And then you can flow right into describing the problem. So that's a nice, smooth transition.
+That sounds really thorough. Let's refine it a bit and slow it down so it's nice and clear. You could say something like this:
+
+"So once we've completed the Figma-to-UI comparison and we're happy with the results—meaning it's gone through all the defect fixes—then we can take it a step further. We can actually generate an automation script from that. All we need to do is type in a single prompt, and it will help us design an automation script that's compatible with our framework. Once that script is generated and we're okay with the steps, we can simply ask the LLM to create a new file in the root directory. From there, we're basically ready to integrate it into our automation suite."
+
+"And just a note: we do have a couple of things still in progress. Right now we trigger it manually, but we're working on making it self-triggered and automatic. So that's something we're continuously improving and monitoring to get a really robust script generation at the end."
+
+That way, it's clear and you're guiding them through each step of the process.
+Absolutely, let's refine that into a nice clear statement. You can say something like:
+
+"So when it comes to test data generation, there's a lot of agentic browser usage out there in the market. Playwright MCP Server is one of those tools that can help us perform any agentic action in the browser. And we thought, why not leverage that to cut down some of our manual effort?"
+
+"So instead of manually logging into the CMS and creating test data step by step, we can just provide a Jira ticket and ask the LLM to generate the test data according to the Jira steps and guidelines. It will automatically pull in all the necessary steps from Jira and generate that test data for us."
+
+This way, it’s a nice smooth explanation of how you're using the tool to save time, and it sets the context really well.

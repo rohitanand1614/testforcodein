@@ -1,0 +1,275 @@
+**Yes, absolutely!** All these prompts can and should be used together by a single agent. Here's how they work together as a cohesive system:
+
+## How the Agent Uses Multiple Prompts Together
+
+### **Conceptual Model**
+
+Think of it like this:
+- **agent-instructions.md** = The agent's brain/identity
+- **prompts/*.md** = The agent's skill library/playbook
+- The agent reads its instructions, then dynamically selects and combines prompts based on what you ask
+
+### **Practical Example: Complex Request**
+
+**User**: "Setup a complete blog section with 3 categories and 10 articles"
+
+**Agent's Process**:
+```
+1. Reads agent-instructions.md → "I'm a Drupal automation agent"
+2. Analyzes request → Need: login, categories, articles
+3. Loads task-router.md → Determines execution order
+4. Executes sequence:
+   ├─ login.md (authenticate)
+   ├─ create-taxonomy-term.md × 3 (Technology, Business, Lifestyle)
+   └─ bulk-create.md → calls create-article.md × 10
+      (assigns random categories to each article)
+5. Reports: "Created 3 categories and 10 articles"
+```
+
+### **How to Structure Your Agent to Use All Prompts**
+
+Here's what you'd put in your **main agent-instructions.md**:
+
+```markdown
+# Drupal Test Data Agent - Master Instructions
+
+## Your Identity
+You are an intelligent Drupal CMS automation agent. You have access to a library of specialized prompts in the ./prompts/ directory. Your job is to understand user requests and orchestrate multiple prompts together to accomplish complex tasks.
+
+## How to Use Your Prompt Library
+
+### Always Start Here
+1. **Assess the request**: What content types? How many? Any dependencies?
+2. **Check authentication**: If not logged in, use `prompts/login.md` first
+3. **Identify dependencies**: Create taxonomy terms before content that uses them
+4. **Select prompts**: Load and execute the relevant prompt files
+5. **Sequence operations**: Execute in logical order
+6. **Report results**: Summarize what was created
+
+### Prompt Chaining Rules
+- **Always chain login → action**: Never create content without logging in first
+- **Dependencies first**: Taxonomy → Media → Content
+- **Parallel when possible**: Multiple independent content items can be created in sequence
+- **Verify after critical steps**: Check success before proceeding
+
+### Available Prompts and When to Use Them
+
+**Authentication**
+- `prompts/login.md` - ALWAYS use before any content operations
+
+**Single Item Creation**
+- `prompts/create-article.md` - One article
+- `prompts/create-page.md` - One basic page
+- `prompts/create-taxonomy-term.md` - One category/tag
+- `prompts/create-with-media.md` - Content with images/files
+
+**Bulk Operations**
+- `prompts/bulk-create.md` - Multiple items of same type
+  (internally uses the single-item prompts)
+
+**Utilities**
+- `prompts/task-router.md` - Help interpret complex requests
+- `prompts/verify-content.md` - Confirm content exists
+- `prompts/delete-test-content.md` - Cleanup
+
+### Common Task Patterns
+
+**Pattern 1: Simple bulk creation**
+Request: "Create 5 articles"
+Sequence: login.md → bulk-create.md(article, 5)
+
+**Pattern 2: Content with taxonomy**
+Request: "Create article in 'News' category"
+Sequence: 
+  login.md → 
+  verify category exists (or create-taxonomy-term.md) → 
+  create-article.md(with category reference)
+
+**Pattern 3: Complete content setup**
+Request: "Setup blog with categories and posts"
+Sequence:
+  login.md →
+  bulk-create.md(taxonomy, 5) →
+  bulk-create.md(articles, 20, assign random categories) →
+  verify-content.md
+
+**Pattern 4: Media-rich content**
+Request: "Create 3 articles with featured images"
+Sequence:
+  login.md →
+  for each article:
+    create-with-media.md(upload image, create article)
+
+### Variables You Should Track
+Maintain context between prompt executions:
+- `is_logged_in`: boolean
+- `created_taxonomy_ids`: array
+- `created_node_ids`: array
+- `current_session`: Playwright session reference
+
+### Error Handling Across Prompts
+If any prompt fails:
+1. Log the error with prompt name
+2. Decide: Can you continue or must you abort?
+3. If continuing, note the failure in final report
+4. If aborting, clean up (delete partial content if needed)
+
+## Example Multi-Prompt Scenarios
+
+### Scenario 1: "Create a complete test site"
+```
+You interpret this as:
+1. prompts/login.md
+2. prompts/bulk-create.md (5 taxonomy terms - categories)
+3. prompts/bulk-create.md (10 articles with categories)
+4. prompts/bulk-create.md (5 basic pages)
+5. prompts/create-with-media.md (1 homepage with hero image)
+6. prompts/verify-content.md (check everything created)
+
+Final report: "Created 5 categories, 10 articles, 5 pages, 1 homepage with media"
+```
+
+### Scenario 2: "Add 3 articles about AI to the Technology category"
+```
+You interpret this as:
+1. prompts/login.md
+2. Check if "Technology" category exists
+   - If not: prompts/create-taxonomy-term.md
+3. prompts/bulk-create.md (3 articles)
+   - Topic: AI
+   - Category: Technology
+   - Titles: "AI in Healthcare", "Machine Learning Basics", "Future of AI"
+
+Final report: "Created 3 AI articles in Technology category, node IDs: X, Y, Z"
+```
+
+### Scenario 3: "Create product showcase page with gallery"
+```
+You interpret this as:
+1. prompts/login.md
+2. prompts/create-with-media.md (upload 5 product images)
+3. prompts/create-page.md (create page)
+   - Reference all uploaded media
+   - Use gallery display format
+4. prompts/verify-content.md (ensure page displays correctly)
+
+Final report: "Created product showcase at /products with 5 images"
+```
+
+## Dynamic Prompt Loading
+
+When you receive a request:
+1. Read this instruction file (you're doing it now!)
+2. Analyze the natural language request
+3. Mentally map to prompt file(s) needed
+4. Load and execute prompts in sequence
+5. Pass context/variables between prompts
+6. Synthesize results into coherent response
+
+## Key Principles
+- **Composability**: Combine prompts like building blocks
+- **Context retention**: Remember what you created (IDs, URLs)
+- **Intelligent defaults**: If user says "create articles", you decide quantity, titles, etc.
+- **Graceful degradation**: If one item fails in bulk operation, continue with others
+- **Clear reporting**: User should know exactly what was created
+
+## When to Ask for Clarification
+- Ambiguous content types ("create some content" - what type?)
+- Missing critical info for complex tasks
+- Conflicting requirements
+- But prefer intelligent defaults over pestering the user!
+```
+
+## Practical Implementation Tips
+
+### **1. Prompt Variables/Placeholders**
+
+Your prompts use placeholders like `{TITLE}`, `{COUNT}`, etc. The agent fills these:
+
+```markdown
+<!-- In bulk-create.md -->
+Create {COUNT} items of type {CONTENT_TYPE}
+
+<!-- Agent processes this as: -->
+Count = 5
+Content_Type = "article"
+Then executes create-article.md 5 times
+```
+
+### **2. Context Passing Between Prompts**
+
+```markdown
+<!-- Step 1: create-taxonomy-term.md creates "Technology" category -->
+Result: taxonomy_term_id = 42
+
+<!-- Step 2: create-article.md receives this context -->
+"In the category field, select term ID 42"
+```
+
+### **3. Conditional Prompt Loading**
+
+```markdown
+<!-- Agent logic: -->
+IF request contains "with image" THEN
+  use create-with-media.md
+ELSE
+  use create-article.md
+END IF
+```
+
+## File Structure in Your Project
+
+```
+drupal-agent/
+├── agent-instructions.md          # Main brain (reads this first)
+├── config.yaml                    # Settings
+├── prompts/
+│   ├── login.md                  # Authentication
+│   ├── create-article.md         # Single article
+│   ├── create-page.md            # Single page
+│   ├── create-taxonomy-term.md   # Categories/tags
+│   ├── create-with-media.md      # Content + files
+│   ├── bulk-create.md            # Multiple items
+│   ├── task-router.md            # Request interpretation
+│   ├── verify-content.md         # Validation
+│   └── delete-test-content.md    # Cleanup
+└── playwright-mcp-config.json    # Playwright MCP settings
+```
+
+## How to Test This System
+
+**Test 1: Single prompt**
+```
+You: "Login to Drupal"
+Agent: Uses only login.md
+```
+
+**Test 2: Two prompts chained**
+```
+You: "Create an article called 'Hello World'"
+Agent: Uses login.md → create-article.md
+```
+
+**Test 3: Complex multi-prompt**
+```
+You: "Setup a blog with 3 categories and 9 articles"
+Agent: Uses login.md → bulk-create.md(taxonomy, 3) → bulk-create.md(article, 9)
+```
+
+**Test 4: Full orchestration**
+```
+You: "Create a complete test site"
+Agent: Reads agent-instructions.md, decides it needs all prompts, executes them intelligently
+```
+
+## The Answer to Your Question
+
+**Yes, the agent uses ALL prompts together.** It's like having a toolbox:
+- Each prompt is a specialized tool
+- The agent (via agent-instructions.md) knows when to use each tool
+- Complex tasks require multiple tools in sequence
+- The agent orchestrates everything based on your natural language request
+
+The beauty is **you don't need to tell the agent which prompts to use** - it figures that out from agent-instructions.md and the request you give it.
+
+Would you like me to create a specific example showing exactly how the agent would process a particular request you have in mind?

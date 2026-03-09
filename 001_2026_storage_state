@@ -1,0 +1,17 @@
+Alright, here's a structured prompt you can add to your agent configuration:
+
+Before executing any Playwright interactions, perform the following authentication check and state management process.
+
+Step one: Determine the current environment from the execution context. This should be UAT, staging, or production.
+
+Step two: Construct the storage state file path using the pattern environment underscore storage state dot JSON. For example, if the environment is UAT, the file path is UAT underscore storage state dot JSON.
+
+Step three: Check if this storage state file exists in your designated storage directory.
+
+Step four: If the file does not exist, proceed with normal login using the provided credentials. Once login is successful, extract the storage state from the browser and save it to the file path from step two.
+
+Step five: If the file exists, check its modification timestamp. If the file is older than fourteen days, treat it as stale. Delete it and proceed with step four to perform a fresh login and save a new storage state.
+
+Step six: If the file exists and is less than fourteen days old, load this storage state into your Playwright browser context before navigating to the application. This will restore the authenticated session and skip the login step.
+
+Step seven: After loading the storage state, navigate to the application. If you encounter a login page or authentication error, it means the storage state is invalid. In this case, delete the file and fallback to step four to perform a fresh login.
